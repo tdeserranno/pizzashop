@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <link rel="stylesheet" href="/pizzashop/public/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container">
+            <nav class="navbar navbar-default row">
+                <ul class="nav navbar-nav navbar-left">
+                    <li><a href="/pizzashop/products/viewall/">Productlijst</a></li>
+                    <li><a href="#">Bestel</a></li>
+                </ul>
+               {% if session.user is not defined %}
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/pizzashop/auth/go/">Log in</a></li>
+                </ul>
+                {% else %}
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/pizzashop/auth/logout/">Log out</a></li>
+                </ul>
+                {% endif %}
+            </nav><!--end of nav-->
+            <div class="row">
+                <section>
+                    <form class="form-horizontal" method="post" action="/pizzashop/auth/register/">
+                        <div class="well">
+                            <div class="form-group">
+                                <label class="col-lg-2" for="username">Gebruikersnaam</label>
+                                <div class="col-lg-2"><input name="username" id="username" type="text" required></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2" for="email">Email</label>
+                                <div class="col-lg-2"><input name="email" id="email" type="email" required></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2" for="password">Wachtwoord</label>
+                                <div class="col-lg-2"><input name="password" id="password" type="password" required></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2" for="passconfirm">Bevestig wachtwoord</label>
+                                <div class="col-lg-2"><input name="passconfirm" id="passconfirm" type="password" required></div>
+                            </div>
+                        </div><!--end of login data well-->
+                        <div class="well">
+                            <div class="form-group">
+                                <label class="col-lg-2" for="firstname">Voornaam</label>
+                                <div class="col-lg-2"><input name="firstname" id="firstname" type="text" required></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2" for="lastname">Familienaam</label>
+                                <div class="col-lg-2"><input name="lastname" id="lastname" type="text" required></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2" for="address">Adres</label>
+                                <div class="col-lg-2"><input name="address" id="address" type="text" required></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2" for="postcode">Postcode</label>
+                                <div class="col-lg-2"><input name="postcode" id="postcode" type="text" required></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2" for="city">Gemeente</label>
+                                <div class="col-lg-2"><input name="city" id="city" type="text" required></div>
+                            </div>
+                            <div class="form-group">
+                                 <label class="col-lg-2" for="telephone">Telefoon</label>
+                                <div class="col-lg-2"><input name="telephone" id="telephone" type="tel" required></div>
+                            </div>
+                        </div><!--end of address data well-->
+                        <div class="col-lg-offset-2"><input class="btn" type="submit" value="Registreer"></div>
+                    </form>
+                </section>
+            </div><!--end of content-->
+        </div><!--end of container-->
+    </body>
+</html>

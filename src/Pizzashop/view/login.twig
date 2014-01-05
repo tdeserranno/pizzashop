@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <link rel="stylesheet" href="/pizzashop/public/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container">
+            <nav class="navbar navbar-default row">
+                <ul class="nav navbar-nav navbar-left">
+                    <li><a href="/pizzashop/products/viewall/">Productlijst</a></li>
+                    <li><a href="#">Bestel</a></li>
+                </ul>
+                {% if session.user is not defined %}
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/pizzashop/auth/go/">Log in</a></li>
+                </ul>
+                {% else %}
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/pizzashop/auth/logout/">Log out</a></li>
+                </ul>
+                {% endif %}
+            </nav><!--end of nav-->
+            <div class="row">
+                <section>
+                    <form class="form-horizontal" method="post" action="/pizzashop/auth/login/">
+                        <div class="form-group">
+                            <label for="username" class="col-lg-2">Gebruikersnaam</label>
+                            <div class="col-lg-2"><input name="username" type="text" id="username" required></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="col-lg-2">Wachtwoord</label>
+                            <div class="col-lg-2"><input name="password" type="password" id="password" required></div>
+                        </div>
+                        <input type="submit" value="Login" class="col-lg-offset-2">
+                        <span class="help-block">Heb je nog geen account? <a href="/pizzashop/auth/signup/">Klik hier</a> om te registreren.</span>
+                    </form><!--end of login form-->
+                    {% if error is not empty %}
+                    <div>
+                        <h3>Error</h3>
+                        <p>
+                            {{ error.message }}
+                        </p>
+                    </div><!--end of login error area-->
+                    {% endif %}
+                </section>
+            </div><!--end of content-->
+        </div><!--end of container-->
+    </body>
+</html>
