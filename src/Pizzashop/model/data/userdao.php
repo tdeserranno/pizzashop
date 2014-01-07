@@ -29,7 +29,7 @@ class UserDAO
         //prepare statement
         $sql = 'SELECT * FROM users WHERE username = :username';    
         $stmt = $db->prepare($sql);
-        var_dump($stmt);
+//        var_dump($stmt);
         //test if statement can be executed
         if ($stmt->execute(array(':username' => $username))) {
             //test if statement retrieved something

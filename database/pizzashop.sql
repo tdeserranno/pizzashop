@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Machine: 127.0.0.1
--- Genereertijd: 07 jan 2014 om 10:45
+-- Genereertijd: 07 jan 2014 om 15:06
 -- Serverversie: 5.6.11
 -- PHP-versie: 5.5.3
 
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `articles` (
   `category` varchar(30) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `category` (`category`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Gegevens worden uitgevoerd voor tabel `articles`
@@ -47,7 +47,8 @@ CREATE TABLE IF NOT EXISTS `articles` (
 
 INSERT INTO `articles` (`id`, `name`, `description`, `image`, `price`, `promo_status`, `promo_price`, `category`) VALUES
 (1, 'pizza hawaii', 'pizza met tomatensaus belegd met ham, champignons, ananas en mozarella', '', '10.00', 0, '8.50', 'pizza'),
-(2, 'cola 33cl', '', '', '3.00', 0, '0.00', 'drank');
+(2, 'cola 33cl', '', '', '3.00', 0, '0.00', 'drank'),
+(3, 'pizza pepperoni', 'blabla', '', '12.00', 0, '10.00', 'pizza');
 
 -- --------------------------------------------------------
 
@@ -69,25 +70,27 @@ CREATE TABLE IF NOT EXISTS `articles_toppings` (
 INSERT INTO `articles_toppings` (`articleid`, `toppingid`) VALUES
 (1, 4),
 (1, 5),
+(3, 5),
 (1, 6),
-(1, 7);
+(1, 7),
+(3, 10);
 
 -- --------------------------------------------------------
 
 --
--- Tabelstructuur voor tabel `category`
+-- Tabelstructuur voor tabel `categories`
 --
 
-CREATE TABLE IF NOT EXISTS `category` (
+CREATE TABLE IF NOT EXISTS `categories` (
   `name` varchar(30) NOT NULL,
   PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Gegevens worden uitgevoerd voor tabel `category`
+-- Gegevens worden uitgevoerd voor tabel `categories`
 --
 
-INSERT INTO `category` (`name`) VALUES
+INSERT INTO `categories` (`name`) VALUES
 ('drank'),
 ('pizza');
 
@@ -108,7 +111,7 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `username` varchar(30) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `username` (`username`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Gegevens worden uitgevoerd voor tabel `customers`
@@ -152,7 +155,7 @@ CREATE TABLE IF NOT EXISTS `orderlines` (
   PRIMARY KEY (`id`),
   KEY `orderid` (`orderid`),
   KEY `articleid` (`articleid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
 -- Gegevens worden uitgevoerd voor tabel `orderlines`
@@ -160,7 +163,8 @@ CREATE TABLE IF NOT EXISTS `orderlines` (
 
 INSERT INTO `orderlines` (`id`, `orderid`, `articleid`, `amount`, `price`) VALUES
 (1, 1, 1, 2, '10.00'),
-(2, 1, 2, 2, '3.00');
+(2, 1, 2, 2, '3.00'),
+(3, 2, 3, 1, '12.00');
 
 -- --------------------------------------------------------
 
@@ -181,7 +185,9 @@ CREATE TABLE IF NOT EXISTS `orderlines_toppings` (
 
 INSERT INTO `orderlines_toppings` (`orderlineid`, `toppingid`) VALUES
 (1, 5),
-(1, 7);
+(1, 7),
+(1, 8),
+(1, 9);
 
 -- --------------------------------------------------------
 
@@ -199,14 +205,15 @@ CREATE TABLE IF NOT EXISTS `orders` (
   PRIMARY KEY (`id`),
   KEY `customerid` (`customerid`),
   KEY `shopid` (`shopid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
 -- Gegevens worden uitgevoerd voor tabel `orders`
 --
 
 INSERT INTO `orders` (`id`, `date`, `delivery_time`, `status`, `customerid`, `shopid`) VALUES
-(1, '2014-01-01', '0000-00-00 00:00:00', 1, 1, 1);
+(1, '2014-01-01', '0000-00-00 00:00:00', 1, 1, 1),
+(2, '2014-01-02', '2014-01-02 18:00:00', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -220,7 +227,7 @@ CREATE TABLE IF NOT EXISTS `shops` (
   `postcode` varchar(10) NOT NULL,
   `city` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
 -- Gegevens worden uitgevoerd voor tabel `shops`
@@ -240,7 +247,7 @@ CREATE TABLE IF NOT EXISTS `toppings` (
   `name` varchar(30) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Gegevens worden uitgevoerd voor tabel `toppings`
@@ -250,7 +257,10 @@ INSERT INTO `toppings` (`id`, `name`, `price`) VALUES
 (4, 'ham', '1.75'),
 (5, 'mozarella', '1.00'),
 (6, 'champignons', '1.25'),
-(7, 'ananas', '1.50');
+(7, 'ananas', '1.50'),
+(8, 'kip', '1.80'),
+(9, 'augurken', '1.00'),
+(10, 'pepperoni', '1.50');
 
 -- --------------------------------------------------------
 
@@ -280,14 +290,14 @@ INSERT INTO `users` (`username`, `password`, `email`) VALUES
 -- Beperkingen voor tabel `articles`
 --
 ALTER TABLE `articles`
-  ADD CONSTRAINT `articles_ibfk_1` FOREIGN KEY (`category`) REFERENCES `category` (`name`);
+  ADD CONSTRAINT `articles_ibfk_1` FOREIGN KEY (`category`) REFERENCES `categories` (`name`);
 
 --
 -- Beperkingen voor tabel `articles_toppings`
 --
 ALTER TABLE `articles_toppings`
-  ADD CONSTRAINT `articles_toppings_ibfk_2` FOREIGN KEY (`toppingid`) REFERENCES `toppings` (`id`),
-  ADD CONSTRAINT `articles_toppings_ibfk_1` FOREIGN KEY (`articleid`) REFERENCES `articles` (`id`);
+  ADD CONSTRAINT `articles_toppings_ibfk_1` FOREIGN KEY (`articleid`) REFERENCES `articles` (`id`),
+  ADD CONSTRAINT `articles_toppings_ibfk_2` FOREIGN KEY (`toppingid`) REFERENCES `toppings` (`id`);
 
 --
 -- Beperkingen voor tabel `customers`
@@ -312,15 +322,15 @@ ALTER TABLE `orderlines`
 -- Beperkingen voor tabel `orderlines_toppings`
 --
 ALTER TABLE `orderlines_toppings`
-  ADD CONSTRAINT `orderlines_toppings_ibfk_2` FOREIGN KEY (`toppingid`) REFERENCES `toppings` (`id`),
-  ADD CONSTRAINT `orderlines_toppings_ibfk_1` FOREIGN KEY (`orderlineid`) REFERENCES `orderlines` (`id`);
+  ADD CONSTRAINT `orderlines_toppings_ibfk_1` FOREIGN KEY (`orderlineid`) REFERENCES `orderlines` (`id`),
+  ADD CONSTRAINT `orderlines_toppings_ibfk_2` FOREIGN KEY (`toppingid`) REFERENCES `toppings` (`id`);
 
 --
 -- Beperkingen voor tabel `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`shopid`) REFERENCES `shops` (`id`),
-  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customerid`) REFERENCES `customers` (`id`);
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customerid`) REFERENCES `customers` (`id`),
+  ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`shopid`) REFERENCES `shops` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
