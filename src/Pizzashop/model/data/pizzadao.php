@@ -29,7 +29,6 @@ class PizzaDAO
             $record = $stmt->fetch();
             if (!empty($record)) {
                 //create object(s) and return
-                //test if article is a pizza and if so create pizza object????
                 $toppings = 
                 $pizza = new Pizza(
                             $record['id'],
@@ -50,4 +49,6 @@ class PizzaDAO
         }
 
     }
+    
+    
 }
