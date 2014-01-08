@@ -2,25 +2,23 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Home</title>
+        <title></title>
         <link rel="stylesheet" href="/pizzashop/public/css/bootstrap.min.css">
-        <script src="/pizzashop/public/css/bootstrap.min.css"></script>
     </head>
     <body>
         <div class="container">
             <nav class="navbar navbar-default row">
                 <ul class="nav navbar-nav navbar-left">
-                    <li><a href="/pizzashop/menu/show/all">Productlijst</a></li>
-                    {% if session.user is defined %}
-                    <li><a href="pizzashop/customer/order/"></a></li>
-                    {% endif %}
-                    <li><a href="#">Bestel</a></li>
+                    <li><a href="/pizzashop/admin/go/">Artikels</a></li>
+                    <li><a href="/pizzashop/admin/go/">Klanten</a></li>
+                    <li><a href="/pizzashop/admin/go/">Rapport bestellingen</a></li>
+                    <li><a href="/pizzashop/admin/go/">Leverlijst</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                 {% if session.user is not defined %}
                     <li><a href="/pizzashop/auth/go/">Log in</a></li>
                 {% else %}
-                    {% if session.user.admin == 1 %}
+                    {% if session.user == 'admin' %}
                     <li><a href="/pizzashop/admin/go/">Beheer</a></li>
                     {% endif %}
                     <li><a href="/pizzashop/auth/logout/">Log out</a></li>

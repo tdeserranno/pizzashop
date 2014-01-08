@@ -35,7 +35,9 @@ class Helper
                                 'pizzashop/auth/logout',
                                 'pizzashop/home',
                                 'pizzashop/home/go',
+                                'pizzashop/menu/show/all',
                                 'pizzashop');
+        $admin_access = array();
         //test if URI points to something private
         if (!in_array(trim($_SERVER['REQUEST_URI'], '/'), $public_access)){
             //test if SESSION var indicating login status is set

@@ -31,17 +31,16 @@ class ArticleDAO
                 //create object(s) and return
                 $result = array();
                 foreach ($recordset as $record) {
-                    //test if article is a pizza and if so create pizza object????
-                        $article = new Article(
-                                $record['id'],
-                                $record['name'],
-                                $record['description'],
-                                $record['image'],
-                                $record['price'],
-                                $record['promo_status'],
-                                $record['category']
-                                );
-                        array_push($result, $article);
+                    $article = new Article(
+                            $record['id'],
+                            $record['name'],
+                            $record['description'], 
+                            $record['image'], 
+                            $record['price'], 
+                            $record['promo_status'], 
+                            $record['promo_price'], 
+                            $record['category']);
+                    array_push($result, $article);
                 }
                 return $result;
             } else {
@@ -65,7 +64,6 @@ class ArticleDAO
             $record = $stmt->fetch();
             if (!empty($record)) {
                 //create object(s) and return
-                //test if article is a pizza and if so create pizza object????
                 $article = new Article(
                             $record['id'],
                             $record['name'],
@@ -73,6 +71,7 @@ class ArticleDAO
                             $record['image'],
                             $record['price'],
                             $record['promo_status'],
+                            $record['promo_price'],
                             $record['category']
                             );
                 return $article;
@@ -100,7 +99,6 @@ class ArticleDAO
                 //create object(s) and return
                 $result = array();
                 foreach ($recordset as $record) {
-                    //test if article is a pizza and if so create pizza object????
                         $article = new Article(
                                 $record['id'],
                                 $record['name'],
@@ -108,6 +106,7 @@ class ArticleDAO
                                 $record['image'],
                                 $record['price'],
                                 $record['promo_status'],
+                                $record['promo_price'],
                                 $record['category']
                                 );
                         array_push($result, $article);

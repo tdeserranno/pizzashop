@@ -36,7 +36,7 @@ class UserDAO
             $record = $stmt->fetch();
             if (!empty($record)) {
                 //create user object and return it
-                $user = new User($record['username'], $record['password']);
+                $user = new User($record['username'], $record['password'], $record['admin']);
                 return $user;
             } else {
                 //no matching record

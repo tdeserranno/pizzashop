@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <link rel="stylesheet" href="/pizzashop/public/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container">
+            <nav class="navbar navbar-default row">
+                <ul class="nav navbar-nav navbar-left">
+                    <li><a href="/pizzashop/menu/show/all/">Productlijst</a></li>
+                    <li><a href="#">Bestel</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                {% if session.user is not defined %}
+                    <li><a href="/pizzashop/auth/go/">Log in</a></li>
+                {% else %}
+                    {% if session.user == 'admin' %}
+                    <li><a href="#">Beheer</a></li>
+                    {% endif %}
+                    <li><a href="/pizzashop/auth/logout/">Log out</a></li>
+                {% endif %}
+                </ul>
+            </nav><!--end of nav-->
+            <div class="row">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Artikellijst</div>
+                    <table class="table">
+                        <thead>
+                            <tr class="active">
+                                <td></td>
+                                <td>Naam</td>
+                                <td>Omschrijving</td>
+                                <td>Prijs</td>
+                                <td>Promotie</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for article in articles %}
+                                <tr>
+                                    <td><img src="{{ article.image }}"></a></td>
+                                    <td>{{ article.name }}</td>
+                                    <td>{{ article.description }}</td>
+                                    <td>{{ article.cost }}</td>
+                                    <td>{% if article.promo_status == 1 %} PROMOTIE {% endif %}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!--end of panel-->
+            </div><!--end of content-->
+        </div><!--end of container-->
+    </body>
+</html>

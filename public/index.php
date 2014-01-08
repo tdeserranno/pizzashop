@@ -18,7 +18,6 @@ $app->environment->addGlobal('session', $_SESSION);
 
 use Library\Exception\AuthenticationException;
 use Library\Exception\DispatcherException;
-use Pizzashop\Exception\ValidationException;
 try {
     //check if access is allowed to requested page
     $app->helper->check_access_allowed();
@@ -30,17 +29,18 @@ try {
             //before redirecting to login page store requested page in SESSION to use
             //for redirecting after login
             $_SESSION['prev_req_page'] = $_SERVER['REQUEST_URI'];
-            header('Location: /'.strtolower($app->getAppName()).'/auth/go');
+            header('Location: /pizzashop/auth/go');
             exit();
             break;
+        case '2':
+            print($app->environment->render('login.twig', array('exception' => $ex)));
+            break;
         default: 
-            print($app->environment->render('error.twig', array('error' => $ex)));
+            print($app->environment->render('error.twig', array('exception' => $ex)));
             break;
     }
-} catch (ValidationException $ex) {
-    print($app->environment->render($ex->getForm().'.twig', array('errors' => $ex->getErrors())));
 } catch (DispatcherException $ex) {
-    print($app->environment->render('error.twig', array('error' => $ex)));
+    print($app->environment->render('error.twig', array('exception' => $ex)));
 } catch (Exception $ex) {
-    print($app->environment->render('error.twig', array('error' => $ex)));
+    print($app->environment->render('error.twig', array('exception' => $ex)));
 }

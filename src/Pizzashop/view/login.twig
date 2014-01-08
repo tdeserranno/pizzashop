@@ -9,18 +9,8 @@
         <div class="container">
             <nav class="navbar navbar-default row">
                 <ul class="nav navbar-nav navbar-left">
-                    <li><a href="/pizzashop/products/viewall/">Productlijst</a></li>
-                    <li><a href="#">Bestel</a></li>
+                    <li><a href="/pizzashop/home/go/">Home</a></li>
                 </ul>
-                {% if session.user is not defined %}
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/pizzashop/auth/go/">Log in</a></li>
-                </ul>
-                {% else %}
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/pizzashop/auth/logout/">Log out</a></li>
-                </ul>
-                {% endif %}
             </nav><!--end of nav-->
             <div class="row">
                 <section>

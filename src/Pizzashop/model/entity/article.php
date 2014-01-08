@@ -21,9 +21,10 @@ class Article
     protected $image;
     protected $price;
     protected $promo_status;
+    protected $promo_price;
     protected $category;
     
-    function __construct($id, $name, $description, $image, $price, $promo_status, $category)
+    function __construct($id, $name, $description, $image, $price, $promo_status, $promo_price, $category)
     {
         $this->id = $id;
         $this->name = $name;
@@ -31,9 +32,10 @@ class Article
         $this->image = $image;
         $this->price = $price;
         $this->promo_status = $promo_status;
+        $this->promo_price = $promo_price;
         $this->category = $category;
     }
-
+    
     public function getId()
     {
         return $this->id;
@@ -62,6 +64,11 @@ class Article
     public function getPromo_status()
     {
         return $this->promo_status;
+    }
+
+    public function getPromo_price()
+    {
+        return $this->promo_price;
     }
 
     public function getCategory()
@@ -99,8 +106,23 @@ class Article
         $this->promo_status = $promo_status;
     }
 
+    public function setPromo_price($promo_price)
+    {
+        $this->promo_price = $promo_price;
+    }
+
     public function setCategory($category)
     {
         $this->category = $category;
     }
+    
+    public function getCost()
+    {
+        if ($this->promo_status == 1) {
+            return $this->promo_price;
+        } else {
+            return $this->price;
+        }
+    }
 }
+   

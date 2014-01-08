@@ -11,11 +11,13 @@ class User
 {
     private $username;
     private $hashedPassword;
+    private $admin;
     
-    function __construct($username, $hashedPassword)
+    function __construct($username, $hashedPassword, $admin)
     {
         $this->username = $username;
         $this->hashedPassword = $hashedPassword;
+        $this->admin = $admin;
     }
     
     public function getUsername()
@@ -36,5 +38,15 @@ class User
     public function setHashedPassword($hashedPassword)
     {
         $this->hashedPassword = $hashedPassword;
+    }
+    
+    public function getAdmin()
+    {
+        return $this->admin;
+    }
+
+    public function setAdmin($admin)
+    {
+        $this->admin = $admin;
     }
 }
