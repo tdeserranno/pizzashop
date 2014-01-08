@@ -14,7 +14,7 @@ use Pizzashop\Model\Entity\Topping;
  *
  * @author cyber02
  */
-class ToppingDao
+class ToppingDAO
 {
     public static function getById($id)
     {
@@ -29,7 +29,6 @@ class ToppingDao
             $record = $stmt->fetch();
             if (!empty($record)) {
                 //create object(s) and return
-                //test if article is a pizza and if so create pizza object????
                 $topping = new Topping(
                             $record['id'],
                             $record['name'],
@@ -37,10 +36,41 @@ class ToppingDao
                             );
                 return $topping;
             } else {
-                throw new \Exception('article getbyid recordset empty');
+                throw new \Exception('topping getbyid recordset empty');
             }
         } else {
-            throw new \Exception('article getbyid statement could not be executed');
+            throw new \Exception('topping getbyid statement could not be executed');
+        }
+
+    }
+    public static function getAll()
+    {
+        //create db connection
+        $db = new \PDO(DB_DSN, DB_USER, DB_PASS);
+        //prepare sql statement
+        $sql = 'SELECT * FROM toppings';
+        $stmt = $db->prepare($sql);
+        //test if statement can be executed
+        if ($stmt->execute()) {
+            //test if statement retrieved something
+            $recordset = $stmt->fetchAll();
+            if (!empty($recordset)) {
+                //create object(s) and return
+                $result = array();
+                foreach ($recordset as $record) {
+                    $topping = new Topping(
+                            $record['id'],
+                            $record['name'],
+                            $record['price']
+                            );
+                    array_push($result, $topping);
+                }                
+                return $result;
+            } else {
+                throw new \Exception('topping getall recordset empty');
+            }
+        } else {
+            throw new \Exception('topping getall statement could not be executed');
         }
 
     }

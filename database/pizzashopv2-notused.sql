@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.9
+-- version 4.0.4.1
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Jan 07, 2014 at 07:59 PM
--- Server version: 5.6.14
--- PHP Version: 5.5.6
+-- Machine: 127.0.0.1
+-- Genereertijd: 07 jan 2014 om 15:06
+-- Serverversie: 5.6.11
+-- PHP-versie: 5.5.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,13 +17,15 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Database: `pizzashop`
+-- Databank: `pizzashop`
 --
+CREATE DATABASE IF NOT EXISTS `pizzashop` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
+USE `pizzashop`;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `articles`
+-- Tabelstructuur voor tabel `articles`
 --
 
 CREATE TABLE IF NOT EXISTS `articles` (
@@ -37,22 +39,46 @@ CREATE TABLE IF NOT EXISTS `articles` (
   `category` varchar(30) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `category` (`category`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `articles`
+-- Gegevens worden uitgevoerd voor tabel `articles`
 --
 
 INSERT INTO `articles` (`id`, `name`, `description`, `image`, `price`, `promo_status`, `promo_price`, `category`) VALUES
 (1, 'pizza hawaii', 'pizza met tomatensaus belegd met ham, champignons, ananas en mozarella', '', '10.00', 0, '8.50', 'pizza'),
 (2, 'cola 33cl', '', '', '3.00', 0, '0.00', 'drank'),
-(3, 'pizza pepperoni', 'blabla', '', '12.00', 0, '10.00', 'pizza'),
-(4, 'extra kaas', '', '', '1.00', 0, '0.00', 'extra');
+(3, 'pizza pepperoni', 'blabla', '', '12.00', 0, '10.00', 'pizza');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `categories`
+-- Tabelstructuur voor tabel `articles_toppings`
+--
+
+CREATE TABLE IF NOT EXISTS `articles_toppings` (
+  `articleid` int(11) NOT NULL,
+  `toppingid` int(11) NOT NULL,
+  PRIMARY KEY (`articleid`,`toppingid`),
+  KEY `toppingid` (`toppingid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Gegevens worden uitgevoerd voor tabel `articles_toppings`
+--
+
+INSERT INTO `articles_toppings` (`articleid`, `toppingid`) VALUES
+(1, 4),
+(1, 5),
+(3, 5),
+(1, 6),
+(1, 7),
+(3, 10);
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `categories`
 --
 
 CREATE TABLE IF NOT EXISTS `categories` (
@@ -61,18 +87,17 @@ CREATE TABLE IF NOT EXISTS `categories` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `categories`
+-- Gegevens worden uitgevoerd voor tabel `categories`
 --
 
 INSERT INTO `categories` (`name`) VALUES
 ('drank'),
-('extra'),
 ('pizza');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `customers`
+-- Tabelstructuur voor tabel `customers`
 --
 
 CREATE TABLE IF NOT EXISTS `customers` (
@@ -89,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `customers` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
--- Dumping data for table `customers`
+-- Gegevens worden uitgevoerd voor tabel `customers`
 --
 
 INSERT INTO `customers` (`id`, `firstname`, `lastname`, `address`, `postcode`, `city`, `active_status`, `username`) VALUES
@@ -98,7 +123,7 @@ INSERT INTO `customers` (`id`, `firstname`, `lastname`, `address`, `postcode`, `
 -- --------------------------------------------------------
 
 --
--- Table structure for table `deliveryzones`
+-- Tabelstructuur voor tabel `deliveryzones`
 --
 
 CREATE TABLE IF NOT EXISTS `deliveryzones` (
@@ -109,7 +134,7 @@ CREATE TABLE IF NOT EXISTS `deliveryzones` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `deliveryzones`
+-- Gegevens worden uitgevoerd voor tabel `deliveryzones`
 --
 
 INSERT INTO `deliveryzones` (`shopid`, `postcode`, `delivery_cost`) VALUES
@@ -118,36 +143,56 @@ INSERT INTO `deliveryzones` (`shopid`, `postcode`, `delivery_cost`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `orderlines`
+-- Tabelstructuur voor tabel `orderlines`
 --
 
 CREATE TABLE IF NOT EXISTS `orderlines` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `orderid` int(11) NOT NULL,
-  `extra_lineid` int(11) NOT NULL,
   `articleid` int(11) NOT NULL,
   `amount` int(4) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `orderid` (`orderid`),
-  KEY `articleid` (`articleid`),
-  KEY `extra_lineid` (`extra_lineid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=10 ;
+  KEY `articleid` (`articleid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
 --
--- Dumping data for table `orderlines`
+-- Gegevens worden uitgevoerd voor tabel `orderlines`
 --
 
-INSERT INTO `orderlines` (`id`, `orderid`, `extra_lineid`, `articleid`, `amount`, `price`) VALUES
-(6, 1, 0, 1, 2, '10.00'),
-(7, 1, 6, 4, 2, '1.00'),
-(8, 1, 0, 2, 2, '3.00'),
-(9, 2, 0, 3, 1, '12.00');
+INSERT INTO `orderlines` (`id`, `orderid`, `articleid`, `amount`, `price`) VALUES
+(1, 1, 1, 2, '10.00'),
+(2, 1, 2, 2, '3.00'),
+(3, 2, 3, 1, '12.00');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `orders`
+-- Tabelstructuur voor tabel `orderlines_toppings`
+--
+
+CREATE TABLE IF NOT EXISTS `orderlines_toppings` (
+  `orderlineid` int(11) NOT NULL,
+  `toppingid` int(11) NOT NULL,
+  PRIMARY KEY (`orderlineid`,`toppingid`),
+  KEY `toppingid` (`toppingid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Gegevens worden uitgevoerd voor tabel `orderlines_toppings`
+--
+
+INSERT INTO `orderlines_toppings` (`orderlineid`, `toppingid`) VALUES
+(1, 5),
+(1, 7),
+(1, 8),
+(1, 9);
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `orders`
 --
 
 CREATE TABLE IF NOT EXISTS `orders` (
@@ -163,7 +208,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 --
--- Dumping data for table `orders`
+-- Gegevens worden uitgevoerd voor tabel `orders`
 --
 
 INSERT INTO `orders` (`id`, `date`, `delivery_time`, `status`, `customerid`, `shopid`) VALUES
@@ -173,7 +218,7 @@ INSERT INTO `orders` (`id`, `date`, `delivery_time`, `status`, `customerid`, `sh
 -- --------------------------------------------------------
 
 --
--- Table structure for table `shops`
+-- Tabelstructuur voor tabel `shops`
 --
 
 CREATE TABLE IF NOT EXISTS `shops` (
@@ -185,7 +230,7 @@ CREATE TABLE IF NOT EXISTS `shops` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
--- Dumping data for table `shops`
+-- Gegevens worden uitgevoerd voor tabel `shops`
 --
 
 INSERT INTO `shops` (`id`, `address`, `postcode`, `city`) VALUES
@@ -194,7 +239,33 @@ INSERT INTO `shops` (`id`, `address`, `postcode`, `city`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `users`
+-- Tabelstructuur voor tabel `toppings`
+--
+
+CREATE TABLE IF NOT EXISTS `toppings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) NOT NULL,
+  `price` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+
+--
+-- Gegevens worden uitgevoerd voor tabel `toppings`
+--
+
+INSERT INTO `toppings` (`id`, `name`, `price`) VALUES
+(4, 'ham', '1.75'),
+(5, 'mozarella', '1.00'),
+(6, 'champignons', '1.25'),
+(7, 'ananas', '1.50'),
+(8, 'kip', '1.80'),
+(9, 'augurken', '1.00'),
+(10, 'pepperoni', '1.50');
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `users`
 --
 
 CREATE TABLE IF NOT EXISTS `users` (
@@ -205,43 +276,57 @@ CREATE TABLE IF NOT EXISTS `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Dumping data for table `users`
+-- Gegevens worden uitgevoerd voor tabel `users`
 --
 
 INSERT INTO `users` (`username`, `password`, `email`) VALUES
 ('thomas', '', '');
 
 --
--- Constraints for dumped tables
+-- Beperkingen voor gedumpte tabellen
 --
 
 --
--- Constraints for table `articles`
+-- Beperkingen voor tabel `articles`
 --
 ALTER TABLE `articles`
   ADD CONSTRAINT `articles_ibfk_1` FOREIGN KEY (`category`) REFERENCES `categories` (`name`);
 
 --
--- Constraints for table `customers`
+-- Beperkingen voor tabel `articles_toppings`
+--
+ALTER TABLE `articles_toppings`
+  ADD CONSTRAINT `articles_toppings_ibfk_1` FOREIGN KEY (`articleid`) REFERENCES `articles` (`id`),
+  ADD CONSTRAINT `articles_toppings_ibfk_2` FOREIGN KEY (`toppingid`) REFERENCES `toppings` (`id`);
+
+--
+-- Beperkingen voor tabel `customers`
 --
 ALTER TABLE `customers`
   ADD CONSTRAINT `customers_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`username`);
 
 --
--- Constraints for table `deliveryzones`
+-- Beperkingen voor tabel `deliveryzones`
 --
 ALTER TABLE `deliveryzones`
   ADD CONSTRAINT `deliveryzones_ibfk_1` FOREIGN KEY (`shopid`) REFERENCES `shops` (`id`);
 
 --
--- Constraints for table `orderlines`
+-- Beperkingen voor tabel `orderlines`
 --
 ALTER TABLE `orderlines`
   ADD CONSTRAINT `orderlines_ibfk_1` FOREIGN KEY (`orderid`) REFERENCES `orders` (`id`),
   ADD CONSTRAINT `orderlines_ibfk_2` FOREIGN KEY (`articleid`) REFERENCES `articles` (`id`);
 
 --
--- Constraints for table `orders`
+-- Beperkingen voor tabel `orderlines_toppings`
+--
+ALTER TABLE `orderlines_toppings`
+  ADD CONSTRAINT `orderlines_toppings_ibfk_1` FOREIGN KEY (`orderlineid`) REFERENCES `orderlines` (`id`),
+  ADD CONSTRAINT `orderlines_toppings_ibfk_2` FOREIGN KEY (`toppingid`) REFERENCES `toppings` (`id`);
+
+--
+-- Beperkingen voor tabel `orders`
 --
 ALTER TABLE `orders`
   ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customerid`) REFERENCES `customers` (`id`),
