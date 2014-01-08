@@ -1,30 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1">
-        <file>
-            <url>src/Pizzashop/view/login.twig</url>
-            <bookmark id="1">
-                <name/>
-                <line>9</line>
-                <key/>
-            </bookmark>
-        </file>
-    </editor-bookmarks>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-<<<<<<< HEAD
-            <file>file:/C:/xampp/htdocs/pizzashop/public/index.php</file>
-            <file>file:/C:/xampp/htdocs/pizzashop/src/Pizzashop/model/service/articlesservice.php</file>
-            <file>file:/C:/xampp/htdocs/pizzashop/src/library/helper.php</file>
-            <file>file:/C:/xampp/htdocs/pizzashop/src/Pizzashop/model/data/articledao.php</file>
-            <file>file:/C:/xampp/htdocs/pizzashop/src/Pizzashop/view/menu.twig</file>
-            <file>file:/C:/xampp/htdocs/pizzashop/src/Pizzashop/model/entity/article.php</file>
-            <file>file:/C:/xampp/htdocs/pizzashop/src/Pizzashop/controller/menucontroller.php</file>
-=======
-            <file>file:/D:/xampp/htdocs/pizzashop/src/Pizzashop/model/data/toppingdao.php</file>
-            <file>file:/D:/xampp/htdocs/pizzashop/src/Pizzashop/model/data/pizzadao.php</file>
-            <file>file:/D:/xampp/htdocs/pizzashop/src/Pizzashop/model/service/pizzaservice.php</file>
->>>>>>> a16406d16e51f9dc947ae89760076cf7c6effd77
+            <file>file:/D:/xampp/htdocs/pizzashop/src/Pizzashop/model/data/articledao.php</file>
+            <file>file:/D:/xampp/htdocs/pizzashop/src/Pizzashop/view/admin.twig</file>
+            <file>file:/D:/xampp/htdocs/pizzashop/src/Pizzashop/view/articledetail.twig</file>
+            <file>file:/D:/xampp/htdocs/pizzashop/public/index.php</file>
+            <file>file:/D:/xampp/htdocs/pizzashop/src/Pizzashop/controller/articlescontroller.php</file>
+            <file>file:/D:/xampp/htdocs/pizzashop/src/Pizzashop/view/error.twig</file>
+            <file>file:/D:/xampp/htdocs/pizzashop/src/library/helper.php</file>
+            <file>file:/D:/xampp/htdocs/pizzashop/src/Pizzashop/view/articlelist.twig</file>
+            <file>file:/D:/xampp/htdocs/pizzashop/src/Pizzashop/controller/menucontroller.php</file>
+            <file>file:/D:/xampp/htdocs/pizzashop/src/Pizzashop/model/service/articlesservice.php</file>
         </group>
     </open-files>
 </project-private>

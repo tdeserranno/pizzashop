@@ -40,7 +40,7 @@
                             {% for article in articles %}
                                 <tr>
                                     <td><img src="{{ article.image }}"></a></td>
-                                    <td>{{ article.name }}</td>
+                                    <td><a href="/pizzashop/articles/viewdetail/{{ article.id }}">{{ article.name }}</a></td>
                                     <td>{{ article.cost }}</td>
                                     <td>{{ article.promo_status }}</td>
                                     <td>{{ article.category }}</td>

@@ -119,4 +119,34 @@ class ArticleDAO
             throw new \Exception('article getbycategory statement could not be executed');
         }
     }
+    
+    public static function update($post)
+    {
+        //create db connection
+        $db = new \PDO(DB_DSN, DB_USER, DB_PASS);
+        //prepare sql statement
+        $sql = 'UPDATE articles SET';
+        $sql .= ' name = :name,';
+        $sql .= ' description = :description,';
+        $sql .= ' image = :image,';
+        $sql .= ' price = :price,';
+        $sql .= ' promo_status = :promo_status,';
+        $sql .= ' promo_price = :promo_price,';
+        $sql .= ' category = :category,';
+        $sql .= ' WHERE id = :id';
+        $stmt = $db->prepare($sql);
+        //test if statement can be executed
+        if ($stmt->execute(array(':name' => $post['name'],
+                                ':description' => $post['description'],
+                                ':image' => $post['image'],
+                                ':price' => $post['price'],
+                                ':promo_status' => $post['promo_status'],
+                                ':promo_price' => $post['promo_price'],
+                                ':category' => $post['category'],
+                                ':id' => $post['id']))) {
+                                
+        } else {
+            throw new \Exception('article update statement could not be executed');
+        }
+    }
 }

@@ -22,10 +22,38 @@ class ArticlesController extends Controller
         parent::__construct($app);
     }
     
-    public function viewList($arguments)
+    public function viewAll()
+    {
+        $this->model = ArticlesService::showArticlelist();
+        $this->view = $this->app->environment->render('articlelist.twig', array('articles' => $this->model['articles']));
+        print($this->view);
+    }
+    
+    public function viewDetail($arguments)
+    {
+        $this->model = ArticlesService::showArticle($arguments);
+        $this->view = $this->app->environment->render('articledetail.twig', array('article' => $this->model['article']));
+        print($this->view);
+    }
+    
+    public function viewCategory($arguments)
     {
         $this->model = ArticlesService::showArticlelist($arguments);
         $this->view = $this->app->environment->render('articlelist.twig', array('articles' => $this->model['articles']));
         print($this->view);
+    }
+    
+    public function add()
+    {
+        //add new article
+    }
+    
+    public function save()
+    {
+        //update existing article
+        ArticlesService::update($_POST);
+        //redirect to articlelist
+        header('Location: /pizzashop/articles/viewall');
+        exit();
     }
 }

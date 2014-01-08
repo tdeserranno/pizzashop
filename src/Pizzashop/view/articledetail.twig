@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <link rel="stylesheet" href="/pizzashop/public/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container">
+            <nav class="navbar navbar-default row">
+                <ul class="nav navbar-nav navbar-left">
+                    <li><a href="/pizzashop/home/go/">Home</a></li>
+                    <li><a href="/pizzashop/articles/viewall/">Artikels</a></li>
+                    <li><a href="/pizzashop/admin/go/">Klanten</a></li>
+                    <li><a href="/pizzashop/admin/go/">Rapport bestellingen</a></li>
+                    <li><a href="/pizzashop/admin/go/">Leverlijst</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                {% if session.user is not defined %}
+                    <li><a href="/pizzashop/auth/go/">Log in</a></li>
+                {% else %}
+                    {% if session.user == 'admin' %}
+                    <li><a href="/pizzashop/admin/go/">Beheer</a></li>
+                    {% endif %}
+                    <li><a href="/pizzashop/auth/logout/">Log out</a></li>
+                {% endif %}
+                </ul>
+            </nav><!--end of nav-->
+            <div class="row">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Artikel Detail</div>
+                    <form class="form-horizontal" role="form" method="post" {% if article is defined and article is not empty %} action="/pizzashop/articles/save" {% else %} action="/pizzashop/articles/add" {% endif %}>
+                        <input type="hidden" name="id" value="{{ article.id }}">
+                        <div class="form-group">
+                            <label for="name" class="col-lg-1">Naam</label>
+                            <div class="col-lg-5"><input class="form-control" id="name" name="name" type="text" value="{{ article.name }}"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="description" class="col-lg-1">Omschrijving</label>
+                            <div class="col-lg-5"><textarea class="form-control" id="description" name="description">{{ article.description }}</textarea></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="image" class="col-lg-1">Afbeelding</label>
+                            <div class="col-lg-5"><input class="form-control" id="image" name="image" type="text" value="{{ article.image }}"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="price" class="col-lg-1">Prijs</label>
+                            <div class="col-lg-5"><input class="form-control" id="price" name="price" type="number" value="{{ article.price }}"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="promo_status" class="col-lg-1">Promotie</label>
+                            <div class="col-lg-5"><input class="form-control" id="promo_status" name="promo_status" type="text" value="{{ article.promo_status }}"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="promo_price" class="col-lg-1">Promoprijs</label>
+                            <div class="col-lg-5"><input class="form-control" id="promo_price" name="promo_price" type="text" value="{{ article.promo_price }}"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="category" class="col-lg-1">Categorie</label>
+                            <div class="col-lg-5"><input class="form-control" id="category" name="category" type="text" value="{{ article.category }}"></div>
+                        </div>
+                        <div class="well">
+                                <input type="submit" class="btn btn-primary" value="Opslaan">
+                        </div>
+                    </form>
+                </div>
+                <!--end of panel-->
+            </div>
+            <!--end of form row-->
+        </div>
+        <!--end of container-->
+    </body>
+</html>

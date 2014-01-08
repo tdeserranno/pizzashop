@@ -18,7 +18,7 @@ class MenuController extends Controller
 
     public function show($arguments)
     {
-        $this->model = ArticlesService::showArticlelist($arguments);
+        $this->model = ArticlesService::showArticlelist();
         $this->view = $this->app->environment->render('menu.twig', array('articles' => $this->model['articles']));
         print($this->view);
     }

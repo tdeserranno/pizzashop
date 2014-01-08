@@ -26,20 +26,24 @@ class Helper
 
     public function check_access_allowed()
     {
-        //this array needs to be moved outside of the helper class !!! TODO
-        //possibly implement ACL with decorator pattern
-        $public_access = array('pizzashop/auth/go',
-                                'pizzashop/auth/signup',
-                                'pizzashop/auth/register',
-                                'pizzashop/auth/login',
-                                'pizzashop/auth/logout',
-                                'pizzashop/home',
-                                'pizzashop/home/go',
-                                'pizzashop/menu/show/all',
-                                'pizzashop');
-        $admin_access = array();
-        //test if URI points to something private
-        if (!in_array(trim($_SERVER['REQUEST_URI'], '/'), $public_access)){
+        //determine requested controller
+        $url = trim($_SERVER['REQUEST_URI'],'/');
+        /**
+         * In the current localhost environment the first part of the
+         * exploded url will be the project name. In a publised app this
+         * would not be present.
+         * An array_shift simply shifts the project name out of the array
+         */
+        //explode url and shift projectname
+        $url = explode('/', $url);
+        array_shift($url);
+        //get controller name, if empty use default
+        $controller = !empty($url[0]) ? strtolower($url[0]) : 'home';
+        //array containing the names of controller that are accessible to
+        //public users
+        $public_access = array('home','auth','menu');
+        //test if requested controller needs login
+        if (!in_array($controller, $public_access)){
             //test if SESSION var indicating login status is set
             if (!isset($_SESSION['user'])) {
                 throw new AuthenticationException('Not logged in',1);
