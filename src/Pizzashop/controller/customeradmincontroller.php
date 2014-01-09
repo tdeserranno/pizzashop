@@ -21,7 +21,7 @@ class CustomerAdminController extends Controller
     public function viewAll()
     {
         //get all customers
-        $this->model = CustomerService::showCustomerlist();
+        $this->model['customers'] = CustomerService::showCustomerlist();
         //show list
         $this->view = $this->app->environment->render('customeradminlist.twig', array('customers' => $this->model['customers']));
         print($this->view);
@@ -30,7 +30,7 @@ class CustomerAdminController extends Controller
     public function viewDetail($arguments)
     {
         //get single customer
-        $this->model = CustomerService::showCustomer($arguments);
+        $this->model['customer'] = CustomerService::showCustomer($arguments);
         //show details
         $this->view = $this->app->environment->render('customeradmindetail.twig', array('customer' => $this->model['customer']));
         print($this->view);

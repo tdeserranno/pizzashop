@@ -26,7 +26,7 @@ class ToppingAdminController extends Controller
     public function viewAll()
     {
         //get topping list
-        $this->model = ToppingService::showToppinglist();
+        $this->model['toppings'] = ToppingService::showToppinglist();
         $this->view = $this->app->environment->render('toppingadminlist.twig', array('toppings' => $this->model['toppings']));
         print($this->view);
     }
@@ -34,7 +34,7 @@ class ToppingAdminController extends Controller
     public function viewDetail($arguments)
     {
         //get single topping
-        $this->model = ToppingService::showTopping($arguments);
+        $this->model['topping'] = ToppingService::showTopping($arguments);
         //show details
         $this->view = $this->app->environment->render('toppingadmindetail.twig', array('topping' => $this->model['topping']));
         print($this->view);

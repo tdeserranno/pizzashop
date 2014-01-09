@@ -19,18 +19,14 @@ class CustomerService
 {
     public static function showCustomerlist()
     {
-        $result = array();
-        $customers = CustomerDAO::getAll();
-        $result['customers'] = $customers;
+        $result = CustomerDAO::getAll();
         return $result;
     }
     
     public static function showCustomer($arguments)
     {
         $id = $arguments[0];
-        $result = array();
-        $customer = CustomerDAO::getById($id);
-        $result['customer'] = $customer;
+        $result = CustomerDAO::getById($id);
         return $result;
     }
     

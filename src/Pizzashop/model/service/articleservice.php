@@ -8,7 +8,6 @@
 
 namespace Pizzashop\Model\Service;
 use Pizzashop\Model\Data\ArticleDAO;
-use Pizzashop\Model\Service\CategoryService;
 
 /**
  * Description of articleservice
@@ -19,20 +18,14 @@ class ArticleService
 {
     public static function showArticlelist()
     {
-        $result = array();
-        $articles = ArticleDAO::getAll();
-        $result['articles'] = $articles;
+        $result = ArticleDAO::getAll();
         return $result;
     }
     
     public static function showArticle($arguments)
     {
         $id = $arguments[0];
-        $result = array();
-        $article = ArticleDAO::getById($id);
-        $result['article'] = $article;
-        $categories = CategoryService::getCategories();
-        $result['categories'] = $categories['categories'];
+        $result = ArticleDAO::getById($id);
         return $result;
     }
     

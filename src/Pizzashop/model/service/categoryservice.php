@@ -18,14 +18,12 @@ class CategoryService
 {
     public static function getCategories()
     {
-        $result = array();
-        $result['categories'] = CategoryDAO::getAll();
+        $result = CategoryDAO::getAll();
         return $result;
     }
     
     public static function getCategory($categoryname)
     {
-        $result = array();
         $result = CategoryDAO::getByName($categoryname);
         return $result;
     }

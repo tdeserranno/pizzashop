@@ -18,9 +18,7 @@ class ToppingService
 {
     public static function showToppinglist()
     {
-        $result = array();
-        $toppings = ToppingDAO::getAll();
-        $result['toppings'] = $toppings;
+        $result = ToppingDAO::getAll();
         return $result;
     }
     
@@ -29,8 +27,7 @@ class ToppingService
         $result = array();
         if (isset($arguments[0])) {
             $id = $arguments[0];
-            $topping = ToppingDAO::getById($id);
-            $result['topping'] = $topping;
+            $result = ToppingDAO::getById($id);
         }
         return $result;
     }

@@ -25,21 +25,22 @@ class ArticleAdminController extends Controller
     
     public function viewAll()
     {
-        $this->model = ArticleService::showArticlelist();
+        $this->model['articles'] = ArticleService::showArticlelist();
         $this->view = $this->app->environment->render('articleadminlist.twig', array('articles' => $this->model['articles']));
         print($this->view);
     }
     
     public function viewDetail($arguments)
     {
-        $this->model = ArticleService::showArticle($arguments);
+        $this->model['article'] = ArticleService::showArticle($arguments);
+        $this->model['categories'] = CategoryService::getCategories();
         $this->view = $this->app->environment->render('articleadmindetail.twig', array('article' => $this->model['article'], 'categories' => $this->model['categories']));
         print($this->view);
     }
     
     public function viewCategory($arguments)
     {
-        $this->model = ArticleService::showArticlelist($arguments);
+        $this->model['articles'] = ArticleService::showArticlelist($arguments);
         $this->view = $this->app->environment->render('articleadminlist.twig', array('articles' => $this->model['articles']));
         print($this->view);
     }
@@ -47,7 +48,7 @@ class ArticleAdminController extends Controller
     public function viewNew()
     {
         //show empty articledetail form
-        $this->model = CategoryService::getCategories();
+        $this->model['categories'] = CategoryService::getCategories();
         $this->view = $this->app->environment->render('articleadmindetail.twig', array('categories' => $this->model['categories']));
         print($this->view);
     }
