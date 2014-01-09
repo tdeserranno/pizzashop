@@ -10,14 +10,16 @@
             <nav class="navbar navbar-default row">
                 <ul class="nav navbar-nav navbar-left">
                     <li><a href="/pizzashop/menu/showall/">Menu</a></li>
-                    <li><a href="#">Bestel</a></li>
+                    {% if session.user is defined %}
+                    <li><a href="pizzashop/order/go/">Bestel</a></li>
+                    {% endif %}
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                 {% if session.user is not defined %}
                     <li><a href="/pizzashop/auth/go/">Log in</a></li>
                 {% else %}
-                    {% if session.user == 'admin' %}
-                    <li><a href="#">Beheer</a></li>
+                    {% if session.user.admin == 1 %}
+                    <li><a href="/pizzashop/admin/go/">Beheer</a></li>
                     {% endif %}
                     <li><a href="/pizzashop/auth/logout/">Log out</a></li>
                 {% endif %}

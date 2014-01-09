@@ -20,7 +20,7 @@
                 {% if session.user is not defined %}
                     <li><a href="/pizzashop/auth/go/">Log in</a></li>
                 {% else %}
-                    {% if session.user == 'admin' %}
+                    {% if session.user.admin == 1 %}
                     <li><a href="/pizzashop/admin/go/">Beheer</a></li>
                     {% endif %}
                     <li><a href="/pizzashop/auth/logout/">Log out</a></li>
