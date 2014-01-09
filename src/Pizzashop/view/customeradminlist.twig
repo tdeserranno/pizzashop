@@ -7,6 +7,7 @@
     </head>
     <body>
         <div class="container">
+            <div class="container">
             <nav class="navbar navbar-default row">
                 <ul class="nav navbar-nav navbar-left">
                     <li><a href="/pizzashop/home/go/">Home</a></li>
@@ -28,9 +29,31 @@
                 </ul>
             </nav><!--end of nav-->
             <div class="row">
-                <section>
-                    
-                </section>
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Klantenlijst</div>
+                    <table class="table">
+                        <thead>
+                            <tr class="active">
+                                <td>Naam</td>
+                                <td>Adres</td>
+                                <td></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for customer in customers %}
+                                <tr>
+                                    <td><a href="/pizzashop/customeradmin/viewdetail/{{ customer.id }}">{{ customer.firstname }} {{customer.lastname}}</a></td>
+                                    <td>{{customer.address}} {{customer.postcode}} {{customer.city}}</td>
+                                    <td><a href="/pizzashop/customeradmin/delete/{{customer.id}}">Delete</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="well">
+                        <a class="btn btn-primary" href="/pizzashop/customeradmin/viewnew/">Nieuwe klant</a>
+                    </div>
+                </div>
+                <!--end of panel-->
             </div><!--end of content-->
         </div><!--end of container-->
     </body>

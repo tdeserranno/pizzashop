@@ -26,11 +26,11 @@
                         <input type="submit" value="Login" class="col-lg-offset-2">
                         <span class="help-block">Heb je nog geen account? <a href="/pizzashop/auth/signup/">Klik hier</a> om te registreren.</span>
                     </form><!--end of login form-->
-                    {% if error is not empty %}
+                    {% if exception is not empty %}
                     <div>
                         <h3>Error</h3>
                         <p>
-                            {{ error.message }}
+                            {{ exception.message }}
                         </p>
                     </div><!--end of login error area-->
                     {% endif %}

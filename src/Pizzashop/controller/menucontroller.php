@@ -2,7 +2,7 @@
 
 namespace Pizzashop\Controller;
 use Library\Controller;
-use Pizzashop\Model\Service\ArticlesService;
+use Pizzashop\Model\Service\ArticleService;
 
 /**
  * Description of menucontroller
@@ -16,9 +16,16 @@ class MenuController extends Controller
         parent::__construct($app);
     }
 
+    public function showAll()
+    {
+        $this->model = ArticleService::showArticlelist();
+        $this->view = $this->app->environment->render('menu.twig', array('articles' => $this->model['articles']));
+        print($this->view);
+    }
+    
     public function show($arguments)
     {
-        $this->model = ArticlesService::showArticlelist();
+        $this->model = ArticleService::showArticlelistByCategory($arguments);
         $this->view = $this->app->environment->render('menu.twig', array('articles' => $this->model['articles']));
         print($this->view);
     }

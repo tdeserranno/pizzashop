@@ -7,53 +7,57 @@
     </head>
     <body>
         <div class="container">
+            <div class="container">
             <nav class="navbar navbar-default row">
                 <ul class="nav navbar-nav navbar-left">
                     <li><a href="/pizzashop/home/go/">Home</a></li>
-                    <li><a href="/pizzashop/menu/showall/">Menu</a></li>
-                    <li><a href="#">Bestel</a></li>
+                    <li><a href="/pizzashop/articleadmin/viewall/">Artikels</a></li>
+                    <li><a href="/pizzashop/toppingadmin/viewall/">Toppings</a></li>
+                    <li><a href="/pizzashop/customeradmin/viewall/">Klanten</a></li>
+                    <li><a href="/pizzashop/admin/go/">Rapport bestellingen</a></li>
+                    <li><a href="/pizzashop/admin/go/">Leverlijst</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                 {% if session.user is not defined %}
                     <li><a href="/pizzashop/auth/go/">Log in</a></li>
                 {% else %}
                     {% if session.user == 'admin' %}
-                    <li><a href="#">Beheer</a></li>
+                    <li><a href="/pizzashop/admin/go/">Beheer</a></li>
                     {% endif %}
                     <li><a href="/pizzashop/auth/logout/">Log out</a></li>
                 {% endif %}
                 </ul>
             </nav><!--end of nav-->
             <div class="row">
-                <div class="well">
-                    <a class="btn btn-default" href="/pizzashop/menu/show/pizza">Toon pizza's</a>
-                    <a class="btn btn-default" href="/pizzashop/menu/show/drank">Toon drank</a>
-                    <a class="btn btn-default" href="/pizzashop/menu/showall/">Toon alles</a>
-                </div>
                 <div class="panel panel-primary">
                     <div class="panel-heading">Artikellijst</div>
                     <table class="table">
                         <thead>
                             <tr class="active">
-                                <td></td>
                                 <td>Naam</td>
-                                <td>Omschrijving</td>
                                 <td>Prijs</td>
+                                <td>Promo Prijs</td>
                                 <td>Promotie</td>
+                                <td>Categorie</td>
+                                <td></td>
                             </tr>
                         </thead>
                         <tbody>
                             {% for article in articles %}
                                 <tr>
-                                    <td><img src="{{ article.image }}"></a></td>
-                                    <td>{{ article.name }}</td>
-                                    <td>{{ article.description }}</td>
-                                    <td>{{ article.cost }}</td>
-                                    <td>{% if article.promo_status == 1 %} PROMOTIE {% endif %}</td>
+                                    <td><a href="/pizzashop/articleadmin/viewdetail/{{ article.id }}">{{ article.name }}</a></td>
+                                    <td>{{ article.price }}</td>
+                                    <td>{{ article.promo_price }}</td>
+                                    <td>{{ article.promo_status }}</td>
+                                    <td>{{ article.category.name }}</td>
+                                    <td><a href="/pizzashop/articleadmin/delete/{{article.id}}">Delete</a></td>
                                 </tr>
                             {% endfor %}
                         </tbody>
                     </table>
+                    <div class="well">
+                        <a class="btn btn-primary" href="/pizzashop/articleadmin/viewnew/">Nieuw artikel</a>
+                    </div>
                 </div>
                 <!--end of panel-->
             </div><!--end of content-->

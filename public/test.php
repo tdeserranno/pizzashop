@@ -16,17 +16,21 @@ and open the template in the editor.
         require_once '../src/Pizzashop/model/data/articledao.php';
         require_once '../src/Pizzashop/model/entity/category.php';
         require_once '../src/Pizzashop/model/entity/article.php';
+        require_once '../src/Pizzashop/model/service/categoryservice.php';
         
-        $categories = Pizzashop\Model\Data\CategoryDAO::getAll();
+        $categories = \Pizzashop\Model\Service\CategoryService::getCategories();
         var_dump($categories);
         
-        $pizzas = Pizzashop\Model\Data\ArticleDAO::getByCategory('pizza');
-        var_dump($pizzas);
-        $drank = Pizzashop\Model\Data\ArticleDAO::getByCategory('drank');
-        var_dump($drank);
-        
-        $articles = Pizzashop\Model\Data\ArticleDAO::getAll();
-        var_dump($articles);
+//        $categories = Pizzashop\Model\Data\CategoryDAO::getAll();
+//        var_dump($categories);
+//        
+//        $pizzas = Pizzashop\Model\Data\ArticleDAO::getByCategory('pizza');
+//        var_dump($pizzas);
+//        $drank = Pizzashop\Model\Data\ArticleDAO::getByCategory('drank');
+//        var_dump($drank);
+//        
+//        $articles = Pizzashop\Model\Data\ArticleDAO::getAll();
+//        var_dump($articles);
         ?>
     </body>
 </html>

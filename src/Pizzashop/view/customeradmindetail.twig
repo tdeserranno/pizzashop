@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <link rel="stylesheet" href="/pizzashop/public/css/bootstrap.min.css">
+    </head>
+    <body>
+        <div class="container">
+            <nav class="navbar navbar-default row">
+                <ul class="nav navbar-nav navbar-left">
+                    <li><a href="/pizzashop/home/go/">Home</a></li>
+                    <li><a href="/pizzashop/articleadmin/viewall/">Artikels</a></li>
+                    <li><a href="/pizzashop/toppingadmin/viewall/">Toppings</a></li>
+                    <li><a href="/pizzashop/customeradmin/viewall/">Klanten</a></li>
+                    <li><a href="/pizzashop/admin/go/">Rapport bestellingen</a></li>
+                    <li><a href="/pizzashop/admin/go/">Leverlijst</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                {% if session.user is not defined %}
+                    <li><a href="/pizzashop/auth/go/">Log in</a></li>
+                {% else %}
+                    {% if session.user == 'admin' %}
+                    <li><a href="/pizzashop/admin/go/">Beheer</a></li>
+                    {% endif %}
+                    <li><a href="/pizzashop/auth/logout/">Log out</a></li>
+                {% endif %}
+                </ul>
+            </nav><!--end of nav-->
+            <div class="row">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Klant Detail</div>
+                    <form class="form-horizontal" role="form" method="post" {% if customer is defined and customer is not empty %} action="/pizzashop/customeradmin/save" {% else %} action="/pizzashop/customeradmin/add" {% endif %}>
+                        <input type="hidden" name="id" value="{{ customer.id }}">
+                        {% if customer is not defined%}
+                        <div class="well">
+                            <div class="form-group">
+                                <label class="col-lg-2" for="username">Gebruikersnaam</label>
+                                <div class="col-lg-2"><input name="username" id="username" type="text" required></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2" for="email">Email</label>
+                                <div class="col-lg-2"><input name="email" id="email" type="email" required></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2" for="password">Wachtwoord</label>
+                                <div class="col-lg-2"><input name="password" id="password" type="password" required></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2" for="passconfirm">Bevestig wachtwoord</label>
+                                <div class="col-lg-2"><input name="passconfirm" id="passconfirm" type="password" required></div>
+                            </div>
+                        </div><!--end of login data well-->
+                        {% endif %}
+                        <div class="well">
+                            <div class="form-group">
+                                <label class="col-lg-2" for="firstname">Voornaam</label>
+                                <div class="col-lg-2"><input name="firstname" id="firstname" type="text" required value="{{customer.firstname}}"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2" for="lastname">Familienaam</label>
+                                <div class="col-lg-2"><input name="lastname" id="lastname" type="text" required value="{{customer.lastname}}"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2" for="address">Adres</label>
+                                <div class="col-lg-2"><input name="address" id="address" type="text" required value="{{customer.address}}"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2" for="postcode">Postcode</label>
+                                <div class="col-lg-2"><input name="postcode" id="postcode" type="text" required value="{{customer.postcode}}"></div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-lg-2" for="city">Gemeente</label>
+                                <div class="col-lg-2"><input name="city" id="city" type="text" required value="{{customer.city}}"></div>
+                            </div>
+                            <div class="form-group">
+                                 <label class="col-lg-2" for="telephone">Telefoon</label>
+                                <div class="col-lg-2"><input name="telephone" id="telephone" type="tel" required value="{{customer.telephone}}"></div>
+                            </div>
+                            <div class="form-group">
+                                 <label class="col-lg-2" for="active_status">status</label>
+                                <div class="col-lg-2"><input name="active_status" id="active_status" type="text" required value="{{customer.active_status}}"></div>
+                            </div>
+                        </div><!--end of address data well-->
+                        <div class="well">
+                                <input type="submit" class="btn btn-primary" value="Opslaan">
+                        </div>
+                    </form>
+                </div>
+                <!--end of panel-->
+            </div>
+            <!--end of form row-->
+        </div>
+        <!--end of container-->
+    </body>
+</html>

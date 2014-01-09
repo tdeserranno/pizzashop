@@ -32,8 +32,11 @@ class AuthController extends Controller
     
     public function register()
     {
-        //process user registration/signup
-        UserService::registerUser();
+        //process user/customer registration
+        UserService::registerUser($_POST);
+        //redirect to login
+        header('location: /pizzashop/auth/go/');
+        exit();
     }
     
     public function login()

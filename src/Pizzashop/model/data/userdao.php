@@ -11,15 +11,35 @@ use Pizzashop\Model\Entity\User;
  */
 class UserDAO
 {
-    public static function create($username, $password, $email,$firstname, $lastname, $address, $postcode, $city, $telephone)
+    public static function create($username, $hashedpassword, $email)
     {
         //create DB connection
         $db = new \PDO(DB_DSN, DB_USER, DB_PASS);
         //prepare statement
         $sql = 'INSERT INTO users (username, password, email) VALUES (:username, :password, :email)';
         $stmt = $db->prepare($sql);
-        $stmt->execute(array(':username' => $username, ':password' => $password, ':email' => $email));
+        if ($stmt->execute(array(':username' => $username,
+                                ':password' => $hashedpassword,
+                                ':email' => $email))) {
+            //inserting
+        } else {
+            throw new \Exception ('insert user statement could not be executed');
+        }
         unset($db);
+    }
+    
+    public static function delete($username)
+    {
+        //create DB connection
+        $db = new \PDO(DB_DSN, DB_USER, DB_PASS);
+        //prepare statement
+        $sql = 'DELETE FROM users WHERE username = :username';
+        $stmt = $db->prepare($sql);
+        if ($stmt->execute(array(':username' => $username))) {
+            //deleting
+        } else {
+            throw new \Exception ('delete user statement could not be executed');
+        }
     }
     
     public static function getUser($username)
@@ -29,7 +49,6 @@ class UserDAO
         //prepare statement
         $sql = 'SELECT * FROM users WHERE username = :username';    
         $stmt = $db->prepare($sql);
-//        var_dump($stmt);
         //test if statement can be executed
         if ($stmt->execute(array(':username' => $username))) {
             //test if statement retrieved something
@@ -44,7 +63,7 @@ class UserDAO
             }
         } else {
             //statement could not be executed
-            throw new \Exception('statement could not be executed');
+            throw new \Exception('getuser statement could not be executed');
         }
     }
 }

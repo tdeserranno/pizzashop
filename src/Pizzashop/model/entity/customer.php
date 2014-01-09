@@ -21,10 +21,11 @@ class Customer
     private $address;
     private $postcode;
     private $city;
+    private $telephone;
     private $active_status;
     private $username;
     
-    function __construct($id, $firstname, $lastname, $address, $postcode, $city, $active_status, $username)
+    function __construct($id, $firstname, $lastname, $address, $postcode, $city, $telephone, $active_status, $username)
     {
         $this->id = $id;
         $this->firstname = $firstname;
@@ -32,6 +33,7 @@ class Customer
         $this->address = $address;
         $this->postcode = $postcode;
         $this->city = $city;
+        $this->telephone = $telephone;
         $this->active_status = $active_status;
         $this->username = $username;
     }
@@ -64,6 +66,11 @@ class Customer
     public function getCity()
     {
         return $this->city;
+    }
+
+    public function getTelephone()
+    {
+        return $this->telephone;
     }
 
     public function getActive_status()
@@ -104,6 +111,11 @@ class Customer
     public function setCity($city)
     {
         $this->city = $city;
+    }
+
+    public function setTelephone($telephone)
+    {
+        $this->telephone = $telephone;
     }
 
     public function setActive_status($active_status)

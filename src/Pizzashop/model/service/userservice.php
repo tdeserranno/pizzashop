@@ -2,6 +2,7 @@
 
 namespace Pizzashop\Model\Service;
 use Pizzashop\Model\Data\UserDAO;
+use Pizzashop\Model\Service\CustomerService;
 use Library\Exception\AuthenticationException;
 
 /**
@@ -11,23 +12,14 @@ use Library\Exception\AuthenticationException;
  */
 class UserService
 {
-    public static function registerUser()
+    public static function registerUser($post)
     {
         //hash password
-        $hashedPassword = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $hashedPassword = password_hash($post['password'], PASSWORD_DEFAULT);
         //create user
-        UserDAO::create($_POST['username'],
-                        $hashedPassword,
-                        $_POST['email'],
-                        $_POST['firstname'],
-                        $_POST['lastname'],
-                        $_POST['address'],
-                        $_POST['postcode'],
-                        $_POST['city'],
-                        $_POST['telephone']);
-         //redirect to login
-        header('location: /pizzashop/auth/go');
-        exit();
+        UserService::createUser($post);
+        //create customer
+        CustomerService::createCustomer($post);
     }
     
     public static function loginUser()
@@ -79,5 +71,18 @@ class UserService
         } else {
             throw new \Exception('Cannot log out a user that isn\'t logged in');
         }
+    }
+    
+    public static function createUser($post)
+    {
+        if (isset($post)) {
+            $hashedpassword = password_hash($post['password'], PASSWORD_DEFAULT);
+            UserDAO::create($post['username'], $hashedpassword, $post['email']);
+        }
+    }
+    
+    public static function deleteUser($username)
+    {
+        UserDAO::delete($username);
     }
 }

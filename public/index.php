@@ -8,6 +8,8 @@ require_once '../src/Library/framework.php';
 require_once '../src/Library/application.php';
 use Library\Application;
 use Library\Helper;
+use Library\Exception\AuthenticationException;
+use Library\Exception\DispatcherException;
 
 $app = new Application('Pizzashop');
 
@@ -16,8 +18,6 @@ $app->helper->sec_session_start();
 //add SESSION as Twig global to allow access directly from any template
 $app->environment->addGlobal('session', $_SESSION);
 
-use Library\Exception\AuthenticationException;
-use Library\Exception\DispatcherException;
 try {
     //check if access is allowed to requested page
     $app->helper->check_access_allowed();

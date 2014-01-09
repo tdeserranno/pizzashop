@@ -8,6 +8,7 @@
 
 namespace Pizzashop\Model\Data;
 use Pizzashop\Model\Entity\Article;
+use Pizzashop\Model\Service\CategoryService;
 
 /**
  * Description of articledao
@@ -31,6 +32,9 @@ class ArticleDAO
                 //create object(s) and return
                 $result = array();
                 foreach ($recordset as $record) {
+                    //create category object
+                    $category = CategoryService::getCategory($record['category']);
+                    //create article object
                     $article = new Article(
                             $record['id'],
                             $record['name'],
@@ -39,7 +43,7 @@ class ArticleDAO
                             $record['price'], 
                             $record['promo_status'], 
                             $record['promo_price'], 
-                            $record['category']);
+                            $category);
                     array_push($result, $article);
                 }
                 return $result;
@@ -64,6 +68,9 @@ class ArticleDAO
             $record = $stmt->fetch();
             if (!empty($record)) {
                 //create object(s) and return
+                //create category object
+                $category = CategoryService::getCategory($record['category']);
+                //create article object
                 $article = new Article(
                             $record['id'],
                             $record['name'],
@@ -72,7 +79,7 @@ class ArticleDAO
                             $record['price'],
                             $record['promo_status'],
                             $record['promo_price'],
-                            $record['category']
+                            $category
                             );
                 return $article;
             } else {
@@ -99,17 +106,20 @@ class ArticleDAO
                 //create object(s) and return
                 $result = array();
                 foreach ($recordset as $record) {
-                        $article = new Article(
-                                $record['id'],
-                                $record['name'],
-                                $record['description'],
-                                $record['image'],
-                                $record['price'],
-                                $record['promo_status'],
-                                $record['promo_price'],
-                                $record['category']
-                                );
-                        array_push($result, $article);
+                    //create category object
+                    $category = CategoryService::getCategory($record['category']);
+                    //create article object
+                    $article = new Article(
+                            $record['id'],
+                            $record['name'],
+                            $record['description'],
+                            $record['image'],
+                            $record['price'],
+                            $record['promo_status'],
+                            $record['promo_price'],
+                            $category
+                            );
+                    array_push($result, $article);
                 }
                 return $result;
             } else {
@@ -120,7 +130,7 @@ class ArticleDAO
         }
     }
     
-    public static function update($post)
+    public static function update($id, $name, $description, $image, $price, $promo_status, $promo_price, $category)
     {
         //create db connection
         $db = new \PDO(DB_DSN, DB_USER, DB_PASS);
@@ -132,21 +142,59 @@ class ArticleDAO
         $sql .= ' price = :price,';
         $sql .= ' promo_status = :promo_status,';
         $sql .= ' promo_price = :promo_price,';
-        $sql .= ' category = :category,';
+        $sql .= ' category = :category';
         $sql .= ' WHERE id = :id';
         $stmt = $db->prepare($sql);
         //test if statement can be executed
-        if ($stmt->execute(array(':name' => $post['name'],
-                                ':description' => $post['description'],
-                                ':image' => $post['image'],
-                                ':price' => $post['price'],
-                                ':promo_status' => $post['promo_status'],
-                                ':promo_price' => $post['promo_price'],
-                                ':category' => $post['category'],
-                                ':id' => $post['id']))) {
-                                
+        if ($stmt->execute(array(':name' => $name,
+                                ':description' => $description,
+                                ':image' => $image,
+                                ':price' => $price,
+                                ':promo_status' => $promo_status,
+                                ':promo_price' => $promo_price,
+                                ':category' => $category,
+                                ':id' => $id))) {
+            //article updated
         } else {
             throw new \Exception('article update statement could not be executed');
+        }
+    }
+    
+    public static function create($name, $description, $image, $price, $promo_status, $promo_price, $category)
+    {
+        //create db connection
+        $db = new \PDO(DB_DSN, DB_USER, DB_PASS);
+        //prepare sql statement
+        $sql = 'INSERT INTO articles';
+        $sql .= ' (name, description, image, price, promo_status, promo_price, category)';
+        $sql .= ' VALUES (:name, :description, :image, :price, :promo_status, :promo_price, :category)';
+        $stmt = $db->prepare($sql);
+        //test if statement can be executed
+        if ($stmt->execute(array(':name' => $name,
+                                ':description' => $description,
+                                ':image' => $image,
+                                ':price' => $price,
+                                ':promo_status' => $promo_status,
+                                ':promo_price' => $promo_price,
+                                ':category' => $category))) {
+                //updated                
+        } else {
+            throw new \Exception('article insert statement could not be executed');
+        }
+    }
+    
+    public static function delete($id)
+    {
+        //create db connection
+        $db = new \PDO(DB_DSN, DB_USER, DB_PASS);
+        //prepare sql statement
+        $sql = 'DELETE FROM articles WHERE id = :id';
+        $stmt = $db->prepare($sql);
+        //test if statement can be executed
+        if ($stmt->execute(array(':id' => $id))) {
+            //deleted
+             } else {
+            throw new \Exception('article delete statement could not be executed');
         }
     }
 }

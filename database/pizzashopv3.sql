@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Machine: 127.0.0.1
--- Genereertijd: 08 jan 2014 om 16:27
+-- Genereertijd: 09 jan 2014 om 15:56
 -- Serverversie: 5.6.11
 -- PHP-versie: 5.5.3
 
@@ -34,26 +34,27 @@ CREATE TABLE IF NOT EXISTS `articles` (
   `description` text NOT NULL,
   `image` varchar(100) NOT NULL,
   `price` decimal(10,2) NOT NULL,
-  `promo_status` tinyint(1) NOT NULL,
-  `promo_price` decimal(10,2) NOT NULL,
+  `promo_status` tinyint(1) NOT NULL DEFAULT '0',
+  `promo_price` decimal(10,2) NOT NULL DEFAULT '0.00',
   `category` varchar(30) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `category` (`category`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
 --
 -- Gegevens worden uitgevoerd voor tabel `articles`
 --
 
 INSERT INTO `articles` (`id`, `name`, `description`, `image`, `price`, `promo_status`, `promo_price`, `category`) VALUES
-(1, 'Pizza Hawaii', 'pizza met tomatensaus belegd met ham, champignons, ananas en mozarella', '', '11.00', 0, '8.50', 'pizza'),
+(1, 'Pizza Hawaii', 'pizza met tomatensaus belegd met ham, champignons, ananas en mozarella', '', '12.00', 1, '9.00', 'pizza'),
 (2, 'Coca Cola 33cl', '', '', '3.00', 0, '0.00', 'drank'),
 (3, 'Pizza Pepperoni', 'pizza met tomatensaus belegd met pepperoni en mozarella', '', '12.00', 0, '10.00', 'pizza'),
 (4, 'Pizza Margherita', 'pizza met tomatensaus belegd met mozarella', '', '10.00', 1, '7.50', 'pizza'),
 (5, 'Pizza Supreme', 'pizza met tomatensaus belegd met rundsvlees, pepperoni, champignons, groene paprika en mozarella', '', '15.00', 0, '12.00', 'pizza'),
 (6, 'Pizza BBQ', 'pizza met bbq-saus belegd met rundsvlees, gerookte bacon en mozarella', '', '16.00', 0, '13.00', 'pizza'),
 (7, 'Fanta 33cl', '', '', '3.00', 0, '0.00', 'drank'),
-(8, 'Spa rood 50cl', '', '', '4.00', 0, '0.00', 'drank');
+(8, 'Spa rood 50cl', '', '', '4.00', 0, '0.00', 'drank'),
+(10, '7 UP 33cl', '', '', '2.50', 0, '2.00', 'drank');
 
 -- --------------------------------------------------------
 
@@ -87,18 +88,21 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `address` varchar(50) NOT NULL,
   `postcode` varchar(10) NOT NULL,
   `city` varchar(30) NOT NULL,
-  `active_status` tinyint(1) NOT NULL,
+  `telephone` int(11) NOT NULL,
+  `active_status` tinyint(1) NOT NULL DEFAULT '1',
   `username` varchar(30) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `username` (`username`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
 
 --
 -- Gegevens worden uitgevoerd voor tabel `customers`
 --
 
-INSERT INTO `customers` (`id`, `firstname`, `lastname`, `address`, `postcode`, `city`, `active_status`, `username`) VALUES
-(1, 'Thomas', 'Deserranno', 'Moerkerkesteenweg 9', '8340', 'Damme', 1, 'thomas');
+INSERT INTO `customers` (`id`, `firstname`, `lastname`, `address`, `postcode`, `city`, `telephone`, `active_status`, `username`) VALUES
+(4, 'Thomas', 'Deserranno', 'Moerkerkesteenweg 9', '8340', 'Damme', 50358178, 1, 'Thomas'),
+(5, 'Peter', 'Van Nieuwehuyse', 'hierwaakikstraat 1', '8400', 'oostende', 1234567, 1, 'Peter'),
+(6, 'Bert', 'Vandecasteele', 'daverloostraat 55', '8310', 'Assebroek', 45454545, 1, 'Bert');
 
 -- --------------------------------------------------------
 
@@ -137,15 +141,6 @@ CREATE TABLE IF NOT EXISTS `orderlines` (
   KEY `articleid` (`articleid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
 
---
--- Gegevens worden uitgevoerd voor tabel `orderlines`
---
-
-INSERT INTO `orderlines` (`id`, `orderid`, `articleid`, `amount`, `price`) VALUES
-(1, 1, 1, 2, '10.00'),
-(2, 1, 2, 2, '3.00'),
-(3, 2, 3, 1, '12.00');
-
 -- --------------------------------------------------------
 
 --
@@ -156,18 +151,8 @@ CREATE TABLE IF NOT EXISTS `orderlines_toppings` (
   `orderlineid` int(11) NOT NULL,
   `toppingid` int(11) NOT NULL,
   PRIMARY KEY (`orderlineid`,`toppingid`),
-  KEY `toppingid` (`toppingid`)
+  KEY `orderlines_toppings_ibfk_2` (`toppingid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Gegevens worden uitgevoerd voor tabel `orderlines_toppings`
---
-
-INSERT INTO `orderlines_toppings` (`orderlineid`, `toppingid`) VALUES
-(1, 5),
-(1, 7),
-(1, 8),
-(1, 9);
 
 -- --------------------------------------------------------
 
@@ -186,14 +171,6 @@ CREATE TABLE IF NOT EXISTS `orders` (
   KEY `customerid` (`customerid`),
   KEY `shopid` (`shopid`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
-
---
--- Gegevens worden uitgevoerd voor tabel `orders`
---
-
-INSERT INTO `orders` (`id`, `date`, `delivery_time`, `status`, `customerid`, `shopid`) VALUES
-(1, '2014-01-01', '0000-00-00 00:00:00', 1, 1, 1),
-(2, '2014-01-02', '2014-01-02 18:00:00', 1, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -227,7 +204,7 @@ CREATE TABLE IF NOT EXISTS `toppings` (
   `name` varchar(30) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
 -- Gegevens worden uitgevoerd voor tabel `toppings`
@@ -252,7 +229,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `username` varchar(30) NOT NULL,
   `password` char(255) NOT NULL,
   `email` varchar(50) NOT NULL,
-  `admin` tinyint(1) NOT NULL,
+  `admin` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -262,9 +239,9 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 INSERT INTO `users` (`username`, `password`, `email`, `admin`) VALUES
 ('admin', '$2y$10$pgSBJOIizHHNoyLzuvE3c.4P9ZrlCbDcb1Vjsbfdt7Zze4pcH8som', 'admin@vdabpizzashop.be', 1),
-('test', '$2y$10$9pp0J1vMPMQQ.dBpxWVwcOfgDfWWmQs5C.q/CUxoM0l7YnL1jKHHa', 'test@test.be', 0),
-('thomas', '', '', 0),
-('Thomas81', '$2y$10$Pn3fnsbnb7NxtAhOEikPAeaDtmNRqqu.XB0HgGEEeePYKRVRuwsEy', 'thomas.deserranno@gmail.com', 0);
+('Bert', '$2y$10$FbXU9Igo/rs6oAg5wv1yye9oiEkuqXJ3gf/uXX56DO.TXW2OvD4ne', 'blala@bla.bla', 0),
+('Peter', '$2y$10$xS5qyNdt86T5v3D0xGW5ieFFL8/0wkPi2ShArGsJ7hlJ7suyP8kXe', 'peter@design.be', 0),
+('Thomas', '$2y$10$aqdSt48/rAKpeH5uuQtCw.gShlci5t7dTzVNn39w03sL0pvQlWXYm', 'thomas.deserranno@gmail.com', 0);
 
 --
 -- Beperkingen voor gedumpte tabellen
@@ -280,7 +257,7 @@ ALTER TABLE `articles`
 -- Beperkingen voor tabel `customers`
 --
 ALTER TABLE `customers`
-  ADD CONSTRAINT `customers_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`username`);
+  ADD CONSTRAINT `customers_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`username`) ON DELETE CASCADE;
 
 --
 -- Beperkingen voor tabel `deliveryzones`
@@ -292,21 +269,21 @@ ALTER TABLE `deliveryzones`
 -- Beperkingen voor tabel `orderlines`
 --
 ALTER TABLE `orderlines`
-  ADD CONSTRAINT `orderlines_ibfk_1` FOREIGN KEY (`orderid`) REFERENCES `orders` (`id`),
+  ADD CONSTRAINT `orderlines_ibfk_1` FOREIGN KEY (`orderid`) REFERENCES `orders` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `orderlines_ibfk_2` FOREIGN KEY (`articleid`) REFERENCES `articles` (`id`);
 
 --
 -- Beperkingen voor tabel `orderlines_toppings`
 --
 ALTER TABLE `orderlines_toppings`
-  ADD CONSTRAINT `orderlines_toppings_ibfk_1` FOREIGN KEY (`orderlineid`) REFERENCES `orderlines` (`id`),
-  ADD CONSTRAINT `orderlines_toppings_ibfk_2` FOREIGN KEY (`toppingid`) REFERENCES `toppings` (`id`);
+  ADD CONSTRAINT `orderlines_toppings_ibfk_2` FOREIGN KEY (`toppingid`) REFERENCES `toppings` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `orderlines_toppings_ibfk_1` FOREIGN KEY (`orderlineid`) REFERENCES `orderlines` (`id`) ON DELETE CASCADE;
 
 --
 -- Beperkingen voor tabel `orders`
 --
 ALTER TABLE `orders`
-  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customerid`) REFERENCES `customers` (`id`),
+  ADD CONSTRAINT `orders_ibfk_1` FOREIGN KEY (`customerid`) REFERENCES `customers` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `orders_ibfk_2` FOREIGN KEY (`shopid`) REFERENCES `shops` (`id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

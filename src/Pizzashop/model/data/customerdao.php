@@ -32,6 +32,7 @@ class CustomerDAO
                                 $record['address'],
                                 $record['postcode'],
                                 $record['city'],
+                                $record['telephone'],
                                 $record['active_status'],
                                 $record['username']
                                 );
@@ -66,6 +67,7 @@ class CustomerDAO
                         $record['address'],
                         $record['postcode'],
                         $record['city'],
+                        $record['telephone'],
                         $record['active_status'],
                         $record['username']
                         );
@@ -75,6 +77,74 @@ class CustomerDAO
             }
         } else {
             throw new \Exception('customer getbyid statement could not be executed');
+        }
+    }
+    
+    public static function create($firstname, $lastname, $address, $postcode, $city, $telephone, $username)
+    {
+        //create db connection
+        $db = new \PDO(DB_DSN, DB_USER, DB_PASS);
+        //prepare sql statement
+        $sql = 'INSERT INTO customers';
+        $sql .= ' (firstname, lastname, address, postcode, city, telephone, username)';
+        $sql .= ' VALUES (:firstname, :lastname, :address, :postcode, :city, :telephone, :username)';
+        $stmt = $db->prepare($sql);
+        //test if statement can be executed
+        if ($stmt->execute(array(':firstname' => $firstname,
+                                ':lastname' => $lastname,
+                                ':address' => $address,
+                                ':postcode' => $postcode,
+                                ':city' => $city,
+                                ':telephone' => $telephone,
+                                ':username' => $username))) {
+                //updated                
+        } else {
+            throw new \Exception('customer insert statement could not be executed');
+        }
+    }
+    
+    public static function update($id, $firstname, $lastname, $address, $postcode, $city, $telephone, $active_status)
+    {
+        //create db connection
+        $db = new \PDO(DB_DSN, DB_USER, DB_PASS);
+        //prepare sql statement
+        $sql = 'UPDATE customers SET';
+        $sql .= ' firstname = :firstname,';
+        $sql .= ' lastname = :lastname,';
+        $sql .= ' address = :address,';
+        $sql .= ' postcode = :postcode,';
+        $sql .= ' city = :city,';
+        $sql .= ' telephone = :telephone,';
+        $sql .= ' active_status = :active_status';
+        $sql .= ' WHERE id = :id';
+        $stmt = $db->prepare($sql);
+        //test if statement can be executed
+        if ($stmt->execute(array(':firstname' => $firstname,
+                                ':lastname' => $lastname,
+                                ':address' => $address,
+                                ':postcode' => $postcode,
+                                ':city' => $city,
+                                ':telephone' => $telephone,
+                                ':active_status' => $active_status,
+                                ':id' => $id))) {
+            //updating
+        } else {
+            throw new \Exception('customer update statement could not be executed');
+        }
+    }
+    
+    public static function delete($id)
+    {
+        //create db connection
+        $db = new \PDO(DB_DSN, DB_USER, DB_PASS);
+        //prepare sql statement
+        $sql = 'DELETE FROM customers WHERE id = :id';
+        $stmt = $db->prepare($sql);
+        //test if statement can be executed
+        if ($stmt->execute(array(':id' => $id))) {
+            //deleted
+             } else {
+            throw new \Exception('customer delete statement could not be executed');
         }
     }
 }
