@@ -7,6 +7,8 @@
  */
 
 namespace Pizzashop\Model\Entity;
+use Pizzashop\Model\Service\CustomerService;
+use Pizzashop\Model\Service\ShopService;
 
 /**
  * Description of shoppingcart
@@ -15,29 +17,53 @@ namespace Pizzashop\Model\Entity;
  */
 class Shoppingcart
 {
-    private $items;
+    private $customer;
+    private $shop;
+    private $items = array();
     
-    function __construct()
+    function __construct($username, $shopid)
     {
-        $this->items = array();
+        $this->customer = CustomerService::getCustomerByUsername($username);
+        $this->shop = ShopService::getShop($shopid);
     }
     
-    public function addItem($art, $qty)
+    public function getCustomer()
     {
-        $index = count($this->items)+1;
-        $this->items[$index]['article'] = $art;
-        $this->items[$index]['quantity'] = $qty;
+        return $this->customer;
+    }
+
+    public function getShop()
+    {
+        return $this->shop;
+    }
+
+    public function getItems()
+    {
+        return $this->items;
+    }
+
+    public function setCustomer($customer)
+    {
+        $this->customer = $customer;
+    }
+
+    public function setShop($shop)
+    {
+        $this->shop = $shop;
+    }
+
+    public function setItems($items)
+    {
+        $this->items = $items;
+    }
+    
+    public function addItem($item)
+    {
+        array_push($this->items, $item);
     }
     
     public function removeItem($index)
     {
-        
-    }
-    
-    function getIndex()
-    {
-        if ($this->items) {
-            
-        }
+        array_splice($this->items, $index, 1);
     }
 }

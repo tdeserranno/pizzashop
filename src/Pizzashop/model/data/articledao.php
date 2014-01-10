@@ -88,7 +88,6 @@ class ArticleDAO
         } else {
             throw new \Exception('article getbyid statement could not be executed');
         }
-
     }
     
     public static function getByCategory($category)

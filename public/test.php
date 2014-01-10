@@ -12,25 +12,30 @@ and open the template in the editor.
     <body>
         <?php
         require_once '../src/Pizzashop/config/config.php';
-        require_once '../src/Pizzashop/model/data/categorydao.php';
-        require_once '../src/Pizzashop/model/data/articledao.php';
-        require_once '../src/Pizzashop/model/entity/category.php';
-        require_once '../src/Pizzashop/model/entity/article.php';
-        require_once '../src/Pizzashop/model/service/categoryservice.php';
         
-        $categories = \Pizzashop\Model\Service\CategoryService::getCategories();
-        var_dump($categories);
+        //initialize Doctrine classloader for test.php
+        require_once '../vendor/Doctrine/Common/ClassLoader.php';
+        use Doctrine\Common\ClassLoader;
+        $autoloader = new ClassLoader('Pizzashop', '../src');
+        $autoloader->register();
         
-//        $categories = Pizzashop\Model\Data\CategoryDAO::getAll();
-//        var_dump($categories);
-//        
-//        $pizzas = Pizzashop\Model\Data\ArticleDAO::getByCategory('pizza');
-//        var_dump($pizzas);
-//        $drank = Pizzashop\Model\Data\ArticleDAO::getByCategory('drank');
-//        var_dump($drank);
-//        
-//        $articles = Pizzashop\Model\Data\ArticleDAO::getAll();
-//        var_dump($articles);
+        require_once '../src/library/helper.php';
+        $helper = new \Library\Helper;
+        $helper->sec_session_start();
+        
+        $a = array();
+        print_r($a);
+        end($a);
+        if (empty($a)) {
+            print('array empty');
+        }else {
+            print('END a = '.key($a));
+        }
+        
+        $b = array('item1','item2','item3');
+        print_r($b);
+        end($b);
+        print('END b = '.key($b));
         ?>
     </body>
 </html>

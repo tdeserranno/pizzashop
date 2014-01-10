@@ -30,7 +30,8 @@ class CustomerAdminController extends Controller
     public function viewDetail($arguments)
     {
         //get single customer
-        $this->model['customer'] = CustomerService::showCustomer($arguments);
+        $id = $arguments[0];
+        $this->model['customer'] = CustomerService::showCustomer($id);
         //show details
         $this->view = $this->app->environment->render('customeradmindetail.twig', array('customer' => $this->model['customer']));
         print($this->view);
@@ -64,7 +65,8 @@ class CustomerAdminController extends Controller
     public function delete($arguments)
     {
         //delete customer
-        CustomerService::delete($arguments);
+        $id = $arguments[0];
+        CustomerService::delete($id);
         //redirect to customerlist
         header('location: /pizzashop/customeradmin/viewall/');
         exit();

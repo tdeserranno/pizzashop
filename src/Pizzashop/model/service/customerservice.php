@@ -23,10 +23,11 @@ class CustomerService
         return $result;
     }
     
-    public static function showCustomer($arguments)
+    public static function showCustomer($id)
     {
-        $id = $arguments[0];
-        $result = CustomerDAO::getById($id);
+        if (isset($id)) {
+            $result = CustomerDAO::getById($id);
+        }
         return $result;
     }
     
@@ -57,16 +58,23 @@ class CustomerService
         }
     }
     
-    public static function delete($arguments)
+    public static function delete($id)
     {
-        if (isset($arguments[0])) {
-            $id = $arguments[0];
+        if (isset($id)) {
             //get customer username
             $username = CustomerDAO::getById($id)->getUsername();
             //delete user
             UserService::deleteUser($username);
             //delete customer
             CustomerDAO::delete($id);
+        }
+    }
+    
+    public static function getCustomerByUsername($username)
+    {
+        if (isset($username)) {
+            $result = CustomerDAO::getByUsername($username);
+            return $result;
         }
     }
 }

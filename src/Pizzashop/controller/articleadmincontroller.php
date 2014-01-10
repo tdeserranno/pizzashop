@@ -32,7 +32,8 @@ class ArticleAdminController extends Controller
     
     public function viewDetail($arguments)
     {
-        $this->model['article'] = ArticleService::showArticle($arguments);
+        $id = $arguments[0];
+        $this->model['article'] = ArticleService::showArticle($id);
         $this->model['categories'] = CategoryService::getCategories();
         $this->view = $this->app->environment->render('articleadmindetail.twig', array('article' => $this->model['article'], 'categories' => $this->model['categories']));
         print($this->view);
@@ -40,7 +41,8 @@ class ArticleAdminController extends Controller
     
     public function viewCategory($arguments)
     {
-        $this->model['articles'] = ArticleService::showArticlelist($arguments);
+        $category = $arguments[0];
+        $this->model['articles'] = ArticleService::showArticlelist($category);
         $this->view = $this->app->environment->render('articleadminlist.twig', array('articles' => $this->model['articles']));
         print($this->view);
     }
@@ -74,7 +76,8 @@ class ArticleAdminController extends Controller
     public function delete($arguments)
     {
          //delete article
-        ArticleService::delete($arguments);
+        $id = $arguments[0];
+        ArticleService::delete($id);
         //redirect to articlelist
         header('Location: /pizzashop/articleadmin/viewall');
         exit();

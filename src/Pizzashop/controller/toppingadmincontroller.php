@@ -34,7 +34,8 @@ class ToppingAdminController extends Controller
     public function viewDetail($arguments)
     {
         //get single topping
-        $this->model['topping'] = ToppingService::showTopping($arguments);
+        $id = $arguments[0];
+        $this->model['topping'] = ToppingService::showTopping($id);
         //show details
         $this->view = $this->app->environment->render('toppingadmindetail.twig', array('topping' => $this->model['topping']));
         print($this->view);
@@ -68,7 +69,8 @@ class ToppingAdminController extends Controller
     public function delete($arguments)
     {
         //delete topping
-        ToppingService::delete($arguments);
+        $id = $arguments[0];
+        ToppingService::delete($id);
         //redirect to toppinglist
         header('location: /pizzashop/toppingadmin/viewall/');
         exit();

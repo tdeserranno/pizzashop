@@ -147,4 +147,37 @@ class CustomerDAO
             throw new \Exception('customer delete statement could not be executed');
         }
     }
+    
+    public static function getByUsername($username)
+    {
+        //create db connection
+        $db = new \PDO(DB_DSN, DB_USER, DB_PASS);
+        //prepare sql statement
+        $sql = 'SELECT * FROM customers WHERE username = :username';
+        $stmt = $db->prepare($sql);
+        //test if statement can be executed
+        if ($stmt->execute(array(':username' => $username))) {
+            //test if statement retrieved something
+            $record = $stmt->fetch();
+            if (!empty($record)) {
+                //create object(s) and return
+                $customer = new Customer(
+                        $record['id'],
+                        $record['firstname'],
+                        $record['lastname'],
+                        $record['address'],
+                        $record['postcode'],
+                        $record['city'],
+                        $record['telephone'],
+                        $record['active_status'],
+                        $record['username']
+                        );
+                return $customer;
+            } else {
+                throw new \Exception('customer getbyusername recordset empty');
+            }
+        } else {
+            throw new \Exception('customer getbyusername statement could not be executed');
+        }
+    }
 }

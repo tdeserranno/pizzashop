@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Home</title>
+        <link rel="stylesheet" href="/pizzashop/public/css/bootstrap.min.css">
+        <script src="/pizzashop/public/css/bootstrap.min.css"></script>
+    </head>
+    <body>
+        <div class="container">
+            <nav class="navbar navbar-default row">
+                <ul class="nav navbar-nav navbar-left">
+                    <li><a href="/pizzashop/menu/showall/">Menu</a></li>
+                    {% if session.user is defined %}
+                        <li><a href="/pizzashop/order/go/">Bestel</a></li>
+                    {% endif %}
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                {% if session.user is not defined %}
+                    <li><a href="/pizzashop/auth/go/">Log in</a></li>
+                {% else %}
+                    {% if session.user.admin == 1 %}
+                    <li><a href="/pizzashop/admin/go/">Beheer</a></li>
+                    {% endif %}
+                    <li><a href="/pizzashop/auth/logout/">Log out</a></li>
+                {% endif %}
+                </ul>
+            </nav><!--end of nav-->
+            <div class="row">
+                <form class="form-horizontal" role="form" method="post" action="/pizzashop/order/additem">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Maak je keuze</div>
+                        <div class="well">
+                            {% for article in articles %}
+                                <div class="form-group">
+                                    <input type="radio" name="id" id="{{article.id}}}" value="{{article.id}}">
+                                    <label for="{{article.id}}">
+                                        {{article.name}}
+                                        {% if article.promo_status == 1 %}
+                                            PROMOTIE !
+                                        {% endif%}
+                                    </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% if toppings is defined %}
+                        <div class="well">
+                            {% for topping in toppings %}
+                                <div class="form-group">
+                                    <input type="checkbox" name="toppings[]" id="{{topping.id}}}" value="{{topping.id}}">
+                                    <label for="{{topping.id}}">{{topping.name}}</label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                        <div class="well">
+                            <div class="form-group">
+                                <label for="quantity" class="col-lg-1">Aantal</label>
+                                <div class="col-lg-1"><input class="form-control" id="quantity" name="quantity" type="text" value="1"></div>
+                            </div>
+                        </div>
+                        <div class="well">
+                                <input class="btn btn-default" type="submit" value="Voeg toe">
+                        </div>
+                    </div><!--end of panel shoppingcart-->
+                </form>
+            </div><!--end of content-->
+        </div><!--end of container-->
+    </body>
+</html>

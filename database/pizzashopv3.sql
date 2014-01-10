@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Machine: 127.0.0.1
--- Genereertijd: 09 jan 2014 om 15:56
+-- Genereertijd: 10 jan 2014 om 16:05
 -- Serverversie: 5.6.11
 -- PHP-versie: 5.5.3
 
@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `articles` (
   `category` varchar(30) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `category` (`category`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Gegevens worden uitgevoerd voor tabel `articles`
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `username` varchar(30) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `username` (`username`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=8 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=7 ;
 
 --
 -- Gegevens worden uitgevoerd voor tabel `customers`
@@ -122,6 +122,7 @@ CREATE TABLE IF NOT EXISTS `deliveryzones` (
 --
 
 INSERT INTO `deliveryzones` (`shopid`, `postcode`, `delivery_cost`) VALUES
+(1, '8310', 0),
 (1, '8340', 2);
 
 -- --------------------------------------------------------
@@ -134,12 +135,12 @@ CREATE TABLE IF NOT EXISTS `orderlines` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `orderid` int(11) NOT NULL,
   `articleid` int(11) NOT NULL,
-  `amount` int(4) NOT NULL,
+  `quantity` int(4) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `orderid` (`orderid`),
   KEY `articleid` (`articleid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -170,7 +171,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
   PRIMARY KEY (`id`),
   KEY `customerid` (`customerid`),
   KEY `shopid` (`shopid`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -204,7 +205,7 @@ CREATE TABLE IF NOT EXISTS `toppings` (
   `name` varchar(30) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=11 ;
 
 --
 -- Gegevens worden uitgevoerd voor tabel `toppings`
@@ -276,8 +277,8 @@ ALTER TABLE `orderlines`
 -- Beperkingen voor tabel `orderlines_toppings`
 --
 ALTER TABLE `orderlines_toppings`
-  ADD CONSTRAINT `orderlines_toppings_ibfk_2` FOREIGN KEY (`toppingid`) REFERENCES `toppings` (`id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `orderlines_toppings_ibfk_1` FOREIGN KEY (`orderlineid`) REFERENCES `orderlines` (`id`) ON DELETE CASCADE;
+  ADD CONSTRAINT `orderlines_toppings_ibfk_1` FOREIGN KEY (`orderlineid`) REFERENCES `orderlines` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `orderlines_toppings_ibfk_2` FOREIGN KEY (`toppingid`) REFERENCES `toppings` (`id`) ON DELETE CASCADE;
 
 --
 -- Beperkingen voor tabel `orders`

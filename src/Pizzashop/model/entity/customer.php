@@ -127,4 +127,10 @@ class Customer
     {
         $this->username = $username;
     }
+    
+    public function getFullName()
+    {
+        $fullname = $this->firstname.' '.$this->lastname;
+        return $fullname;
+    }
 }

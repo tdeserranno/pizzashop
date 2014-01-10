@@ -22,11 +22,9 @@ class ToppingService
         return $result;
     }
     
-    public static function showTopping($arguments)
+    public static function showTopping($id)
     {
-        $result = array();
-        if (isset($arguments[0])) {
-            $id = $arguments[0];
+        if (isset($id)) {
             $result = ToppingDAO::getById($id);
         }
         return $result;
@@ -46,10 +44,9 @@ class ToppingService
         }
     }
     
-    public static function delete($arguments)
+    public static function delete($id)
     {
-        if (isset($arguments[0])) {
-            $id = $arguments[0];
+        if (isset($id)) {
             ToppingDAO::delete($id);
         }
     }    

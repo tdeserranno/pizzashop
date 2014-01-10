@@ -22,17 +22,19 @@ class ArticleService
         return $result;
     }
     
-    public static function showArticle($arguments)
+    public static function showArticle($id)
     {
-        $id = $arguments[0];
-        $result = ArticleDAO::getById($id);
+        if (isset($id)){
+            $result = ArticleDAO::getById($id);
+        }
         return $result;
     }
     
-    public static function showArticlelistByCategory($arguments)
+    public static function showArticlelistByCategory($category)
     {
-        $category = $arguments[0];
-        $result = ArticleDAO::getByCategory($category);
+        if (isset($category)) {
+            $result = ArticleDAO::getByCategory($category);
+        }
         return $result;
     }
     
@@ -63,10 +65,9 @@ class ArticleService
         }
     }
     
-    public static function delete($arguments)
+    public static function delete($id)
     {
-        if (isset($arguments[0])) {
-            $id = $arguments[0];
+        if (isset($id)) {
             ArticleDAO::delete($id);
         }
     }
