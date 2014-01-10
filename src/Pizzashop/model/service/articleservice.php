@@ -32,8 +32,7 @@ class ArticleService
     public static function showArticlelistByCategory($arguments)
     {
         $category = $arguments[0];
-        $articles = ArticleDAO::getByCategory($category);
-        $result['articles'] = $articles;
+        $result = ArticleDAO::getByCategory($category);
         return $result;
     }
     

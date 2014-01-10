@@ -18,14 +18,14 @@ class MenuController extends Controller
 
     public function showAll()
     {
-        $this->model = ArticleService::showArticlelist();
+        $this->model['articles'] = ArticleService::showArticlelist();
         $this->view = $this->app->environment->render('menu.twig', array('articles' => $this->model['articles']));
         print($this->view);
     }
     
     public function show($arguments)
     {
-        $this->model = ArticleService::showArticlelistByCategory($arguments);
+        $this->model['articles'] = ArticleService::showArticlelistByCategory($arguments);
         $this->view = $this->app->environment->render('menu.twig', array('articles' => $this->model['articles']));
         print($this->view);
     }
