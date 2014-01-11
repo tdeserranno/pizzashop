@@ -21,12 +21,12 @@ class OrderlineService
     {
         //create orderline
         $orderlineid = OrderlineDAO::create($orderid,
-                $shoppingcartItem->article->getId(),
+                $shoppingcartItem->getArticle()->getId(),
                 $shoppingcartItem->getQuantity(),
-                $shoppingcartItem->article->getCost());
+                $shoppingcartItem->getArticle()->getCost());
         //if there are toppings, for each topping insert orderlinetopping
-        if (!empty($shoppingcartItem->extraToppings) && is_array($shoppingcartItem->extraToppings)) {
-            foreach ($shoppingcartItem->extraToppings as $topping) {
+        if (!empty($shoppingcartItem->getExtraToppings()) && is_array($shoppingcartItem->getExtraToppings())) {
+            foreach ($shoppingcartItem->getExtraToppings() as $topping) {
                 OrderlineToppingService::create($orderlineid, $topping);
             }
         }

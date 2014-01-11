@@ -22,9 +22,9 @@ class OrderService
         // insert order
         $orderid = OrderDAO::create($shoppingcart->getDeliverytype(),
                 1,//orderstatus
-                $shoppingcart->customer->getId(),
-                $shoppingcart->shop->getId());
-        foreach ($shoppingcart->items as $item) {
+                $shoppingcart->getCustomer()->getId(),
+                $shoppingcart->getShop()->getId());
+        foreach ($shoppingcart->getItems() as $item) {
             // for each line insert orderline
             OrderlineService::create($orderid, $item);
         }

@@ -16,7 +16,7 @@ use Pizzashop\Model\Entity\Order;
  */
 class OrderDAO
 {
-    public static function create($date, $delivery_type, $orderstatusid, $customerid, $shopid)
+    public static function create($delivery_type, $orderstatusid, $customerid, $shopid)
     {
         //create db connection
         $db = new \PDO(DB_DSN, DB_USER, DB_PASS);
@@ -26,9 +26,8 @@ class OrderDAO
         $sql .= ' VALUES (CURDATE(), :delivery_type, :status, :customerid, :shopid)';
         $stmt = $db->prepare($sql);
         //test if statement can be executed
-        if ($stmt->execute(array(':date' => $date,
-                                ':delivery_type' => $delivery_type,
-                                ':status' => $status,
+        if ($stmt->execute(array(':delivery_type' => $delivery_type,
+                                ':status' => $orderstatusid,
                                 ':customerid' => $customerid,
                                 ':shopid' => $shopid))) {
             //order is inserted

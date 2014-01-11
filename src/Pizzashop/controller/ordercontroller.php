@@ -93,4 +93,11 @@ class OrderController extends Controller
         $this->view = $this->app->environment->render('deliverymenu.twig', array('cart' => $this->model['cart']));
         print($this->view);
     }
+    
+    public function confirm()
+    {
+        //display order confirmation
+        $this->view = $this->app->environment->render('orderconfirm.twig');
+        print($this->view);
+    }
 }

@@ -9,7 +9,7 @@
 namespace Pizzashop\Model\Data;
 
 /**
- * Description of orderlinetoppingsdao
+ * Description of orderlinetoppingdao
  *
  * @author Thomas
  */

@@ -3,13 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/xampp/htdocs/pizzashop/src/Pizzashop/view/orderselect.twig</file>
-            <file>file:/D:/xampp/htdocs/pizzashop/src/Pizzashop/model/entity/deliveryzone.php</file>
-            <file>file:/D:/xampp/htdocs/pizzashop/src/Pizzashop/model/entity/shop.php</file>
-            <file>file:/D:/xampp/htdocs/pizzashop/src/Pizzashop/model/service/shoppingcartservice.php</file>
-            <file>file:/D:/xampp/htdocs/pizzashop/src/Pizzashop/model/entity/shoppingcart.php</file>
-            <file>file:/D:/xampp/htdocs/pizzashop/src/Pizzashop/model/entity/shoppingcartitem.php</file>
-            <file>file:/D:/xampp/htdocs/pizzashop/src/Pizzashop/view/deliverymenu.twig</file>
+            <file>file:/D:/xampp/htdocs/pizzashop/src/Pizzashop/model/data/orderdao.php</file>
+            <file>file:/D:/xampp/htdocs/pizzashop/src/Pizzashop/view/ordermenu.twig</file>
+            <file>file:/D:/xampp/htdocs/pizzashop/src/Pizzashop/view/orderconfirm.twig</file>
+            <file>file:/D:/xampp/htdocs/pizzashop/src/Pizzashop/model/data/orderlinetoppingdao.php</file>
             <file>file:/D:/xampp/htdocs/pizzashop/src/Pizzashop/controller/ordercontroller.php</file>
         </group>
     </open-files>

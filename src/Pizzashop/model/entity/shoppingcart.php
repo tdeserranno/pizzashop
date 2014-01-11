@@ -17,10 +17,10 @@ use Pizzashop\Model\Service\ShopService;
  */
 class Shoppingcart
 {
-    protected $customer;
-    protected $shop;
-    protected $items = array();
-    protected $deliverytype;
+    private $customer;
+    private $shop;
+    private $items = array();
+    private $deliverytype;
     private $deliverycost;
     
     function __construct($username, $shopid)
