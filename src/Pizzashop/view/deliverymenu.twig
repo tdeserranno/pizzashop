@@ -25,16 +25,28 @@
                 {% endif %}
                 </ul>
             </nav><!--end of nav-->
-            <form class="form-horizontal" role="form" method="post" action="/pizzashop/order/updateitems/">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Leveringsopties</div>
-                    
-            </form>
-            <div class="well">
-                {% if cart is defined and cart.items is not empty %}
-                    <a class="btn btn-default pull-right" href="/pizzashop/order/delivery/">Plaats bestelling</a>
-                {% endif %}
-            </div>
+            <div class="row">
+                <form class="form-horizontal" role="form" method="post" action="/pizzashop/order/updateitems/">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Leveringsopties</div>
+                        <div class="well">
+                            <div class="form-group">
+                                <input type="radio" name="delivery" id="pickup" value="pickup" required selected>
+                                <label for="pickup">Afhalen</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="radio" name="delivery" id="deliver" value="deliver" required {% if cart.candeliver == false %}disabled{% endif %}>
+                                <label for="deliver">Thuis leveren (leveringkost = {{cart.deliverycost}})</label>
+                                {% if cart.candeliver == false %}Thuislevering niet mogelijk voor uw adres{% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="well clearfix">
+                    {% if cart is defined and cart.items is not empty %}
+                        <a class="btn btn-default pull-right" href="/pizzashop/order/placeorder/">Plaats bestelling</a>
+                    {% endif %}
+                </div>
             </div><!--end of content-->
         </div><!--end of container-->
     </body>

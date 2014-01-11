@@ -79,4 +79,15 @@ class Shop
     {
         $this->deliveryzones = $deliveryzones;
     }
+    
+    public function findDeliveryzone($postcode)
+    {
+        $result = false;
+        foreach ($this->deliveryzones as $zone) {
+            if ($zone->getPostcode() == $postcode) {
+                $result = $zone->getDelivery_cost();
+            }
+        }
+        return $result;
+    }
 }

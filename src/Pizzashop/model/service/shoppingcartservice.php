@@ -71,9 +71,11 @@ class ShoppingcartService
         self::setShoppingcart($shoppingcart);
     }
     
-    public static function placeOrder($sessionuser)
+    public static function placeOrder($sessionuser, $post)
     {
         $shoppingcart = self::getShoppingcart($sessionuser);
+        //set delivery options
+        $shoppingcart->setDeliverytype($post['delivery']);
         //create order in DB
         
         //destroy shoppingcart

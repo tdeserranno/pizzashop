@@ -20,6 +20,8 @@ class Shoppingcart
     private $customer;
     private $shop;
     private $items = array();
+    private $deliverytype;
+    private $deliverycost;
     
     function __construct($username, $shopid)
     {
@@ -57,6 +59,26 @@ class Shoppingcart
         $this->items = $items;
     }
     
+    public function getDeliverytype()
+    {
+        return $this->deliverytype;
+    }
+
+    public function setDeliverytype($deliverytype)
+    {
+        $this->deliverytype = $deliverytype;
+    }
+    
+    public function getDeliverycost()
+    {
+        return $this->deliverycost;
+    }
+
+    public function setDeliverycost($deliverycost)
+    {
+        $this->deliverycost = $deliverycost;
+    }
+
     public function addItem($item)
     {
         array_push($this->items, $item);
@@ -81,5 +103,17 @@ class Shoppingcart
             $total = $total + $item->getTotal();
         }
         return $total;
+    }
+    
+    public function canDeliver()
+    {
+        // test if customer postcode is in shop delivery zones
+        $deliverycost =  $this->shop->findDeliveryzone($this->customer->getPostcode());
+        if ($deliverycost == false) {
+            return false;
+        } else {
+            $this->setDeliverycost($deliverycost);
+            return true;
+        }
     }
 }
