@@ -22,6 +22,13 @@ class ShoppingcartDAO
         return $shoppingcart;
     }
     
+    public static function destroy()
+    {
+        if (isset($_SESSION['user']['cart'])) {
+            unset ($_SESSION['user']['cart']);
+        }
+    }
+    
     public static function getSessionCart($cart)
     {
         if (isset($cart) && !empty($cart)) {

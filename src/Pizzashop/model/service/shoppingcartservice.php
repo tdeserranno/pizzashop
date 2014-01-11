@@ -77,7 +77,8 @@ class ShoppingcartService
         //set delivery options
         $shoppingcart->setDeliverytype($post['delivery']);
         //create order in DB
-        
+        OrderService::create($shoppingcart);
         //destroy shoppingcart
+        ShoppingcartDAO::destroy();
     }
 }

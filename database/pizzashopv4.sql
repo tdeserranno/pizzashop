@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 11, 2014 at 11:27 AM
+-- Generation Time: Jan 11, 2014 at 04:48 PM
 -- Server version: 5.6.14
 -- PHP Version: 5.5.6
 
@@ -132,7 +132,7 @@ CREATE TABLE IF NOT EXISTS `orderlines` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `orderid` int(11) NOT NULL,
   `articleid` int(11) NOT NULL,
-  `amount` int(4) NOT NULL,
+  `quantity` int(4) NOT NULL,
   `price` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `orderid` (`orderid`),
@@ -161,8 +161,9 @@ CREATE TABLE IF NOT EXISTS `orderlines_toppings` (
 CREATE TABLE IF NOT EXISTS `orders` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `date` date NOT NULL,
+  `delivery_type` varchar(20) NOT NULL,
   `delivery_time` datetime NOT NULL,
-  `status` tinyint(2) NOT NULL,
+  `status` int(11) NOT NULL,
   `customerid` int(11) NOT NULL,
   `shopid` int(11) NOT NULL,
   PRIMARY KEY (`id`),
@@ -178,7 +179,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
 --
 
 CREATE TABLE IF NOT EXISTS `orderstatus` (
-  `id` tinyint(2) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `description` varchar(30) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;

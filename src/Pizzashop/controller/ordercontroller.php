@@ -79,7 +79,7 @@ class OrderController extends Controller
     
     public function placeOrder()
     {
-        ShoppingcartService::placeOrder($_SESSION['user']);
+        ShoppingcartService::placeOrder($_SESSION['user'], $_POST);
         //redirect to order confirmation
         header('location: /pizzashop/order/confirm');
         exit();
