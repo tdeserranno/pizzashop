@@ -66,4 +66,20 @@ class Shoppingcart
     {
         array_splice($this->items, $index, 1);
     }
+    
+    public function updateItems($quantityArray)
+    {
+        foreach ($quantityArray as $key => $quantity) {
+            $this->items[$key]->setQuantity($quantity);
+        }
+    }
+    
+    public function getTotal()
+    {
+        $total = 0;
+        foreach ($this->items as $item) {
+            $total = $total + $item->getTotal();
+        }
+        return $total;
+    }
 }

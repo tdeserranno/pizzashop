@@ -64,4 +64,11 @@ class ShoppingcartItem
         }
         return $cost;
     }
+    
+    public function getTotal()
+    {
+        $cost = $this->getCost();
+        $total = $cost * $this->quantity;
+        return $total;
+    }
 }

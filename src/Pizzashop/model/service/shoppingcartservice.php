@@ -67,6 +67,15 @@ class ShoppingcartService
     public static function updateItems($sessionuser, $post)
     {
         $shoppingcart = self::getShoppingcart($sessionuser);
+        $shoppingcart->updateItems($post['quantity']);
+        self::setShoppingcart($shoppingcart);
+    }
+    
+    public static function placeOrder($sessionuser)
+    {
+        $shoppingcart = self::getShoppingcart($sessionuser);
+        //create order in DB
         
+        //destroy shoppingcart
     }
 }

@@ -76,4 +76,21 @@ class OrderController extends Controller
         header('location: /pizzashop/order/go');
         exit();
     }
+    
+    public function placeOrder()
+    {
+        ShoppingcartService::placeOrder($_SESSION['user']);
+        //redirect to order confirmation
+        header('location: /pizzashop/order/confirm');
+        exit();
+    }
+    
+    public function delivery()
+    {
+       //get current shopping cart
+        $this->model['cart'] = ShoppingcartService::getShoppingcart($_SESSION['user']);
+        //display delivery options view
+        $this->view = $this->app->environment->render('deliverymenu.twig', array('cart' => $this->model['cart']));
+        print($this->view);
+    }
 }

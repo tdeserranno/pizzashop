@@ -33,7 +33,7 @@
                         <div class="well">
                             {% for article in articles %}
                                 <div class="form-group">
-                                    <input type="radio" name="id" id="{{article.id}}}" value="{{article.id}}">
+                                    <input type="radio" name="id" id="{{article.id}}}" value="{{article.id}}" required>
                                     <label for="{{article.id}}">
                                         {{article.name}}
                                         {% if article.promo_status == 1 %}

@@ -34,7 +34,7 @@
                         <input type="hidden" name="id" value="{{ article.id }}">
                         <div class="form-group">
                             <label for="name" class="col-lg-1">Naam</label>
-                            <div class="col-lg-5"><input class="form-control" id="name" name="name" type="text" value="{{ article.name }}"></div>
+                            <div class="col-lg-5"><input class="form-control" id="name" name="name" type="text" value="{{ article.name }}" required></div>
                         </div>
                         <div class="form-group">
                             <label for="description" class="col-lg-1">Omschrijving</label>
@@ -46,15 +46,15 @@
                         </div>
                         <div class="form-group">
                             <label for="price" class="col-lg-1">Prijs</label>
-                            <div class="col-lg-5"><input class="form-control" id="price" name="price" type="text" value="{{ article.price }}"></div>
+                            <div class="col-lg-5"><input class="form-control" id="price" name="price" type="text" value="{{ article.price }}" required></div>
                         </div>
                         <div class="form-group">
                             <label for="promo_status" class="col-lg-1">Promotie</label>
-                            <div class="col-lg-5"><input class="form-control" id="promo_status" name="promo_status" type="text" value="{{ article.promo_status }}"></div>
+                            <div class="col-lg-5"><input class="form-control" id="promo_status" name="promo_status" type="text" value="{{ article.promo_status }}" required></div>
                         </div>
                         <div class="form-group">
                             <label for="promo_price" class="col-lg-1">Promoprijs</label>
-                            <div class="col-lg-5"><input class="form-control" id="promo_price" name="promo_price" type="text" value="{{ article.promo_price }}"></div>
+                            <div class="col-lg-5"><input class="form-control" id="promo_price" name="promo_price" type="text" value="{{ article.promo_price }}" required></div>
                         </div>
                         <div class="form-group">
                             <label for="category" class="col-lg-1">Categorie</label>
