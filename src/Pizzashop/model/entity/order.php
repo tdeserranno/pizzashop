@@ -114,4 +114,13 @@ class Order
     {
         $this->orderlines = $orderlines;
     }
+    
+    public function getTotal()
+    {
+        $total = 0;
+        foreach ($this->orderlines as $line) {
+            $total = $total + ($line->getPrice()*$line->getQuantity());
+        }
+        return $total;
+    }
 }

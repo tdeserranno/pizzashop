@@ -7,6 +7,7 @@
  */
 
 namespace Pizzashop\Model\Data;
+use Pizzashop\Model\Service\ToppingService;
 
 /**
  * Description of orderlinetoppingdao
@@ -30,6 +31,33 @@ class OrderlineToppingDAO
                 //orderlinetopping is inserted
         } else {
             throw new \Exception('orderlines_toppings insert statement could not be executed');
+        }
+    }
+    
+    public static function getToppingsByOrderline($orderlineid)
+    {
+        //create db connection
+        $db = new \PDO(DB_DSN, DB_USER, DB_PASS);
+        //prepare sql statement
+        $sql = 'SELECT * FROM orderlines_toppings WHERE orderlineid = :orderlineid';
+        $stmt = $db->prepare($sql);
+        //test if statement can be executed
+        if ($stmt->execute(array(':orderlineid' => $orderlineid))) {
+            //test if statement retrieved something
+            $recordset = $stmt->fetchAll();
+//            if (!empty($recordset)) {
+                //create object(s) and return
+                $result = array();
+                foreach ($recordset as $record) {
+                    $topping = ToppingService::showTopping($record['toppingid']);
+                    array_push($result, $topping);
+                }
+                return $result;
+//            } else {
+//                throw new \Exception('orderlines_toppings getbyid recordset empty');
+//            }
+        } else {
+            throw new \Exception('orderlines_toppings getbyid statement could not be executed');
         }
     }
 }

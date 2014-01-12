@@ -54,7 +54,7 @@ class OrderstatusDAO
                 //create object(s) and return
                 $result = array();
                 foreach ($recordset as $record) {
-                    $orderstatus = new Orderstatus($id, $record['description']);
+                    $orderstatus = new Orderstatus($record['id'], $record['description']);
                     array_push($result, $orderstatus);
                 }                
                 return $result;

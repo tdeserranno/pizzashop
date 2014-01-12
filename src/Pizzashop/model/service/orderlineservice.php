@@ -31,4 +31,10 @@ class OrderlineService
             }
         }
     }
+    
+    public static function showOrderlines($orderid)
+    {
+        $result = OrderlineDAO::getByOrder($orderid);
+        return $result;
+    }
 }

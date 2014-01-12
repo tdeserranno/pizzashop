@@ -20,4 +20,10 @@ class OrderlineToppingService
     {
         OrderlineToppingDAO::create($orderlineid, $topping->getId());
     }
+    
+    public static function getByOrderline($orderlineid)
+    {
+        $result = OrderlineToppingDAO::getToppingsByOrderline($orderlineid);
+        return $result;
+    }
 }

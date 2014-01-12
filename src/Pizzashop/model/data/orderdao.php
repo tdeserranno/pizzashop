@@ -8,6 +8,10 @@
 
 namespace Pizzashop\Model\Data;
 use Pizzashop\Model\Entity\Order;
+use Pizzashop\Model\Service\OrderstatusService;
+use Pizzashop\Model\Service\CustomerService;
+use Pizzashop\Model\Service\ShopService;
+use Pizzashop\Model\Service\OrderlineService;
 
 /**
  * Description of orderdao
@@ -34,6 +38,67 @@ class OrderDAO
             return $db->lastInsertId();
         } else {
             throw new \Exception('order insert statement could not be executed');
+        }
+    }
+    
+    public static function getAll()
+    {
+        //create db connection
+        $db = new \PDO(DB_DSN, DB_USER, DB_PASS);
+        //prepare sql statement
+        $sql = 'SELECT * FROM orders';
+        $stmt = $db->prepare($sql);
+        //test if statement can be executed
+        if ($stmt->execute()) {
+            //test if statement retrieved something
+            $recordset = $stmt->fetchAll();
+            if (!empty($recordset)) {
+                //create object(s) and return
+                $result = array();
+                foreach ($recordset as $record) {
+                    //create orderstatus object
+                    $orderstatus = OrderstatusService::showOrderstatus($record['status']);
+                    //create customer object
+                    $customer = CustomerService::showCustomer($record['customerid']);
+                    //create shop object
+                    $shop = ShopService::getShop($record['shopid']);
+                    //create orderlines object array
+                    $orderlines = OrderlineService::showOrderlines($record['id']);
+                    //create order object
+                    $order = new Order(
+                            $record['id'],
+                            $record['date'],
+                            $record['delivery_type'],
+                            $orderstatus,
+                            $customer,
+                            $shop,
+                            $orderlines);
+                    array_push($result, $order);
+                }
+                return $result;
+            } else {
+                throw new \Exception('order getall recordset empty');
+            }
+        } else {
+            throw new \Exception('order getall statement could not be executed');
+        }
+    }
+    
+    public static function updateStatus($id, $status)
+    {
+        //create db connection
+        $db = new \PDO(DB_DSN, DB_USER, DB_PASS);
+        //prepare sql statement
+        $sql = 'UPDATE orders SET';
+        $sql .= ' status = :status';
+        $sql .= ' WHERE id = :id';
+        $stmt = $db->prepare($sql);
+        //test if statement can be executed
+        if ($stmt->execute(array(':status' => $status,
+                                ':id' => $id))) {
+            //orderstatus updated
+        } else {
+            throw new \Exception('order updatestatus statement could not be executed');
         }
     }
 }

@@ -29,4 +29,19 @@ class OrderService
             OrderlineService::create($orderid, $item);
         }
     }
+    
+    public static function showOrderlist()
+    {
+        $result = OrderDAO::getAll();
+        return $result;
+    }
+    
+    public static function updateOrderstatus($post)
+    {
+        if (isset($post)) {
+            foreach ($post['order'] as $key => $line) {
+                OrderDAO::updateStatus($post['order'][$key], $post['orderstatus'][$key]);
+            }
+        }
+    }
 }
