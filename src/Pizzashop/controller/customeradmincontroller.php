@@ -1,18 +1,14 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Pizzashop\Controller;
 use Pizzashop\Model\Service\CustomerService;
 use Pizzashop\Model\Service\UserService;
 use Library\Controller;
 
 /**
- * Description of customerscontroller
+ * Description of customeradmincontroller
+ * 
+ * Controller that handles the customer admin section of the app.
  *
  * @author cyber02
  */

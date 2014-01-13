@@ -5,6 +5,8 @@ use Library\Controller;
 
 /**
  * Description of homecontroller
+ * 
+ * Controller that shows the application homepage.
  *
  * @author Thomas
  */

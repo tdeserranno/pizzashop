@@ -34,12 +34,18 @@ class CustomerService
     public static function createCustomer($post)
     {
         if (isset($post)) {
+            if (isset($post['active_status']) && $post['active_status'] == 'yes') {
+                $active = true;
+            } else {
+                $active = false;
+            }
             CustomerDAO::create($post['firstname'],
                     $post['lastname'],
                     $post['address'],
                     $post['postcode'],
                     $post['city'],
                     $post['telephone'],
+                    $active,
                     $post['username']);
         }
     }
@@ -47,6 +53,11 @@ class CustomerService
     public static function update($post)
     {
         if (isset($post['id'])) {
+            if (isset($post['active_status']) && $post['active_status'] == 'yes') {
+                $active = true;
+            } else {
+                $active = false;
+            }
             CustomerDAO::update($post['id'],
                     $post['firstname'],
                     $post['lastname'],
@@ -54,7 +65,7 @@ class CustomerService
                     $post['postcode'],
                     $post['city'],
                     $post['telephone'],
-                    $post['active_status']);
+                    $active);
         }
     }
     
@@ -76,5 +87,11 @@ class CustomerService
             $result = CustomerDAO::getByUsername($username);
             return $result;
         }
+    }
+    
+    public static function showOpenOrderCustomers()
+    {
+        $result = CustomerDAO::getUndeliveredCustomers();
+        return $result;
     }
 }

@@ -21,7 +21,6 @@ class Shoppingcart
     private $shop;
     private $items = array();
     private $deliverytype;
-    private $deliverycost;
     
     function __construct($username, $shopid)
     {
@@ -69,16 +68,6 @@ class Shoppingcart
         $this->deliverytype = $deliverytype;
     }
     
-    public function getDeliverycost()
-    {
-        return $this->deliverycost;
-    }
-
-    public function setDeliverycost($deliverycost)
-    {
-        $this->deliverycost = $deliverycost;
-    }
-
     public function addItem($item)
     {
         array_push($this->items, $item);
@@ -102,6 +91,9 @@ class Shoppingcart
         foreach ($this->items as $item) {
             $total = $total + $item->getTotal();
         }
+        if (isset($this->deliverytype) && $this->deliverytype == 'deliver') {
+            $total = $total + $this->canDeliver();
+        }
         return $total;
     }
     
@@ -112,8 +104,7 @@ class Shoppingcart
         if ($deliverycost == false) {
             return false;
         } else {
-            $this->setDeliverycost($deliverycost);
-            return true;
+            return $deliverycost;
         }
     }
 }

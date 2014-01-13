@@ -9,7 +9,7 @@
         <div class="container">
             <nav class="navbar navbar-default row">
                 <ul class="nav navbar-nav navbar-left">
-                    <li><a href="/pizzashop/menu/showall/">Menu</a></li>
+                    <li><a href="/pizzashop/menu/show/pizza">Menu</a></li>
                     {% if session.user is defined %}
                     <li><a href="/pizzashop/order/go/">Bestel</a></li>
                     {% endif %}
@@ -34,10 +34,11 @@
                                 <input type="radio" name="delivery" id="pickup" value="pickup" required selected>
                                 <label for="pickup">Afhalen</label>
                             </div>
+                            {%set candeliver = cart.candeliver%}
                             <div class="form-group">
-                                <input type="radio" name="delivery" id="deliver" value="deliver" required {% if cart.candeliver == false %}disabled{% endif %}>
-                                <label for="deliver">Thuis leveren (leveringkost = {{cart.deliverycost}})</label>
-                                {% if cart.candeliver == false %}Thuislevering niet mogelijk voor uw adres{% endif %}
+                                <input type="radio" name="delivery" id="deliver" value="deliver" required {% if candeliver == false %}disabled{% endif %}>
+                                <label for="deliver">Thuis leveren (leveringkost = {{candeliver}})</label>
+                                {% if candeliver == false %}Thuislevering niet mogelijk voor uw adres{% endif %}
                             </div>
                         </div>
                     </div>

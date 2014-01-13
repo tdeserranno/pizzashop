@@ -4,7 +4,7 @@ use Doctrine\Common\ClassLoader;
 
 /**
  * Description of AbstractMVCFramework
- * Instanciates a Doctrine classloader for the Library, which essentially contains
+ * Instanciates a Doctrine classloader for the Library, needed to load
  * the framework classes
  *
  * @author cyber02

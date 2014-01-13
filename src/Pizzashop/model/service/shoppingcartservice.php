@@ -31,7 +31,12 @@ class ShoppingcartService
             $shoppingcart = ShoppingcartDAO::create($username, 1);
             self::setShoppingcart($shoppingcart);
         }
-        return $shoppingcart;
+        if ($shoppingcart->getCustomer()->getActive_status() == 1) {
+            return $shoppingcart;
+        } else {
+            ShoppingcartDAO::destroy();
+            throw new \Exception('customer does not have active status');
+        }
     }
     
     public static function setShoppingcart($shoppingcart)

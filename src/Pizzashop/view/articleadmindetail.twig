@@ -14,8 +14,7 @@
                     <li><a href="/pizzashop/toppingadmin/viewall/">Toppings</a></li>
                     <li><a href="/pizzashop/customeradmin/viewall/">Klanten</a></li>
                     <li><a href="/pizzashop/orderadmin/viewall/">Orders</a></li>
-                    <li><a href="/pizzashop/admin/go/">Rapport bestellingen</a></li>
-                    <li><a href="/pizzashop/admin/go/">Leverlijst</a></li>
+                    <li><a href="/pizzashop/shippingadmin/viewlist/">Leveringlijst</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                 {% if session.user is not defined %}
@@ -50,9 +49,9 @@
                             <div class="col-lg-5"><input class="form-control" id="price" name="price" type="text" value="{{ article.price }}" required></div>
                         </div>
                         <div class="form-group">
-                            <label for="promo_status" class="col-lg-1">Promotie</label>
-                            <div class="col-lg-5"><input class="form-control" id="promo_status" name="promo_status" type="text" value="{{ article.promo_status }}" required></div>
-                        </div>
+                                <label class="col-lg-2" for="active_status">Promotie</label>
+                                <div class="col-lg-1"><input name="active_status" id="active_status" type="checkbox" value="yes"{%if article.promo_status == true%}checked{%endif%}></div>
+                            </div>
                         <div class="form-group">
                             <label for="promo_price" class="col-lg-1">Promoprijs</label>
                             <div class="col-lg-5"><input class="form-control" id="promo_price" name="promo_price" type="text" value="{{ article.promo_price }}" required></div>

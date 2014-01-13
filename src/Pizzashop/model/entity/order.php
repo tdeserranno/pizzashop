@@ -115,6 +115,8 @@ class Order
         $this->orderlines = $orderlines;
     }
     
+    
+    
     public function getTotal()
     {
         $total = 0;
@@ -122,5 +124,16 @@ class Order
             $total = $total + ($line->getPrice()*$line->getQuantity());
         }
         return $total;
+    }
+    
+    public function canDeliver()
+    {
+        // test if customer postcode is in shop delivery zones
+        $deliverycost =  $this->shop->findDeliveryzone($this->customer->getPostcode());
+        if ($deliverycost == false) {
+            return false;
+        } else {
+            return $deliverycost;
+        }
     }
 }

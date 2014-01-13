@@ -10,8 +10,8 @@
         <div class="container">
             <nav class="navbar navbar-default row">
                 <ul class="nav navbar-nav navbar-left">
-                    <li><a href="/pizzashop/menu/showall/">Menu</a></li>
-                    {% if session.user is defined %}
+                    <li><a href="/pizzashop/menu/show/pizza">Menu</a></li>
+                    {% if session.user is defined and session.user.admin != 1%}
                         <li><a href="/pizzashop/order/go/">Bestel</a></li>
                     {% endif %}
                 </ul>

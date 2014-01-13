@@ -11,6 +11,9 @@ use Library\Exception\AuthenticationException;
  */
 class Helper
 {
+    /**
+     * Secure version of the standard session_start() function 
+     */
     public function sec_session_start()
     {
         $session_name = 'sec_session_id'; //set a custom session name
@@ -24,6 +27,18 @@ class Helper
         session_regenerate_id();    
     }
 
+    /**
+     * Function that determines if the current user as access to the requested
+     * controller.
+     * Access to different sections of the application is solely determined by
+     * which controller is requested. The controllers that allow for public
+     * access should be listed in the $public_access array.
+     * If a controller other than those is requested and the user isn't logged
+     * in it will throw an AuthenticationException with code 1.
+     * Code 1 AuthenticationExceptions caught in the dispatcher will result in
+     * a redirect to the login page.
+     * @throws AuthenticationException
+     */
     public function check_access_allowed()
     {
         //determine requested controller

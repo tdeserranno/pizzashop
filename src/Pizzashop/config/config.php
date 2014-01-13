@@ -2,7 +2,7 @@
 
 /** Application config file
  *  Contains defined constants needed for DB access
- *  (could be rewritten to class format)
+ *  (could be rewritten to class format?)
  */
 
 define('DB_USER', 'Thomas');

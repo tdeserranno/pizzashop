@@ -15,8 +15,7 @@
                     <li><a href="/pizzashop/toppingadmin/viewall/">Toppings</a></li>
                     <li><a href="/pizzashop/customeradmin/viewall/">Klanten</a></li>
                     <li><a href="/pizzashop/orderadmin/viewall/">Orders</a></li>
-                    <li><a href="/pizzashop/admin/go/">Rapport bestellingen</a></li>
-                    <li><a href="/pizzashop/admin/go/">Leverlijst</a></li>
+                    <li><a href="/pizzashop/shippingadmin/viewlist/">Leveringlijst</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                 {% if session.user is not defined %}
@@ -30,41 +29,54 @@
                 </ul>
             </nav><!--end of nav-->
             <div class="row">
-                <form class="form-horizontal" role="form" method="post" action="/pizzashop/orderadmin/savestatus">
                     <div class="panel panel-primary">
                         <div class="panel-heading">Orderlijst</div>
-                        <table class="table">
-                            <thead>
-                                <tr class="active">
-                                    <td>Klant</td>
-                                    <td>Datum</td>
-                                    <td>Ordertotaal</td>
-                                    <td>Orderstatus</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for order in orders %}
-                                    <tr>
-                                        <input type="hidden" name="order[]" value="{{order.id}}">
-                                        <td>{{ order.customer.fullname }}</a></td>
-                                        <td>{{ order.date }}</td>
-                                        <td>{{ order.total }}</td>
-                                        <td>
-                                            <select name="orderstatus[]">
-                                                {% for status in orderstatus %}
-                                                    <option value="{{status.id}}" {%if order.orderstatus.id == status.id%}selected{%endif%}>{{status.description}}</option>
-                                                {% endfor %}
-                                            </select>
-                                        </td>
+                        <form class="form-horizontal" role="form" method="post" action="/pizzashop/orderadmin/viewcustomer">
+                            <div class="well">
+                                <select name="customer">
+                                    {% for customer in customers %}
+                                        <option value="{{customer.id}}"{%if customer.id == selectedcustomer%}selected{%endif%}>{{customer.fullname}}</option>
+                                    {% endfor %}
+                                </select>
+                                <input class="btn btn-default" type="submit" value="Toon Orders">
+                            </div>
+                        </form>
+                        <form class="form-horizontal" role="form" method="post" action="/pizzashop/orderadmin/savestatus">
+                            <table class="table">
+                                <thead>
+                                    <tr class="active">
+                                        <td>Klant</td>
+                                        <td>Datum</td>
+                                        <td>Type</td>
+                                        <td>Ordertotaal</td>
+                                        <td>Orderstatus</td>
                                     </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                        <div class="well">
-                            <input type="submit" value="Opslaan">
-                        </div>
+                                </thead>
+                                <tbody>
+                                    {% for order in orders %}
+                                        <tr>
+                                            <input type="hidden" name="order[]" value="{{order.id}}">
+                                            <td>{{ order.customer.fullname }}</a></td>
+                                            <td>{{ order.date }}</td>
+                                            <td>{{ order.delivery_type }}</td>
+                                            <td>{{ order.total }}</td>
+                                            <td>
+                                                <select name="orderstatus[]">
+                                                    {% for status in orderstatus %}
+                                                        <option value="{{status.id}}" {%if order.orderstatus.id == status.id%}selected{%endif%}>{{status.description}}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="well">
+                                <input class="btn btn-default" type="submit" value="Status opslaan">
+                            </div>
+                        </form>
                     </div><!--end of panel-->
-                </form>
+                
             </div><!--end of content-->
         </div><!--end of container-->
     </body>

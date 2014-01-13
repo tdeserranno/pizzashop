@@ -10,6 +10,7 @@ namespace Pizzashop\Controller;
 use Library\Controller;
 use Pizzashop\Model\Service\OrderService;
 use Pizzashop\Model\Service\OrderstatusService;
+use Pizzashop\Model\Service\CustomerService;
 
 /**
  * Description of orderadmincontroller
@@ -29,12 +30,37 @@ class OrderadminController extends Controller
         $this->model['orders'] = OrderService::showOrderlist();
         //get orderstatus
         $this->model['orderstatus'] = OrderstatusService::showOrderstatuslist();
+        //get customers
+        $this->model['customers'] = CustomerService::showCustomerlist();
         //display admin orderlist 
-//        var_dump($this->model);
-        $this->view = $this->app->environment->render('orderadminlist.twig', array('orders' => $this->model['orders'],'orderstatus' => $this->model['orderstatus']));
+        $this->view = $this->app->environment->render(
+                'orderadminlist.twig',
+                array(
+                    'orders' => $this->model['orders'],
+                    'orderstatus' => $this->model['orderstatus'],
+                    'customers' => $this->model['customers']));
         print($this->view);
     }
     
+    public function viewCustomer()
+    {
+        //get orders
+        $this->model['orders'] = OrderService::showOrdersByCustomer($_POST['customer']);
+        //get orderstatus
+        $this->model['orderstatus'] = OrderstatusService::showOrderstatuslist();
+        //get customers
+        $this->model['customers'] = CustomerService::showCustomerlist();
+        //display admin orderlist 
+        $this->view = $this->app->environment->render(
+                'orderadminlist.twig',
+                array(
+                    'orders' => $this->model['orders'],
+                    'orderstatus' => $this->model['orderstatus'],
+                    'customers' => $this->model['customers'],
+                    'selectedcustomer' => $_POST['customer']));
+        print($this->view);
+    }
+
     public function saveStatus()
     {
         //update status

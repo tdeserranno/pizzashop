@@ -1,17 +1,13 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Pizzashop\Controller;
 use Library\Controller;
 use Pizzashop\Model\Service\ToppingService;
 
 /**
  * Description of toppingadmincontroller
+ * 
+ * Controller that handles the topping admin section of the app.
  *
  * @author cyber02
  */

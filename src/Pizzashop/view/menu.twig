@@ -4,14 +4,15 @@
         <meta charset="UTF-8">
         <title></title>
         <link rel="stylesheet" href="/pizzashop/public/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/pizzashop/public/css/pizzashop_main.css">
     </head>
     <body>
         <div class="container">
             <nav class="navbar navbar-default row">
                 <ul class="nav navbar-nav navbar-left">
                     <li><a href="/pizzashop/home/go/">Home</a></li>
-                    <li><a href="/pizzashop/menu/showall/">Menu</a></li>
-                    {% if session.user is defined %}
+                    <li><a href="/pizzashop/menu/show/pizza">Menu</a></li>
+                    {% if session.user is defined and session.user.admin != 1%}
                         <li><a href="/pizzashop/order/go/">Bestel</a></li>
                     {% endif %}
                 </ul>
@@ -30,7 +31,7 @@
                 <div class="well">
                     <a class="btn btn-default" href="/pizzashop/menu/show/pizza">Toon pizza's</a>
                     <a class="btn btn-default" href="/pizzashop/menu/show/drank">Toon drank</a>
-                    <a class="btn btn-default" href="/pizzashop/menu/showall/">Toon alles</a>
+                    <a class="btn btn-default" href="/pizzashop/menu/showtoppings/">Toon extra toppings</a>
                 </div>
                 <div class="panel panel-primary">
                     <div class="panel-heading">Artikellijst</div>
@@ -47,7 +48,7 @@
                         <tbody>
                             {% for article in articles %}
                                 <tr>
-                                    <td><img src="{{ article.image }}"></a></td>
+                                    <td><img class="menuitemimg" src="/pizzashop/public/images/{{ article.image }}"></a></td>
                                     <td>{{ article.name }}</td>
                                     <td>{{ article.description }}</td>
                                     <td>{{ article.cost }}</td>

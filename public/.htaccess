@@ -1,4 +1,4 @@
-#reroute all requests to index.php
+#reroute all requests to index.php except exact filenames
 <IfModule mod_rewrite.c>
 RewriteEngine On
 

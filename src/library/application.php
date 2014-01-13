@@ -9,7 +9,7 @@ use Library\Helper;
 /**
  * Description of Application
  * Application class that instanciates the necessary Doctrine autoloader,
- * Twig environment and loads Helper and Session class and config file
+ * Twig environment and loads Helper class and config file
  * for the application.
  *
  * @author cyber02

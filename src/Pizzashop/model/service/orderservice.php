@@ -36,6 +36,12 @@ class OrderService
         return $result;
     }
     
+    public static function showOrdersByCustomer($customerid)
+    {
+        $result = OrderDAO::getByCustomer($customerid);
+        return $result;
+    }
+    
     public static function updateOrderstatus($post)
     {
         if (isset($post)) {
@@ -43,5 +49,23 @@ class OrderService
                 OrderDAO::updateStatus($post['order'][$key], $post['orderstatus'][$key]);
             }
         }
+    }
+    
+    public static function showOpenOrders()
+    {
+        $result = OrderDAO::getUndelivered();
+        return $result;
+    }
+    
+    public static function showOpenOrdersTotal()
+    {
+        $result = OrderDAO::getUndeliveredTotal();
+        return $result;
+    }
+    
+    public static function showOpenOrdersCustomerTotals()
+    {
+        $result = OrderDAO::getUndeliveredCustomerTotals();
+        return $result;
     }
 }

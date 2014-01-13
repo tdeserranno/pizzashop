@@ -5,7 +5,9 @@ use Library\Controller;
 use Pizzashop\Model\Service\UserService;
 
 /**
- * Description of auth
+ * Description of authcontroller
+ * 
+ * Controller that handles user authentication
  *
  * @author Thomas
  */

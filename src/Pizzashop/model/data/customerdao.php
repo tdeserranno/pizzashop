@@ -80,14 +80,14 @@ class CustomerDAO
         }
     }
     
-    public static function create($firstname, $lastname, $address, $postcode, $city, $telephone, $username)
+    public static function create($firstname, $lastname, $address, $postcode, $city, $telephone, $active_status, $username)
     {
         //create db connection
         $db = new \PDO(DB_DSN, DB_USER, DB_PASS);
         //prepare sql statement
         $sql = 'INSERT INTO customers';
-        $sql .= ' (firstname, lastname, address, postcode, city, telephone, username)';
-        $sql .= ' VALUES (:firstname, :lastname, :address, :postcode, :city, :telephone, :username)';
+        $sql .= ' (firstname, lastname, address, postcode, city, telephone, active_status, username)';
+        $sql .= ' VALUES (:firstname, :lastname, :address, :postcode, :city, :telephone, :active_status, :username)';
         $stmt = $db->prepare($sql);
         //test if statement can be executed
         if ($stmt->execute(array(':firstname' => $firstname,
@@ -96,6 +96,7 @@ class CustomerDAO
                                 ':postcode' => $postcode,
                                 ':city' => $city,
                                 ':telephone' => $telephone,
+                                ':active_status' => $active_status,
                                 ':username' => $username))) {
                 //updated                
         } else {
@@ -178,6 +179,47 @@ class CustomerDAO
             }
         } else {
             throw new \Exception('customer getbyusername statement could not be executed');
+        }
+    }
+    
+    public static function getUndeliveredCustomers()
+    {
+        //create db connection
+        $db = new \PDO(DB_DSN, DB_USER, DB_PASS);
+        //prepare sql statement
+         $sql = 'SELECT * FROM customers WHERE id IN '
+                 . '(SELECT customerid FROM orders WHERE status IN '
+                 . '(SELECT id FROM orderstatus WHERE description NOT IN (\'geleverd\', \'gesloten\')) '
+                 . 'AND delivery_type = \'deliver\')';
+        $stmt = $db->prepare($sql);
+        //test if statement can be executed
+        if ($stmt->execute()) {
+            //test if statement retrieved something
+            $recordset = $stmt->fetchAll();
+//            if (!empty($record)) {
+            $result = array();
+            foreach ($recordset as $record) {
+                //create object(s) and return
+                $customer = new Customer(
+                        $record['id'],
+                        $record['firstname'],
+                        $record['lastname'],
+                        $record['address'],
+                        $record['postcode'],
+                        $record['city'],
+                        $record['telephone'],
+                        $record['active_status'],
+                        $record['username']
+                        );
+                        array_push($result, $customer);
+            }
+                
+                return $result;
+//            } else {
+//                throw new \Exception('customer undelivered recordset empty');
+//            }
+        } else {
+            throw new \Exception('customer undelivered statement could not be executed');
         }
     }
 }

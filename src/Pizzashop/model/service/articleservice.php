@@ -41,12 +41,17 @@ class ArticleService
     public static function update($post)
     {
         if (isset($post['id'])) {
+            if (isset($post['promo_status']) && $post['promo_status'] == 'yes') {
+                $promo = true;
+            } else {
+                $promo = false;
+            }
             ArticleDAO::update($post['id'],
                     $post['name'],
                     $post['description'],
                     $post['image'],
                     $post['price'],
-                    $post['promo_status'],
+                    $promo,
                     $post['promo_price'],
                     $post['category']);
         }
@@ -55,11 +60,16 @@ class ArticleService
     public static function create($post)
     {
         if (isset($post)) {
+            if (isset($post['promo_status']) && $post['promo_status'] == 'yes') {
+                $promo = true;
+            } else {
+                $promo = false;
+            }
             ArticleDAO::create($post['name'],
                     $post['description'],
                     $post['image'],
                     $post['price'],
-                    $post['promo_status'],
+                    $promo,
                     $post['promo_price'],
                     $post['category']);
         }
