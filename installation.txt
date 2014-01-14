@@ -1,0 +1,15 @@
+******************
+** Installation **
+******************
+
+1. Copy contents of this folder into a folder named 'pizzashop' (no quotes) in the root of your webserver (e.g. c:\xampp\htdocs\).
+
+2. Import MySQL database using the most recent file in the database folder.
+	If the import gives errors you may need to manually create a database called 'pizzashop' (no quotes), nagivate to it and then perform the import.
+
+*************
+** DB User **
+*************
+
+Settings for DB access in the application can be found in config.php file in the src/Pizzashop/config folder.
+Change the username and password according to your MySQL setup.

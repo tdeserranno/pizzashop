@@ -26,13 +26,15 @@ class ToppingService
     {
         if (isset($id)) {
             $result = ToppingDAO::getById($id);
-        }
         return $result;
+        } else {
+            throw new \Exception('attempting to run getShop(id) with empty id');
+        }
     }
     
     public static function update($post)
     {
-        if (isset($post['id'])) {
+        if (isset($post['id'], $post['name'], $post['price']) && !empty($post['id'])) {
             ToppingDAO::update($post['id'], $post['name'], $post['price']);
         }
     }
@@ -46,7 +48,7 @@ class ToppingService
     
     public static function delete($id)
     {
-        if (isset($id)) {
+        if (isset($id) && !empty($id)) {
             ToppingDAO::delete($id);
         }
     }    

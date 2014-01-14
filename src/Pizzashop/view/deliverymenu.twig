@@ -26,7 +26,7 @@
                 </ul>
             </nav><!--end of nav-->
             <div class="row">
-                <form class="form-horizontal" role="form" method="post" action="/pizzashop/order/placeorder/">
+                <form class="form-horizontal" role="form" method="post" action="/pizzashop/order/setdelivery/">
                     <div class="panel panel-default">
                         <div class="panel-heading">Leveringsopties</div>
                         <div class="well">
@@ -38,13 +38,14 @@
                             <div class="form-group">
                                 <input type="radio" name="delivery" id="deliver" value="deliver" required {% if candeliver == false %}disabled{% endif %}>
                                 <label for="deliver">Thuis leveren (leveringkost = {{candeliver}})</label>
+                                <input type="hidden" name="deliverycost" value="{{candeliver}}">
                                 {% if candeliver == false %}Thuislevering niet mogelijk voor uw adres{% endif %}
                             </div>
                         </div>
                     </div>
                     <div class="well clearfix">
                         {% if cart is defined and cart.items is not empty %}
-                            <input type="submit" class="btn btn-default" value="Bestelling plaatsen">
+                            <input type="submit" class="btn btn-default" value="Ga verder">
                         {% endif %}
                     </div>
                 </form>

@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Pizzashop\Model\Service;
 use Pizzashop\Model\Data\OrderDAO;
 use Pizzashop\Model\Service\OrderlineService;
@@ -19,14 +13,18 @@ class OrderService
 {
     public static function create($shoppingcart)
     {
-        // insert order
-        $orderid = OrderDAO::create($shoppingcart->getDeliverytype(),
-                1,//orderstatus
-                $shoppingcart->getCustomer()->getId(),
-                $shoppingcart->getShop()->getId());
-        foreach ($shoppingcart->getItems() as $item) {
-            // for each line insert orderline
-            OrderlineService::create($orderid, $item);
+        if (isset($shoppingcart) && is_object($shoppingcart)) {
+            // insert order
+            $orderid = OrderDAO::create(
+                    $shoppingcart->getDeliverytype(),
+                    1,//orderstatus
+                    $shoppingcart->getCustomer()->getId(),
+                    $shoppingcart->getShop()->getId()
+                    );
+            foreach ($shoppingcart->getItems() as $item) {
+                // for each line insert orderline
+                OrderlineService::create($orderid, $item);
+            }
         }
     }
     
@@ -38,13 +36,17 @@ class OrderService
     
     public static function showOrdersByCustomer($customerid)
     {
-        $result = OrderDAO::getByCustomer($customerid);
-        return $result;
+        if (isset($customerid) && !empty($customerid)) {
+            $result = OrderDAO::getByCustomer($customerid);
+            return $result;
+        } else {
+            throw new \Exception('attempting to run showOrdersByCustomer(id) with empty id');
+        }
     }
     
     public static function updateOrderstatus($post)
     {
-        if (isset($post)) {
+        if (isset($post['order'], $post['orderstatus'])) {
             foreach ($post['order'] as $key => $line) {
                 OrderDAO::updateStatus($post['order'][$key], $post['orderstatus'][$key]);
             }

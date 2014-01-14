@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Pizzashop\Model\Service;
 use Pizzashop\Model\Data\CategoryDAO;
 
@@ -24,7 +18,11 @@ class CategoryService
     
     public static function getCategory($categoryname)
     {
-        $result = CategoryDAO::getByName($categoryname);
-        return $result;
+        if (isset($categoryname) && !empty($categoryname)) {
+            $result = CategoryDAO::getByName($categoryname);
+            return $result;
+        } else {
+            throw new \Exception('attempting to run getCategory(categoryname) with empty name');
+        }
     }
 }

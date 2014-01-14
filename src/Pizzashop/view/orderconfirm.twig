@@ -27,7 +27,65 @@
                 </ul>
             </nav><!--end of nav-->
             <div class="row">
-                <h3>De bestelling werd met success geregistreerd.</h3>
+                {% if cart is defined and cart.items is not empty %}
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Bestelling van {{cart.customer.fullname}}</div>
+                        <table class="table">
+                            <thead>
+                                <tr class="active">
+                                    <td>Naam</td>
+                                    <td>Prijs</td>
+                                    <td>Hoeveelheid</td>
+                                    <td>Subtotaal</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in cart.items %}
+                                    <tr>
+                                        <td>
+                                            {{ item.article.name }}
+                                            {% if item.extratoppings is not empty %}
+                                                {% for topping in item.extratoppings %}
+                                                    <br>met extra {{topping.name}}
+                                                {% endfor %}
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ item.cost }}</td>
+                                        <td>{{ item.quantity }}</td>
+                                        <td>{{ item.total }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tbody>
+                                <tr class="active">
+                                    <td>Subtotaal bestelling: </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>{{cart.total}}</td>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr class="active">
+                                    <td>Leveringskosten: </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>{{cart.deliverycost}}</td>
+                                </tr>
+                            </tbody>
+                            <tbody>
+                                <tr class="active">
+                                    <td>Totaal te betalen: </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>{{cart.totaldelivery}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div><!--end of panel shoppingcart-->
+                    <div class="well">
+                        <a class="btn btn-default" href="/pizzashop/order/placeorder/">Bevestig bestelling</a>
+                    </div>
+                {%endif%}
             </div><!--end of content-->
         </div><!--end of container-->
     </body>

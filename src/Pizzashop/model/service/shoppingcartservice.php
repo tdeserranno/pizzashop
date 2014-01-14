@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Pizzashop\Model\Service;
 use Pizzashop\Model\Data\ShoppingcartDAO;
 use Pizzashop\Model\Entity\ShoppingcartItem;
@@ -29,8 +23,10 @@ class ShoppingcartService
             //create new cart
             $username = $sessionuser['username'];
             $shoppingcart = ShoppingcartDAO::create($username, 1);
+            //set cart in session
             self::setShoppingcart($shoppingcart);
         }
+        //check if customer is active, if true return shoppingcart
         if ($shoppingcart->getCustomer()->getActive_status() == 1) {
             return $shoppingcart;
         } else {
@@ -41,49 +37,79 @@ class ShoppingcartService
     
     public static function setShoppingcart($shoppingcart)
     {
-        if (isset($shoppingcart) && !empty($shoppingcart)) {
+        if (isset($shoppingcart) && !empty($shoppingcart) && is_object($shoppingcart)) {
             ShoppingcartDAO::setSessionCart($shoppingcart);
         }
     }
     
     public static function addItem($sessionuser, $post)
     {
-        $shoppingcart = self::getShoppingcart($sessionuser);
-        $article = ArticleService::showArticle($post['id']);
-        $extratoppings = array();
-        foreach ($post['toppings'] as $toppingid) {
-            $topping = ToppingService::showTopping($toppingid);
-            array_push($extratoppings, $topping);
+        if (isset($sessionuser, $post)) {
+            //get shoppingcart
+            $shoppingcart = self::getShoppingcart($sessionuser);
+            //create object of selected article
+            $article = ArticleService::showArticle($post['id']);
+            //create toppings array for selected article
+            $extratoppings = array();
+            foreach ($post['toppings'] as $toppingid) {
+                $topping = ToppingService::showTopping($toppingid);
+                array_push($extratoppings, $topping);
+            }
+            //create new shoppingcartitem object
+            $item = new ShoppingcartItem($article, $extratoppings, $post['quantity']);
+            //add item to shoppingcart
+            $shoppingcart->addItem($item);
+            //set shoppingcart in session
+            self::setShoppingcart($shoppingcart);
         }
-        $item = new ShoppingcartItem($article, $extratoppings, $post['quantity']);
-        $shoppingcart->addItem($item);
-        self::setShoppingcart($shoppingcart);
     }
     
     public static function removeItem($sessionuser, $index)
     {
-        $shoppingcart = self::getShoppingcart($sessionuser);
-        if (isset($index) && $index !== null) {
+        if (isset($sessionuser, $index)) {
+            //get cart from session
+            $shoppingcart = self::getShoppingcart($sessionuser);
+            //remove item from shoppingcart
             $shoppingcart->removeItem($index);
+            //set cart in session
+            self::setShoppingcart($shoppingcart);
         }
-        self::setShoppingcart($shoppingcart);
     }
     
     public static function updateItems($sessionuser, $post)
     {
-        $shoppingcart = self::getShoppingcart($sessionuser);
-        $shoppingcart->updateItems($post['quantity']);
-        self::setShoppingcart($shoppingcart);
+        if (isset($sessionuser, $post)) {
+            //get cart from session
+            $shoppingcart = self::getShoppingcart($sessionuser);
+            //update items in shoppingcart
+            $shoppingcart->updateItems($post['quantity']);
+            //set cart in session
+            self::setShoppingcart($shoppingcart);
+        }
     }
     
-    public static function placeOrder($sessionuser, $post)
+    public static function setDelivery($sessionuser, $post)
     {
-        $shoppingcart = self::getShoppingcart($sessionuser);
-        //set delivery options
-        $shoppingcart->setDeliverytype($post['delivery']);
-        //create order in DB
-        OrderService::create($shoppingcart);
-        //destroy shoppingcart
-        ShoppingcartDAO::destroy();
+        if (isset($sessionuser, $post)) {
+            //get cart from session
+            $shoppingcart = self::getShoppingcart($sessionuser);
+            //set delivery options
+            $shoppingcart->setDeliverytype($post['delivery']);
+            $shoppingcart->setDeliverycost($post['deliverycost']);
+            //set cart in session
+            self::setShoppingcart($shoppingcart);
+        }
+    }
+    
+    public static function placeOrder($sessionuser)
+    {
+        if (isset($sessionuser)) {
+            //get cart from session
+            $shoppingcart = self::getShoppingcart($sessionuser);
+            //create order in DB
+            OrderService::create($shoppingcart);
+            //destroy shoppingcart
+            ShoppingcartDAO::destroy();
+        }
     }
 }

@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Pizzashop\Model\Service;
 use Pizzashop\Model\Data\CustomerDAO;
 
@@ -25,10 +19,12 @@ class CustomerService
     
     public static function showCustomer($id)
     {
-        if (isset($id)) {
+        if (isset($id) && !empty($id)) {
             $result = CustomerDAO::getById($id);
+            return $result;
+        } else {
+            throw new \Exception('attempting to run showCustomer(id) with empty id');
         }
-        return $result;
     }
     
     public static function createCustomer($post)
@@ -52,7 +48,7 @@ class CustomerService
     
     public static function update($post)
     {
-        if (isset($post['id'])) {
+        if (isset($post['id']) && !empty($post['id'])) {
             if (isset($post['active_status']) && $post['active_status'] == 'yes') {
                 $active = true;
             } else {
@@ -71,10 +67,10 @@ class CustomerService
     
     public static function delete($id)
     {
-        if (isset($id)) {
+        if (isset($id) && !empty($id)) {
             //get customer username
             $username = CustomerDAO::getById($id)->getUsername();
-            //delete user
+            //delete customer user
             UserService::deleteUser($username);
             //delete customer
             CustomerDAO::delete($id);
@@ -83,9 +79,11 @@ class CustomerService
     
     public static function getCustomerByUsername($username)
     {
-        if (isset($username)) {
+        if (isset($username) && !empty($username)) {
             $result = CustomerDAO::getByUsername($username);
             return $result;
+        } else {
+            throw new \Exception('attempting to run getCustomerByUsername(username) with empty username');
         }
     }
     

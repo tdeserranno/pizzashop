@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Pizzashop\Model\Service;
 use Pizzashop\Model\Data\OrderstatusDAO;
 
@@ -24,8 +18,11 @@ class OrderstatusService
     
     public static function showOrderstatus($id)
     {
-        $result = OrderstatusDAO::getById($id);
-        return $result;
+        if (isset($id) && !empty($id)) {
+            $result = OrderstatusDAO::getById($id);
+            return $result;
+        } else {
+            throw new \Exception('attempting to run showOrderstatus(id) with empty id');
+        }
     }
-            
 }

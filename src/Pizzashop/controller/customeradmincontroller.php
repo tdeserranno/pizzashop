@@ -58,6 +58,16 @@ class CustomerAdminController extends Controller
         exit();
     }
     
+    /**One problem that needs to be addressed is to make it impossible for a
+     * delete method to run in any other way other than if it was started from
+     * the correct page. Since we are supplying the id of the record to be
+     * deleted in the URI someone could manually type in a different url with
+     * a different id.
+     * 
+     * Solution: to be determined and implemented.
+     * 
+     * @param type $arguments
+     */
     public function delete($arguments)
     {
         //delete customer

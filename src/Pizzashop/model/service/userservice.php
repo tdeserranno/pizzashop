@@ -14,12 +14,14 @@ class UserService
 {
     public static function registerUser($post)
     {
-        //hash password
-        $hashedPassword = password_hash($post['password'], PASSWORD_DEFAULT);
-        //create user
-        UserService::createUser($post);
-        //create customer
-        CustomerService::createCustomer($post);
+        if (isset($post)) {
+            //hash password
+            $hashedPassword = password_hash($post['password'], PASSWORD_DEFAULT);
+            //create user
+            UserService::createUser($post, $hashedPassword);
+            //create customer
+            CustomerService::createCustomer($post);
+        }
     }
     
     public static function loginUser()
@@ -47,15 +49,17 @@ class UserService
     
     public static function verifyUser($username, $password)
     {
-        //hash POSTed password
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        //retrieve user from DB
-        $user = UserDAO::getUser($username);
-        //verify password
-        if (password_verify($password, $user->getHashedPassword())) {
-            return $user;
-        } else {
-            throw new AuthenticationException('password incorrect',2);
+        if (isset($username,$password) && !empty($username) && !empty($password)) {
+            //hash POSTed password
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            //retrieve user from DB
+            $user = UserDAO::getUser($username);
+            //verify password
+            if (password_verify($password, $user->getHashedPassword())) {
+                return $user;
+            } else {
+                throw new AuthenticationException('password incorrect',2);
+            }
         }
     }
     
@@ -73,16 +77,17 @@ class UserService
         }
     }
     
-    public static function createUser($post)
+    public static function createUser($post, $hashedPassword)
     {
-        if (isset($post)) {
-            $hashedpassword = password_hash($post['password'], PASSWORD_DEFAULT);
-            UserDAO::create($post['username'], $hashedpassword, $post['email']);
+        if (isset($post,$hashedpassword) && !empty($hashedPassword)) {
+            UserDAO::create($post['username'], $hashedPassword, $post['email']);
         }
     }
     
     public static function deleteUser($username)
     {
-        UserDAO::delete($username);
+        if (isset($username) && !empty($username)) {
+            UserDAO::delete($username);
+        }
     }
 }

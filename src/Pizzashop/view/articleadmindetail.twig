@@ -49,8 +49,8 @@
                             <div class="col-lg-5"><input class="form-control" id="price" name="price" type="text" value="{{ article.price }}" required></div>
                         </div>
                         <div class="form-group">
-                                <label class="col-lg-2" for="active_status">Promotie</label>
-                                <div class="col-lg-1"><input name="active_status" id="active_status" type="checkbox" value="yes"{%if article.promo_status == true%}checked{%endif%}></div>
+                                <label class="col-lg-2" for="promo_status">Promotie</label>
+                                <div class="col-lg-1"><input name="promo_status" id="promo_status" type="checkbox" value="yes"{%if article.promo_status == true%}checked{%endif%}></div>
                             </div>
                         <div class="form-group">
                             <label for="promo_price" class="col-lg-1">Promoprijs</label>

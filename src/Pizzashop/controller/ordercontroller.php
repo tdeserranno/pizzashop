@@ -77,11 +77,19 @@ class OrderController extends Controller
         exit();
     }
     
-    public function placeOrder()
+    public function setDelivery()
     {
-        ShoppingcartService::placeOrder($_SESSION['user'], $_POST);
+        ShoppingcartService::setDelivery($_SESSION['user'], $_POST);
         //redirect to order confirmation
         header('location: /pizzashop/order/confirm');
+        exit();
+    }
+    
+    public function placeOrder()
+    {
+        ShoppingcartService::placeOrder($_SESSION['user']);
+        //redirect to order success
+        header('location: /pizzashop/order/success');
         exit();
     }
     
@@ -96,8 +104,17 @@ class OrderController extends Controller
     
     public function confirm()
     {
+        //get current shopping cart
+        $this->model['cart'] = ShoppingcartService::getShoppingcart($_SESSION['user']);
         //display order confirmation
-        $this->view = $this->app->environment->render('orderconfirm.twig');
+        $this->view = $this->app->environment->render('orderconfirm.twig', array('cart' => $this->model['cart']));
+        print($this->view);
+    }
+    
+    public function success()
+    {
+        //display order success
+        $this->view = $this->app->environment->render('ordersuccess.twig');
         print($this->view);
     }
 }

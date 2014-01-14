@@ -1,11 +1,5 @@
 <?php
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 namespace Pizzashop\Model\Service;
 use Pizzashop\Model\Data\ArticleDAO;
 
@@ -24,23 +18,27 @@ class ArticleService
     
     public static function showArticle($id)
     {
-        if (isset($id)){
+        if (isset($id) && !empty($id)){
             $result = ArticleDAO::getById($id);
+             return $result;
+        } else {
+            throw new \Exception('attempting to run showArticlelist(id) with empty id');
         }
-        return $result;
     }
     
     public static function showArticlelistByCategory($category)
     {
-        if (isset($category)) {
+        if (isset($category) && !empty($category)) {
             $result = ArticleDAO::getByCategory($category);
+            return $result;
+        } else {
+            throw new \Exception('attempting to run showArticlelistByCategory('.$category.')');
         }
-        return $result;
     }
     
     public static function update($post)
     {
-        if (isset($post['id'])) {
+        if (isset($post['id']) && !empty($post['id'])) {
             if (isset($post['promo_status']) && $post['promo_status'] == 'yes') {
                 $promo = true;
             } else {
@@ -77,7 +75,7 @@ class ArticleService
     
     public static function delete($id)
     {
-        if (isset($id)) {
+        if (isset($id) && !empty($id)) {
             ArticleDAO::delete($id);
         }
     }
