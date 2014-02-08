@@ -1,92 +1,64 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title>Home</title>
-        <link rel="stylesheet" href="/pizzashop/public/css/bootstrap.min.css">
-        <script src="/pizzashop/public/css/bootstrap.min.css"></script>
-    </head>
-    <body>
-        <div class="container">
-            <nav class="navbar navbar-default row">
-                <ul class="nav navbar-nav navbar-left">
-                    <li><a href="/pizzashop/menu/show/pizza">Menu</a></li>
-                    {% if session.user is defined and session.user.admin != 1%}
-                        <li><a href="/pizzashop/order/go/">Bestel</a></li>
-                    {% endif %}
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                {% if session.user is not defined %}
-                    <li><a href="/pizzashop/auth/go/">Log in</a></li>
-                {% else %}
-                    {% if session.user.admin == 1 %}
-                    <li><a href="/pizzashop/admin/go/">Beheer</a></li>
-                    {% endif %}
-                    <li><a href="/pizzashop/auth/logout/">Log out</a></li>
-                {% endif %}
-                </ul>
-            </nav><!--end of nav-->
-            <div class="row">
-                {% if cart is defined and cart.items is not empty %}
-                    <div class="panel panel-default">
-                        <div class="panel-heading">Bestelling van {{cart.customer.fullname}}</div>
-                        <table class="table">
-                            <thead>
-                                <tr class="active">
-                                    <td>Naam</td>
-                                    <td>Prijs</td>
-                                    <td>Hoeveelheid</td>
-                                    <td>Subtotaal</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for item in cart.items %}
-                                    <tr>
-                                        <td>
-                                            {{ item.article.name }}
-                                            {% if item.extratoppings is not empty %}
-                                                {% for topping in item.extratoppings %}
-                                                    <br>met extra {{topping.name}}
-                                                {% endfor %}
-                                            {% endif %}
-                                        </td>
-                                        <td>{{ item.cost }}</td>
-                                        <td>{{ item.quantity }}</td>
-                                        <td>{{ item.total }}</td>
-                                    </tr>
+{%extends "template/tmpl_public.twig"%}
+
+{%block title%}Pizzashop - Order{%endblock%}
+{%block content%}
+{% if cart is defined and cart.items is not empty %}
+    <div class="panel panel-default">
+        <div class="panel-heading">Bestelling van {{cart.customer.fullname}}</div>
+        <table class="table">
+            <thead>
+                <tr class="active">
+                    <td>Naam</td>
+                    <td>Prijs</td>
+                    <td>Hoeveelheid</td>
+                    <td>Subtotaal</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in cart.items %}
+                    <tr>
+                        <td>
+                            {{ item.article.name }}
+                            {% if item.extratoppings is not empty %}
+                                {% for topping in item.extratoppings %}
+                                    <br>met extra {{topping.name}}
                                 {% endfor %}
-                            </tbody>
-                            <tbody>
-                                <tr class="active">
-                                    <td>Subtotaal bestelling: </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>{{cart.total}}</td>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr class="active">
-                                    <td>Leveringskosten: </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>{{cart.deliverycost}}</td>
-                                </tr>
-                            </tbody>
-                            <tbody>
-                                <tr class="active">
-                                    <td>Totaal te betalen: </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td>{{cart.totaldelivery}}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div><!--end of panel shoppingcart-->
-                    <div class="well">
-                        <a class="btn btn-default" href="/pizzashop/order/placeorder/">Bevestig bestelling</a>
-                    </div>
-                {%endif%}
-            </div><!--end of content-->
-        </div><!--end of container-->
-    </body>
-</html>
+                            {% endif %}
+                        </td>
+                        <td>{{ item.cost }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td>{{ item.total }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            <tbody>
+                <tr class="active">
+                    <td>Subtotaal bestelling: </td>
+                    <td></td>
+                    <td></td>
+                    <td>{{cart.total}}</td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr class="active">
+                    <td>Leveringskosten: </td>
+                    <td></td>
+                    <td></td>
+                    <td>{{cart.deliverycost}}</td>
+                </tr>
+            </tbody>
+            <tbody>
+                <tr class="active">
+                    <td>Totaal te betalen: </td>
+                    <td></td>
+                    <td></td>
+                    <td>{{cart.totaldelivery}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div><!--end of panel shoppingcart-->
+    <div class="well">
+        <a class="btn btn-default" href="/pizzashop/order/placeorder/">Bevestig bestelling</a>
+    </div>
+{%endif%}
+{%endblock%}
