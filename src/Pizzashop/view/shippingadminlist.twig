@@ -1,73 +1,44 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="UTF-8">
-        <title></title>
-        <link rel="stylesheet" href="/pizzashop/public/css/bootstrap.min.css">
-    </head>
-    <body>
-        <div class="container">
-            <nav class="navbar navbar-default row">
-                <ul class="nav navbar-nav navbar-left">
-                    <li><a href="/pizzashop/home/go/">Home</a></li>
-                    <li><a href="/pizzashop/articleadmin/viewall/">Artikels</a></li>
-                    <li><a href="/pizzashop/toppingadmin/viewall/">Toppings</a></li>
-                    <li><a href="/pizzashop/customeradmin/viewall/">Klanten</a></li>
-                    <li><a href="/pizzashop/orderadmin/viewall/">Orders</a></li>
-                    <li><a href="/pizzashop/shippingadmin/viewlist/">Leveringlijst</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                {% if session.user is not defined %}
-                    <li><a href="/pizzashop/auth/go/">Log in</a></li>
-                {% else %}
-                    {% if session.user.admin == 1 %}
-                    <li><a href="/pizzashop/admin/go/">Beheer</a></li>
-                    {% endif %}
-                    <li><a href="/pizzashop/auth/logout/">Log out</a></li>
-                {% endif %}
-                </ul>
-            </nav><!--end of nav-->
-            <div class="row">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">Openstaande Orders</div>
-                    {%for customer in customers%}
-                    <div class="well">
-                        {{customer.fullname}}
-                        {{customer.address}}
-                        {{customer.postcode}}
-                        {{customer.city}}
-                        <table class="table">
-                            <thead>
-                                <tr class="active">
-                                    <td>Orderid</td>
-                                    <td>Datum</td>
-                                    <td>Ordertotaal</td>
-                                    <td>Orderstatus</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for order in orders %}
-                                {%if order.customer.id == customer.id%}
-                                    <tr>
-                                        <td>{{order.id}}</td>
-                                        <td>{{ order.date }}</td>
-                                        <td>{{ order.total }}</td>
-                                        <td>{{order.orderstatus.description}}</td>
-                                    </tr>
-                                {%endif%}
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                        {%for customertotal in customertotals%}
-                        {%if customertotal.customerid == customer.id%}
-                            Totaal voor klant: {{customertotal.total}}
-                        {%endif%}
-                        {%endfor%}
-                    </div>
-                    {%endfor%}
-                    <div class="well">Totaal openstaande orders: {{total}}</div>
-                </div><!--end of panel-->
-            </div><!--end of content-->
-        </div><!--end of container-->
-    </body>
-</html>
+{%extends "template/tmpl_public.twig"%}
+
+{%block title%}Pizzashop - Beheer - Leveringen{%endblock%}
+{%block content%}
+<div class="panel panel-primary">
+    <div class="panel-heading">Openstaande Orders</div>
+    {%for customer in customers%}
+    <div class="well">
+        {{customer.fullname}}
+        {{customer.address}}
+        {{customer.postcode}}
+        {{customer.city}}
+        <table class="table">
+            <thead>
+                <tr class="active">
+                    <td>Orderid</td>
+                    <td>Datum</td>
+                    <td>Ordertotaal</td>
+                    <td>Orderstatus</td>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                {%if order.customer.id == customer.id%}
+                    <tr>
+                        <td>{{order.id}}</td>
+                        <td>{{ order.date }}</td>
+                        <td>{{ order.total }}</td>
+                        <td>{{order.orderstatus.description}}</td>
+                    </tr>
+                {%endif%}
+                {% endfor %}
+            </tbody>
+        </table>
+        {%for customertotal in customertotals%}
+        {%if customertotal.customerid == customer.id%}
+            Totaal voor klant: {{customertotal.total}}
+        {%endif%}
+        {%endfor%}
+    </div>
+    {%endfor%}
+    <div class="well">Totaal openstaande orders: {{total}}</div>
+</div><!--end of panel-->
+{%endblock%}
