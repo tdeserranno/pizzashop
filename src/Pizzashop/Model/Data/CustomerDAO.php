@@ -89,16 +89,17 @@ class CustomerDAO
         $sql .= ' (firstname, lastname, address, postcode, city, telephone, active_status, username)';
         $sql .= ' VALUES (:firstname, :lastname, :address, :postcode, :city, :telephone, :active_status, :username)';
         $stmt = $db->prepare($sql);
+        $stmt->bindParam(':firstname', $firstname);
+        $stmt->bindParam(':lastname', $lastname);
+        $stmt->bindParam(':address', $address);
+        $stmt->bindParam(':postcode', $postcode);
+        $stmt->bindParam(':city', $city);
+        $stmt->bindParam(':telephone', $telephone);
+        $stmt->bindParam(':active_status', $active_status);
+        $stmt->bindParam(':username', $username);
         //test if statement can be executed
-        if ($stmt->execute(array(':firstname' => $firstname,
-                                ':lastname' => $lastname,
-                                ':address' => $address,
-                                ':postcode' => $postcode,
-                                ':city' => $city,
-                                ':telephone' => $telephone,
-                                ':active_status' => $active_status,
-                                ':username' => $username))) {
-                //updated                
+        if ($stmt->execute()) {
+                //inserted
         } else {
             throw new \Exception('customer insert statement could not be executed');
         }

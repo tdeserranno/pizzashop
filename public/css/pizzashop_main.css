@@ -17,3 +17,7 @@ and open the template in the editor.
     color: red;
     white-space: pre-line;
 }
+
+.well-bottom {
+    margin-bottom: 0;
+}

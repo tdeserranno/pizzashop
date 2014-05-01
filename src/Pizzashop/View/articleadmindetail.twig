@@ -17,41 +17,43 @@
     <div class="panel-heading">Artikel Detail</div>
     <form class="form-horizontal" role="form" method="post" action="">
         <input type="hidden" name="id" value="{{ article.id }}">
-        <div class="form-group">
-            <label for="name" class="col-lg-1">Naam</label>
-            <div class="col-lg-5"><input class="form-control" id="name" name="name" type="text" value="{{ article.name }}" required></div>
-        </div>
-        <div class="form-group">
-            <label for="description" class="col-lg-1">Omschrijving</label>
-            <div class="col-lg-5"><textarea class="form-control" id="description" name="description">{{ article.description }}</textarea></div>
-        </div>
-        <div class="form-group">
-            <label for="image" class="col-lg-1">Afbeelding</label>
-            <div class="col-lg-5"><input class="form-control" id="image" name="image" type="text" value="{{ article.image }}"></div>
-        </div>
-        <div class="form-group">
-            <label for="price" class="col-lg-1">Prijs</label>
-            <div class="col-lg-5"><input class="form-control" id="price" name="price" type="text" value="{{ article.price }}" required></div>
-        </div>
-        <div class="form-group">
-                <label class="col-lg-2" for="promo_status">Promotie</label>
-                <div class="col-lg-1"><input name="promo_status" id="promo_status" type="checkbox" value="yes"{%  if article.promo_status == true  %} checked{%  endif  %} ></div>
-        </div>
-        <div class="form-group">
-            <label for="promo_price" class="col-lg-1">Promoprijs</label>
-            <div class="col-lg-5"><input class="form-control" id="promo_price" name="promo_price" type="text" value="{{ article.promo_price }}" required></div>
-        </div>
-        <div class="form-group">
-            <label for="category" class="col-lg-1">Categorie</label>
-            <div class="col-lg-5">
-                <select class="form-control" id="category" name="category">
-                    {%  for category in categories  %} 
-                        <option value="{{ category.name }}"{%  if category.name == article.category.name  %} selected{%  endif  %} >{{ category.name }}</option>
-                    {%  endfor  %} 
-                </select>
+        <div class="well">
+            <div class="form-group">
+                <label for="name" class="col-lg-1">Naam</label>
+                <div class="col-lg-5"><input class="form-control" id="name" name="name" type="text" value="{{ article.name }}" required></div>
+            </div>
+            <div class="form-group">
+                <label for="description" class="col-lg-1">Omschrijving</label>
+                <div class="col-lg-5"><textarea class="form-control" id="description" name="description">{{ article.description }}</textarea></div>
+            </div>
+            <div class="form-group">
+                <label for="image" class="col-lg-1">Afbeelding</label>
+                <div class="col-lg-5"><input class="form-control" id="image" name="image" type="text" value="{{ article.image }}"></div>
+            </div>
+            <div class="form-group">
+                <label for="price" class="col-lg-1">Prijs</label>
+                <div class="col-lg-5"><input class="form-control" id="price" name="price" type="text" value="{{ article.price }}" required></div>
+            </div>
+            <div class="form-group">
+                    <label class="col-lg-2" for="promo_status">Promotie</label>
+                    <div class="col-lg-1"><input name="promo_status" id="promo_status" type="checkbox" value="yes"{%  if article.promo_status == true  %} checked{%  endif  %} ></div>
+            </div>
+            <div class="form-group">
+                <label for="promo_price" class="col-lg-1">Promoprijs</label>
+                <div class="col-lg-5"><input class="form-control" id="promo_price" name="promo_price" type="text" value="{{ article.promo_price }}" required></div>
+            </div>
+            <div class="form-group">
+                <label for="category" class="col-lg-1">Categorie</label>
+                <div class="col-lg-5">
+                    <select class="form-control" id="category" name="category">
+                        {%  for category in categories  %} 
+                            <option value="{{ category.name }}"{%  if category.name == article.category.name  %} selected{%  endif  %} >{{ category.name }}</option>
+                        {%  endfor  %} 
+                    </select>
+                </div>
             </div>
         </div>
-        <div class="well">
+        <div class="well well-bottom">
                 <input type="submit" class="btn btn-primary" name="articleform" value="Opslaan">
         </div>
     </form>

@@ -29,20 +29,20 @@ class CustomerService
     
     public static function createCustomer($post)
     {
-        if (isset($post)) {
-            if (isset($post['active_status']) && $post['active_status'] == 'yes') {
-                $active = true;
-            } else {
-                $active = false;
-            }
-            CustomerDAO::create($post['firstname'],
-                    $post['lastname'],
-                    $post['address'],
-                    $post['postcode'],
-                    $post['city'],
-                    $post['telephone'],
-                    $active,
-                    $post['username']);
+        //assign and typecast variables
+        $username = $post['username'];
+        $firstname = $post['firstname'];
+        $lastname = $post['lastname'];
+        $address = $post['address'];
+        $postcode = $post['postcode'];
+        $city = $post['city'];
+        $telephone = $post['telephone'];
+        $status = (isset($post['active_status'])) ? (boolean)$post['active_status'] : false;
+        
+        //validate values
+        if (ValidationService::validateCustomer($firstname, $lastname, $address, $postcode, $city, $telephone)) {
+            //create customer
+            CustomerDAO::create($firstname, $lastname, $address, $postcode, $city, $telephone, $status, $username);
         }
     }
     

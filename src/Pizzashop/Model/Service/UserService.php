@@ -89,7 +89,7 @@ class UserService
     
     public static function createUser($post, $hashedPassword)
     {
-        if (isset($post,$hashedpassword) && !empty($hashedPassword)) {
+        if (isset($post,$hashedPassword) && !empty($hashedPassword)) {
             UserDAO::create($post['username'], $hashedPassword, $post['email']);
         }
     }

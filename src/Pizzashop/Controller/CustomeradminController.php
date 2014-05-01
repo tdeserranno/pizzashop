@@ -4,6 +4,7 @@ namespace Pizzashop\Controller;
 use Pizzashop\Model\Service\CustomerService;
 use Pizzashop\Model\Service\UserService;
 use Framework\AbstractController;
+use Pizzashop\Exception\FormException;
 
 /**
  * Description of customeradmincontroller
@@ -26,37 +27,58 @@ class CustomerAdminController extends AbstractController
     
     public function viewDetail($arguments)
     {
-        //get single customer
+        //assign arguments
         $id = $arguments[0];
+
+        //build model
         $customer = CustomerService::showCustomer($id);
-        //show details
-        $this->render('customeradmindetail.twig', array(
-            'customer' => $customer,
-            ));
-    }
-    
-    public function viewNew()
-    {
-        //show empty customeradmindetail form
-        $this->render('customeradmindetail.twig');
+        
+        //check if form was submitted
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['customerform'])) {
+            //handle form
+            try {
+                 //update customer
+                CustomerService::update($_POST);
+                //redirect to customerlist
+                header('location: '.ROOT.'/customeradmin/viewall/');
+                exit();
+            } catch (FormException $exc) {
+                //render form with errors
+                $this->render('customeradmindetail.twig', array(
+                    'customer' => $customer,
+                    'exception' => $exc,
+                    ));
+            }
+        } else {
+            //show customerdetail form
+            $this->render('customeradmindetail.twig', array(
+                'customer' => $customer,
+                ));
+        }
     }
     
     public function add()
     {
-        //process new user/customer
-        UserService::registerUser($_POST);
-        //redirect to customerlist
-        header('location: '.ROOT.'/customeradmin/viewall/');
-        exit;
-    }
-    
-    public function save()
-    {
-        //update existing customer
-        CustomerService::update($_POST);
-        //redirect to customerlist
-        header('location: '.ROOT.'/customeradmin/viewall/');
-        exit();
+        //check if form was submitted
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['customerform'])) {
+            //handle form
+            try {
+                //create new user/customer
+                UserService::registerUser($_POST);
+                //redirect to customerlist
+                header('location: '.ROOT.'/customeradmin/viewall/');
+                exit;
+            } catch (FormException $exc) {
+                //render form with errors
+                $this->render('customeradmindetail.twig', array(
+                    'customer' => $customer,
+                    'exception' => $exc,
+                    ));
+            }
+        } else {
+            //show empty customerdetail form
+           $this->render('customeradmindetail.twig');
+        }
     }
     
     /**One problem that needs to be addressed is to make it impossible for a

@@ -3,10 +3,18 @@
 {% block title %}
     {{ parent() }}Klanten
 {% endblock %} 
-{% block content %} 
+{% block content %}
+    {% if exception is defined %} 
+        <div class="panel panel-danger">
+            <div class="panel-heading">Error</div>
+            <div class="error">
+                {{ exception.message }}
+            </div>
+        </div>
+    {% endif %}
 <div class="panel panel-primary">
     <div class="panel-heading">Klant Detail</div>
-    <form class="form-horizontal" role="form" method="post" {% if customer is defined and customer is not empty %}  action="{{ app.root }}/customeradmin/save" {% else %}  action="{{ app.root }}/customeradmin/add" {%  endif  %} >
+    <form class="form-horizontal" role="form" method="post" action="">
         <input type="hidden" name="id" value="{{ customer.id }}">
         {%  if customer is not defined %} 
         <div class="well">
@@ -58,8 +66,8 @@
                 <div class="col-lg-1"><input name="active_status" id="active_status" type="checkbox" value="yes"{% if customer.active_status == true %} checked{% endif %} ></div>
             </div>
         </div><!--end of address data well-->
-        <div class="well">
-                <input type="submit" class="btn btn-primary" value="Opslaan">
+        <div class="well well-bottom">
+                <input type="submit" class="btn btn-primary" name="customerform" value="Opslaan">
         </div>
     </form>
 </div><!--end of panel-->
