@@ -3,9 +3,11 @@
 {% block title %} Pizzashop - Beheer - Topping{% endblock %} 
 {% block content %}
     {% if exception is defined %} 
-        <div class="panel panel-danger error">
+        <div class="panel panel-danger">
             <div class="panel-heading">Error</div>
-            {{ exception.message }}
+            <div class="error">
+                {{ exception.message }}
+            </div>
         </div>
     {% endif %}
 <div class="panel panel-primary">
