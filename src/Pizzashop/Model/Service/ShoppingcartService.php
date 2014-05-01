@@ -5,6 +5,7 @@ use Pizzashop\Model\Data\ShoppingcartDAO;
 use Pizzashop\Model\Entity\ShoppingcartItem;
 use Pizzashop\Model\Service\ArticleService;
 use Pizzashop\Model\Service\ToppingService;
+use Pizzashop\Model\Service\UserService;
 
 /**
  * Description of shoppingcartservice
@@ -13,16 +14,16 @@ use Pizzashop\Model\Service\ToppingService;
  */
 class ShoppingcartService
 {
-    public static function getShoppingcart($sessionuser)
+    public static function getShoppingcart()
     {
-        if (isset($sessionuser['cart']) && !empty($sessionuser['cart'])) {
-            $cart = $sessionuser['cart'];
+        if (isset($_SESSION['cart']) && !empty($_SESSION['cart'])) {
+            $cart = $_SESSION['cart'];
             //retrieve cart from session
             $shoppingcart = ShoppingcartDAO::getSessionCart($cart);
         } else {
             //create new cart
-            $username = $sessionuser['username'];
-            $shoppingcart = ShoppingcartDAO::create($username, 1);
+            $user = UserService::unserializeFromSession();
+            $shoppingcart = ShoppingcartDAO::create($user->getUsername(), 1);
             //set cart in session
             self::setShoppingcart($shoppingcart);
         }

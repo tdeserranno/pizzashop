@@ -9,25 +9,19 @@ namespace Pizzashop\Model\Entity;
  */
 class User
 {
+
     private $username;
-    private $hashedPassword;
     private $admin;
-    
-    function __construct($username, $hashedPassword, $admin)
+
+    function __construct($username, $admin)
     {
         $this->username = $username;
-        $this->hashedPassword = $hashedPassword;
         $this->admin = $admin;
     }
-    
+
     public function getUsername()
     {
         return $this->username;
-    }
-
-    public function getHashedPassword()
-    {
-        return $this->hashedPassword;
     }
 
     public function setUsername($username)
@@ -35,11 +29,6 @@ class User
         $this->username = $username;
     }
 
-    public function setHashedPassword($hashedPassword)
-    {
-        $this->hashedPassword = $hashedPassword;
-    }
-    
     public function getAdmin()
     {
         return $this->admin;
@@ -49,4 +38,5 @@ class User
     {
         $this->admin = $admin;
     }
+
 }

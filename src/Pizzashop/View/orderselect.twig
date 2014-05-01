@@ -1,33 +1,35 @@
-{%extends "template/tmpl_public.twig"%}
+{% extends "template/tmpl_public.twig" %} 
 
-{%block title%}Pizzashop - Order{%endblock%}
-{%block content%}
-<form class="form-horizontal" role="form" method="post" action="/pizzashop/order/additem">
+{% block title %}
+    {{ parent() }}Orderkeuze
+{% endblock %} 
+{% block content %} 
+<form class="form-horizontal" role="form" method="post" action="{{ app.root }}/order/additem">
     <div class="panel panel-default">
         <div class="panel-heading">Maak je keuze</div>
         <div class="well">
-            {% for article in articles %}
+            {%  for article in articles  %} 
                 <div class="form-group">
                     <input type="radio" name="id" id="{{article.id}}}" value="{{article.id}}" required>
                     <label for="{{article.id}}">
                         {{article.name}}
-                        {% if article.promo_status == 1 %}
+                        {%  if article.promo_status == 1  %} 
                             PROMOTIE !
-                        {% endif%}
+                        {%  endif %} 
                     </label>
                 </div>
-            {% endfor %}
+            {%  endfor  %} 
         </div>
-        {% if toppings is defined %}
+        {%  if toppings is defined  %} 
         <div class="well">
-            {% for topping in toppings %}
+            {%  for topping in toppings  %} 
                 <div class="form-group">
                     <input type="checkbox" name="toppings[]" id="{{topping.id}}}" value="{{topping.id}}">
                     <label for="{{topping.id}}">{{topping.name}}</label>
                 </div>
-            {% endfor %}
+            {%  endfor  %} 
         </div>
-        {% endif %}
+        {%  endif  %} 
         <div class="well">
             <div class="form-group">
                 <label for="quantity" class="col-lg-1">Aantal</label>
@@ -39,4 +41,4 @@
         </div>
     </div><!--end of panel shoppingcart-->
 </form>
-{%endblock%}
+{% endblock %} 

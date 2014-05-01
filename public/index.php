@@ -4,46 +4,46 @@
  */
 
 // Initialize application
-require_once '../src/Library/Framework.php';
-require_once '../src/Library/Application.php';
-use Library\Application;
-use Library\Helper;
-use Library\Exception\AuthenticationException;
-use Library\Exception\DispatcherException;
+require_once '../src/Framework/AbstractFramework.php';
+require_once '../src/Framework/Application.php';
 
-//appname must be identical to the application folder in src folder(case sensitive)
-$app = new Application('Pizzashop');
+use Framework\Application;
+use Framework\Exception\AuthenticationException;
+use Framework\Exception\DispatcherException;
+
+//load helper functions
+require_once '../src/Framework/Helper.php';
 
 //start secure session
-$app->helper->sec_session_start();
-//add SESSION as Twig global to allow direct access from any twig template
-$app->environment->addGlobal('session', $_SESSION);
+\Framework\sec_session_start();
 
+//define application root
+$appRoot = substr(dirname(__FILE__), strlen($_SERVER['DOCUMENT_ROOT']));
+$appRoot = str_replace('\\', '/', $appRoot);
+$appRoot = str_replace('/public', '', $appRoot);
+define('ROOT', $appRoot);
+
+/* Create application object
+ * Application name must be identical to the application folder in src folder
+ * (case sensitive), also supply the application root. It will be stored in the
+ * application object for use in twig templates.
+ */
+$app = new Application('Pizzashop', $appRoot);
+
+//add Twig globals to allow direct access from any twig template
+$app->getFrameworkEnvironment()->addGlobal('session', $_SESSION);
+$app->getAppEnvironment()->addGlobal('session', $_SESSION);
+$app->getFrameworkEnvironment()->addGlobal('app', $app);
+$app->getAppEnvironment()->addGlobal('app', $app);
+
+//attempt to run dispatcher
 try {
-    //check if access is allowed to requested page(controller)
-    $app->helper->check_access_allowed();
     //dispatch requested controller
     $app->getDispatcher()->run();
-} catch (AuthenticationException $ex) {
-    switch ($ex->getCode()) {
-        //user needs to be logged in to view requested controller
-        case '1':
-            //before redirecting to login page store requested page in SESSION to use
-            //for redirecting after login
-            $_SESSION['prev_req_page'] = $_SERVER['REQUEST_URI'];
-            header('Location: /pizzashop/auth/go');
-            exit();
-            break;
-        //authentication errors on login page
-        case '2':
-            print($app->environment->render('login.twig', array('exception' => $ex)));
-            break;
-        default: 
-            print($app->environment->render('error.twig', array('exception' => $ex)));
-            break;
-    }
 } catch (DispatcherException $ex) {
-    print($app->environment->render('error.twig', array('exception' => $ex)));
+    $app->render('frameworkerror.html.twig', array('exception' => $ex));
+} catch (FrameworkException $ex) {
+    $app->render('frameworkerror.html.twig', array('exception' => $ex));
 } catch (Exception $ex) {
-    print($app->environment->render('error.twig', array('exception' => $ex)));
+    $app->render('frameworkerror.html.twig', array('exception' => $ex));
 }

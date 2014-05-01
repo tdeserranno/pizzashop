@@ -1,9 +1,11 @@
-{%extends "template/tmpl_public.twig"%}
+{% extends "template/tmpl_public.twig" %} 
 
-{%block title%}Pizzashop - Order{%endblock%}
-{%block content%}
-{% if cart is defined and cart.items is not empty %}
-<form class="form-horizontal" role="form" method="post" action="/pizzashop/order/updateitems/">
+{% block title %}
+    {{ parent() }}Order
+{% endblock %} 
+{% block content %} 
+{%  if cart is defined and cart.items is not empty  %} 
+<form class="form-horizontal" role="form" method="post" action="{{ app.root }}/order/updateitems/">
     <div class="panel panel-default">
         <div class="panel-heading">Winkelmandje van {{cart.customer.fullname}}</div>
         <table class="table">
@@ -17,22 +19,22 @@
                 </tr>
             </thead>
             <tbody>
-                {% for key,item in cart.items %}
+                {%  for key,item in cart.items  %} 
                     <tr>
                         <td>
                             {{ item.article.name }}
-                            {% if item.extratoppings is not empty %}
-                                {% for topping in item.extratoppings %}
+                            {%  if item.extratoppings is not empty  %} 
+                                {%  for topping in item.extratoppings  %} 
                                     <br>met extra {{topping.name}}
-                                {% endfor %}
-                            {% endif %}
+                                {%  endfor  %} 
+                            {%  endif  %} 
                         </td>
                         <td>{{ item.cost }}</td>
                         <td><input type="number" name="quantity[{{key}}]" value="{{ item.quantity }}" required></td>
                         <td>{{ item.total }}</td>
-                        <td><a href="/pizzashop/order/removeitem/{{key}}">Delete</a></td>
+                        <td><a href="{{ app.root }}/order/removeitem/{{key}}">Delete</a></td>
                     </tr>
-                {% endfor %}
+                {%  endfor  %} 
             </tbody>
             <tbody>
                 <tr class="active">
@@ -46,12 +48,12 @@
         </table>
     </div><!--end of panel shoppingcart-->
 </form>
-{% endif %}
+{%  endif  %} 
 <div class="well">
-    <a class="btn btn-default" href="/pizzashop/order/selectpizza/">Kies pizza</a>
-    <a class="btn btn-default" href="/pizzashop/order/selectbeverage/">Kies drank</a>
-    {% if cart is defined and cart.items is not empty %}
-        <a class="btn btn-default pull-right" href="/pizzashop/order/delivery/">Ga verder</a>
-    {% endif %}
+    <a class="btn btn-default" href="{{ app.root }}/order/selectpizza/">Kies pizza</a>
+    <a class="btn btn-default" href="{{ app.root }}/order/selectbeverage/">Kies drank</a>
+    {%  if cart is defined and cart.items is not empty  %} 
+        <a class="btn btn-default pull-right" href="{{ app.root }}/order/delivery/">Ga verder</a>
+    {%  endif  %} 
 </div>
-{%endblock%}
+{% endblock %} 

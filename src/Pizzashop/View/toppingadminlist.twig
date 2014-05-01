@@ -1,7 +1,9 @@
-{%extends "template/tmpl_admin.twig"%}
+{% extends "template/tmpl_admin.twig" %}
 
-{%block title%}Pizzashop - Beheer - Topping{%endblock%}
-{%block content%}
+{% block title %}
+    {{ parent() }}Topping
+{% endblock title %}
+{% block content %}
 <div class="panel panel-primary">
     <div class="panel-heading">Toppinglijst</div>
     <table class="table">
@@ -15,15 +17,15 @@
         <tbody>
             {% for topping in toppings %}
                 <tr>
-                    <td><a href="/pizzashop/toppingadmin/viewdetail/{{ topping.id }}">{{ topping.name }}</a></td>
+                    <td><a href="{{ app.root }}/toppingadmin/viewdetail/{{ topping.id }}">{{ topping.name }}</a></td>
                     <td>{{ topping.price }}</td>
-                    <td><a href="/pizzashop/toppingadmin/delete/{{topping.id}}">Delete</a></td>
+                    <td><a href="{{ app.root }}/toppingadmin/delete/{{ topping.id }}">Delete</a></td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
     <div class="well">
-        <a class="btn btn-primary" href="/pizzashop/toppingadmin/viewnew/">Nieuwe topping</a>
+        <a class="btn btn-primary" href="{{ app.root }}/toppingadmin/viewnew/">Nieuwe topping</a>
     </div>
 </div><!--end of panel-->
-{%endblock%}
+{% endblock content %}

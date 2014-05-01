@@ -24,8 +24,8 @@ class ShoppingcartDAO
     
     public static function destroy()
     {
-        if (isset($_SESSION['user']['cart'])) {
-            unset ($_SESSION['user']['cart']);
+        if (isset($_SESSION['cart'])) {
+            unset ($_SESSION['cart']);
         }
     }
     
@@ -43,7 +43,7 @@ class ShoppingcartDAO
         if (isset($shoppingcart) && !empty($shoppingcart)) {
             //store cart in session
             $cart = serialize($shoppingcart);
-            $_SESSION['user']['cart'] = $cart;
+            $_SESSION['cart'] = $cart;
         }
     }
 }

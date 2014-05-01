@@ -1,7 +1,7 @@
 <?php
 
 namespace Pizzashop\Controller;
-use Library\Controller;
+use Framework\AbstractController;
 use Pizzashop\Model\Service\ArticleService;
 use Pizzashop\Model\Service\CategoryService;
 use Pizzashop\Exception\FormException;
@@ -13,7 +13,7 @@ use Pizzashop\Exception\FormException;
  *
  * @author cyber02
  */
-class ArticleAdminController extends Controller
+class ArticleAdminController extends AbstractController
 {
     function __construct($app)
     {
@@ -22,32 +22,36 @@ class ArticleAdminController extends Controller
     
     public function viewAll()
     {
-        $this->model['articles'] = ArticleService::showArticlelist();
-        $this->view = $this->app->environment->render('articleadminlist.twig', array('articles' => $this->model['articles']));
-        print($this->view);
+        $articles = ArticleService::showArticlelist();
+        $this->render('articleadminlist.twig', array(
+            'articles' => $articles,
+            ));
     }
     
     public function viewDetail($arguments)
     {
         $id = $arguments[0];
-        $this->model['article'] = ArticleService::showArticle($id);
-        $this->model['categories'] = CategoryService::getCategories();
-        $this->view = $this->app->environment->render('articleadmindetail.twig', array('article' => $this->model['article'], 'categories' => $this->model['categories']));
-        print($this->view);
+        $article = ArticleService::showArticle($id);
+        $categories = CategoryService::getCategories();
+        $this->render('articleadmindetail.twig', array(
+            'article' => $article,
+            'categories' => $categories,
+            ));
     }
     
     public function viewCategory($arguments)
     {
-        $category = $arguments[0];
-        $this->model['articles'] = ArticleService::showArticlelist($category);
-        $this->view = $this->app->environment->render('articleadminlist.twig', array('articles' => $this->model['articles']));
-        print($this->view);
+        $categoryId = $arguments[0];
+        $articles = ArticleService::showArticlelist($categoryId);
+        $this->render('articleadminlist.twig', array(
+            'articles' => $articles,
+            ));
     }
     
     public function add()
     {
         //build model
-        $this->model['categories'] = CategoryService::getCategories();
+        $categories = CategoryService::getCategories();
         
         //check if form was submitted
         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['articleform'])) {
@@ -56,23 +60,22 @@ class ArticleAdminController extends Controller
                 //add new article
                 ArticleService::create($_POST);
                 //redirect to articlelist
-                header('Location: /pizzashop/articleadmin/viewall');
+                header('Location: '.ROOT.'/articleadmin/viewall');
                 exit();
             } catch (FormException $exc) {
                 //render form with errors
-                $this->view = $this->app->environment->render(
-                        'articleadmindetail.twig',
-                        array(
-                            'categories' => $this->model['categories'],
+                $this->render(
+                        'articleadmindetail.twig', array(
+                            'categories' => $categories,
                             'exception' => $exc,
                             )
                         );
-                print($this->view);
             }
         } else {
             //show empty articledetail form
-            $this->view = $this->app->environment->render('articleadmindetail.twig', array('categories' => $this->model['categories']));
-            print($this->view);
+            $this->render('articleadmindetail.twig', array(
+                'categories' => $categories,
+                ));
         }
         
     }
@@ -82,7 +85,7 @@ class ArticleAdminController extends Controller
         //update existing article
         ArticleService::update($_POST);
         //redirect to articlelist
-        header('Location: /pizzashop/articleadmin/viewall');
+        header('Location: '.ROOT.'/articleadmin/viewall');
         exit();
     }
     
@@ -102,7 +105,7 @@ class ArticleAdminController extends Controller
         $id = $arguments[0];
         ArticleService::delete($id);
         //redirect to articlelist
-        header('Location: /pizzashop/articleadmin/viewall');
+        header('Location: '.ROOT.'/articleadmin/viewall');
         exit();
     }
 }

@@ -1,20 +1,22 @@
-{%extends "template/tmpl_admin.twig"%}
+{% extends "template/tmpl_admin.twig" %} 
 
-{%block title%}Pizzashop - Beheer - Orders{%endblock%}
-{%block content%}
+{% block title %}
+    {{ parent() }}Orders
+{% endblock %} 
+{% block content %} 
 <div class="panel panel-primary">
     <div class="panel-heading">Orderlijst</div>
-    <form class="form-horizontal" role="form" method="post" action="/pizzashop/orderadmin/viewcustomer">
+    <form class="form-horizontal" role="form" method="post" action="{{ app.root }}/orderadmin/viewcustomer">
         <div class="well">
             <select name="customer">
-                {% for customer in customers %}
-                    <option value="{{customer.id}}"{%if customer.id == selectedcustomer%}selected{%endif%}>{{customer.fullname}}</option>
-                {% endfor %}
+                {%  for customer in customers  %} 
+                    <option value="{{customer.id}}"{% if customer.id == selectedcustomer %} selected{% endif %} >{{customer.fullname}}</option>
+                {%  endfor  %} 
             </select>
             <input class="btn btn-default" type="submit" value="Toon Orders">
         </div>
     </form>
-    <form class="form-horizontal" role="form" method="post" action="/pizzashop/orderadmin/savestatus">
+    <form class="form-horizontal" role="form" method="post" action="{{ app.root }}/orderadmin/savestatus">
         <table class="table">
             <thead>
                 <tr class="active">
@@ -26,7 +28,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for order in orders %}
+                {%  for order in orders  %} 
                     <tr>
                         <input type="hidden" name="order[]" value="{{order.id}}">
                         <td>{{ order.customer.fullname }}</a></td>
@@ -35,13 +37,13 @@
                         <td>{{ order.total }}</td>
                         <td>
                             <select name="orderstatus[]">
-                                {% for status in orderstatus %}
-                                    <option value="{{status.id}}" {%if order.orderstatus.id == status.id%}selected{%endif%}>{{status.description}}</option>
-                                {% endfor %}
+                                {%  for status in orderstatus  %} 
+                                    <option value="{{status.id}}" {% if order.orderstatus.id == status.id %} selected{% endif %} >{{status.description}}</option>
+                                {%  endfor  %} 
                             </select>
                         </td>
                     </tr>
-                {% endfor %}
+                {%  endfor  %} 
             </tbody>
         </table>
         <div class="well">
@@ -49,4 +51,4 @@
         </div>
     </form>
 </div><!--end of panel-->
-{%endblock%}
+{% endblock %} 

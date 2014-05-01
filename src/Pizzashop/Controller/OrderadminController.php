@@ -7,7 +7,7 @@
  */
 
 namespace Pizzashop\Controller;
-use Library\Controller;
+use Framework\AbstractController;
 use Pizzashop\Model\Service\OrderService;
 use Pizzashop\Model\Service\OrderstatusService;
 use Pizzashop\Model\Service\CustomerService;
@@ -17,7 +17,7 @@ use Pizzashop\Model\Service\CustomerService;
  *
  * @author Thomas
  */
-class OrderadminController extends Controller
+class OrderadminController extends AbstractController
 {
     function __construct($app)
     {
@@ -27,38 +27,38 @@ class OrderadminController extends Controller
     public function viewAll()
     {
         //get orders
-        $this->model['orders'] = OrderService::showOrderlist();
+        $orders = OrderService::showOrderlist();
         //get orderstatus
-        $this->model['orderstatus'] = OrderstatusService::showOrderstatuslist();
+        $orderstatus = OrderstatusService::showOrderstatuslist();
         //get customers
-        $this->model['customers'] = CustomerService::showCustomerlist();
+        $customers = CustomerService::showCustomerlist();
         //display admin orderlist 
-        $this->view = $this->app->environment->render(
+        $this->render(
                 'orderadminlist.twig',
                 array(
-                    'orders' => $this->model['orders'],
-                    'orderstatus' => $this->model['orderstatus'],
-                    'customers' => $this->model['customers']));
-        print($this->view);
+                    'orders' => $orders,
+                    'orderstatus' => $orderstatus,
+                    'customers' => $customers,
+                    ));
     }
     
     public function viewCustomer()
     {
         //get orders
-        $this->model['orders'] = OrderService::showOrdersByCustomer($_POST['customer']);
+        $orders = OrderService::showOrdersByCustomer($_POST['customer']);
         //get orderstatus
-        $this->model['orderstatus'] = OrderstatusService::showOrderstatuslist();
+        $orderstatus = OrderstatusService::showOrderstatuslist();
         //get customers
-        $this->model['customers'] = CustomerService::showCustomerlist();
+        $customers = CustomerService::showCustomerlist();
         //display admin orderlist 
-        $this->view = $this->app->environment->render(
+        $this->render(
                 'orderadminlist.twig',
                 array(
-                    'orders' => $this->model['orders'],
-                    'orderstatus' => $this->model['orderstatus'],
-                    'customers' => $this->model['customers'],
-                    'selectedcustomer' => $_POST['customer']));
-        print($this->view);
+                    'orders' => $orders,
+                    'orderstatus' => $orderstatus,
+                    'customers' => $customers,
+                    'selectedcustomer' => $_POST['customer'],
+                    ));
     }
 
     public function saveStatus()
@@ -66,7 +66,7 @@ class OrderadminController extends Controller
         //update status
         OrderService::updateOrderstatus($_POST);
         //redirect to list
-        header('location: /pizzashop/orderadmin/viewall/');
+        header('location: '.ROOT.'/orderadmin/viewall/');
         exit();
     }
 }

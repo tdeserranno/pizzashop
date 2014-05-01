@@ -1,7 +1,7 @@
 <?php
 
 namespace Pizzashop\Controller;
-use Library\Controller;
+use Framework\AbstractController;
 use Pizzashop\Model\Service\ArticleService;
 use Pizzashop\Model\Service\ToppingService;
 
@@ -10,7 +10,7 @@ use Pizzashop\Model\Service\ToppingService;
  *
  * @author cyber02
  */
-class MenuController extends Controller
+class MenuController extends AbstractController
 {
     function __construct($app)
     {
@@ -19,16 +19,18 @@ class MenuController extends Controller
 
     public function showToppings()
     {
-        $this->model['toppings'] = ToppingService::showToppinglist();
-        $this->view = $this->app->environment->render('menutoppings.twig', array('toppings' => $this->model['toppings']));
-        print($this->view);
+        $toppings = ToppingService::showToppinglist();
+        $this->render('menutoppings.twig', array(
+            'toppings' => $toppings,
+            ));
     }
     
     public function show($arguments)
     {
-        $category = $arguments[0];
-        $this->model['articles'] = ArticleService::showArticlelistByCategory($category);
-        $this->view = $this->app->environment->render('menu.twig', array('articles' => $this->model['articles']));
-        print($this->view);
+        $categoryId = $arguments[0];
+        $articles = ArticleService::showArticlelistByCategory($categoryId);
+        $this->render('menu.twig', array(
+            'articles' => $articles,
+            ));
     }
 }

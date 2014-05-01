@@ -1,8 +1,10 @@
-{%extends "template/tmpl_public.twig"%}
+{% extends "template/tmpl_public.twig" %} 
 
-{%block title%}Pizzashop - Sign up{%endblock%}
-{%block content%}
-<form class="form-horizontal" method="post" action="/pizzashop/auth/register/">
+{% block title %}
+    {{ parent() }}Sign up
+{% endblock %} 
+{% block content %} 
+<form class="form-horizontal" method="post" action="{{ app.root }}/auth/register/">
     <div class="well">
         <div class="form-group">
             <label class="col-lg-2" for="username">Gebruikersnaam</label>
@@ -49,4 +51,4 @@
     </div><!--end of address data well-->
     <div class="col-lg-offset-2"><input class="btn" type="submit" value="Registreer"></div>
 </form>
-{%endblock%}
+{% endblock %} 

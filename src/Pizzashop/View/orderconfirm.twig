@@ -1,8 +1,10 @@
-{%extends "template/tmpl_public.twig"%}
+{% extends "template/tmpl_public.twig" %} 
 
-{%block title%}Pizzashop - Order{%endblock%}
-{%block content%}
-{% if cart is defined and cart.items is not empty %}
+{% block title %}
+    {{ parent() }}Orderbevestiging
+{% endblock %} 
+{% block content %} 
+{%  if cart is defined and cart.items is not empty  %} 
     <div class="panel panel-default">
         <div class="panel-heading">Bestelling van {{cart.customer.fullname}}</div>
         <table class="table">
@@ -15,21 +17,21 @@
                 </tr>
             </thead>
             <tbody>
-                {% for item in cart.items %}
+                {%  for item in cart.items  %} 
                     <tr>
                         <td>
                             {{ item.article.name }}
-                            {% if item.extratoppings is not empty %}
-                                {% for topping in item.extratoppings %}
+                            {%  if item.extratoppings is not empty  %} 
+                                {%  for topping in item.extratoppings  %} 
                                     <br>met extra {{topping.name}}
-                                {% endfor %}
-                            {% endif %}
+                                {%  endfor  %} 
+                            {%  endif  %} 
                         </td>
                         <td>{{ item.cost }}</td>
                         <td>{{ item.quantity }}</td>
                         <td>{{ item.total }}</td>
                     </tr>
-                {% endfor %}
+                {%  endfor  %} 
             </tbody>
             <tbody>
                 <tr class="active">
@@ -58,7 +60,7 @@
         </table>
     </div><!--end of panel shoppingcart-->
     <div class="well">
-        <a class="btn btn-default" href="/pizzashop/order/placeorder/">Bevestig bestelling</a>
+        <a class="btn btn-default" href="{{ app.root }}/order/placeorder/">Bevestig bestelling</a>
     </div>
-{%endif%}
-{%endblock%}
+{% endif %} 
+{% endblock %} 

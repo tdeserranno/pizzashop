@@ -1,11 +1,13 @@
-{%extends "template/tmpl_public.twig"%}
+{% extends "template/tmpl_public.twig" %} 
 
-{%block title%}Pizzashop - Menu{%endblock%}
-{%block content%}
+{% block title %}
+    {{ parent() }}Menu
+{% endblock %} 
+{% block content %} 
 <div class="well">
-    <a class="btn btn-default" href="/pizzashop/menu/show/pizza">Toon pizza's</a>
-    <a class="btn btn-default" href="/pizzashop/menu/show/drank">Toon drank</a>
-    <a class="btn btn-default" href="/pizzashop/menu/showtoppings/">Toon extra toppings</a>
+    <a class="btn btn-default" href="{{ app.root }}/menu/show/pizza">Toon pizza's</a>
+    <a class="btn btn-default" href="{{ app.root }}/menu/show/drank">Toon drank</a>
+    <a class="btn btn-default" href="{{ app.root }}/menu/showtoppings/">Toon extra toppings</a>
 </div><!--end of well-->
 <div class="panel panel-primary">
     <div class="panel-heading">Artikellijst</div>
@@ -20,16 +22,16 @@
             </tr>
         </thead>
         <tbody>
-            {% for article in articles %}
+            {%  for article in articles  %} 
                 <tr>
-                    <td><img class="menuitemimg" src="/pizzashop/public/images/{{ article.image }}"></a></td>
+                    <td><img class="menuitemimg" src="{{ app.root }}/public/images/{{ article.image }}"></a></td>
                     <td>{{ article.name }}</td>
                     <td>{{ article.description }}</td>
                     <td>{{ article.cost }}</td>
-                    <td>{% if article.promo_status == 1 %} PROMOTIE {% endif %}</td>
+                    <td>{%  if article.promo_status == 1  %}  PROMOTIE {%  endif  %} </td>
                 </tr>
-            {% endfor %}
+            {%  endfor  %} 
         </tbody>
     </table>
 </div><!--end of panel-->
-{%endblock%}
+{% endblock %} 

@@ -1,7 +1,7 @@
 <?php
 
 namespace Pizzashop\Controller;
-use Library\Controller;
+use Framework\AbstractController;
 use Pizzashop\Model\Service\UserService;
 
 /**
@@ -11,7 +11,7 @@ use Pizzashop\Model\Service\UserService;
  *
  * @author Thomas
  */
-class AuthController extends Controller
+class AuthController extends AbstractController
 {
     function __construct($app)
     {
@@ -21,15 +21,13 @@ class AuthController extends Controller
     public function go()
     {
         //display login screen
-        $this->view = $this->app->environment->render('login.twig');
-        print($this->view);
+        $this->render('login.twig');
     }
     
     public function signup()
     {
         //display signup form
-        $this->view = $this->app->environment->render('signup.twig');
-        print($this->view);
+        $this->render('signup.twig');
     }
     
     public function register()
@@ -37,7 +35,7 @@ class AuthController extends Controller
         //process user/customer registration
         UserService::registerUser($_POST);
         //redirect to login
-        header('location: /pizzashop/auth/go/');
+        header('location: '.ROOT.'/auth/go/');
         exit();
     }
     

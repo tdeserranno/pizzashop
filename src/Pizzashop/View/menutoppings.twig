@@ -1,11 +1,13 @@
-{%extends "template/tmpl_public.twig"%}
+{% extends "template/tmpl_public.twig" %} 
 
-{%block title%}Pizzashop - Menu{%endblock%}
-{%block content%}
+{% block title %}
+    {{ parent() }}Menu
+{% endblock %} 
+{% block content %} 
 <div class="well">
-    <a class="btn btn-default" href="/pizzashop/menu/show/pizza">Toon pizza's</a>
-    <a class="btn btn-default" href="/pizzashop/menu/show/drank">Toon drank</a>
-    <a class="btn btn-default" href="/pizzashop/menu/showtoppings/">Toon extra toppings</a>
+    <a class="btn btn-default" href="{{ app.root }}/menu/show/pizza">Toon pizza's</a>
+    <a class="btn btn-default" href="{{ app.root }}/menu/show/drank">Toon drank</a>
+    <a class="btn btn-default" href="{{ app.root }}/menu/showtoppings/">Toon extra toppings</a>
 </div>
 <div class="panel panel-primary">
     <div class="panel-heading">Toppinglijst</div>
@@ -17,13 +19,13 @@
             </tr>
         </thead>
         <tbody>
-            {% for topping in toppings %}
+            {%  for topping in toppings  %} 
                 <tr>
                     <td>{{ topping.name }}</td>
                     <td>{{ topping.price }}</td>
                 </tr>
-            {% endfor %}
+            {%  endfor  %} 
         </tbody>
     </table>
 </div><!--end of panel-->
-{%endblock%}
+{% endblock %} 

@@ -1,12 +1,14 @@
-{%extends "template/tmpl_admin.twig"%}
+{% extends "template/tmpl_admin.twig" %} 
 
-{%block title%}Pizzashop - Beheer - Klanten{%endblock%}
-{%block content%}
+{% block title %}
+    {{ parent() }}Klanten
+{% endblock %} 
+{% block content %} 
 <div class="panel panel-primary">
     <div class="panel-heading">Klant Detail</div>
-    <form class="form-horizontal" role="form" method="post" {% if customer is defined and customer is not empty %} action="/pizzashop/customeradmin/save" {% else %} action="/pizzashop/customeradmin/add" {% endif %}>
+    <form class="form-horizontal" role="form" method="post" {% if customer is defined and customer is not empty %}  action="{{ app.root }}/customeradmin/save" {% else %}  action="{{ app.root }}/customeradmin/add" {%  endif  %} >
         <input type="hidden" name="id" value="{{ customer.id }}">
-        {% if customer is not defined%}
+        {%  if customer is not defined %} 
         <div class="well">
             <div class="form-group">
                 <label class="col-lg-2" for="username">Gebruikersnaam</label>
@@ -25,7 +27,7 @@
                 <div class="col-lg-2"><input name="passconfirm" id="passconfirm" type="password" required></div>
             </div>
         </div><!--end of login data well-->
-        {% endif %}
+        {%  endif  %} 
         <div class="well">
             <div class="form-group">
                 <label class="col-lg-2" for="firstname">Voornaam</label>
@@ -53,7 +55,7 @@
             </div>
             <div class="form-group">
                 <label class="col-lg-2" for="active_status">Actief</label>
-                <div class="col-lg-1"><input name="active_status" id="active_status" type="checkbox" value="yes"{%if customer.active_status == true%}checked{%endif%}></div>
+                <div class="col-lg-1"><input name="active_status" id="active_status" type="checkbox" value="yes"{% if customer.active_status == true %} checked{% endif %} ></div>
             </div>
         </div><!--end of address data well-->
         <div class="well">
@@ -61,4 +63,4 @@
         </div>
     </form>
 </div><!--end of panel-->
-{%endblock%}
+{% endblock %} 

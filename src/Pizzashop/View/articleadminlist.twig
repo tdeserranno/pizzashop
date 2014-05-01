@@ -1,7 +1,10 @@
-{%extends "template/tmpl_admin.twig"%}
+{% extends "template/tmpl_admin.twig" %} 
 
-{%block title%}Pizzashop - Beheer - Artikels{%endblock%}
-{%block content%}
+{% block title %}
+    {{ parent() }}
+    Artikel Lijst
+{% endblock %} 
+{% block content %} 
 <div class="panel panel-primary">
     <div class="panel-heading">Artikellijst</div>
     <table class="table">
@@ -16,20 +19,20 @@
             </tr>
         </thead>
         <tbody>
-            {% for article in articles %}
+            {%  for article in articles  %} 
                 <tr>
-                    <td><a href="/pizzashop/articleadmin/viewdetail/{{ article.id }}">{{ article.name }}</a></td>
+                    <td><a href="{{ app.root }}/articleadmin/viewdetail/{{ article.id }}">{{ article.name }}</a></td>
                     <td>{{ article.price }}</td>
                     <td>{{ article.promo_price }}</td>
                     <td>{{ article.promo_status }}</td>
                     <td>{{ article.category.name }}</td>
-                    <td><a href="/pizzashop/articleadmin/delete/{{article.id}}">Delete</a></td>
+                    <td><a href="{{ app.root }}/articleadmin/delete/{{article.id}}">Delete</a></td>
                 </tr>
-            {% endfor %}
+            {%  endfor  %} 
         </tbody>
     </table>
     <div class="well">
-        <a class="btn btn-primary" href="/pizzashop/articleadmin/add/">Nieuw artikel</a>
+        <a class="btn btn-primary" href="{{ app.root }}/articleadmin/add/">Nieuw artikel</a>
     </div>
 </div><!--end of panel-->
-{%endblock%}
+{% endblock %} 

@@ -7,7 +7,7 @@
  */
 
 namespace Pizzashop\Controller;
-use Library\Controller;
+use Framework\AbstractController;
 use Pizzashop\Model\Service\CustomerService;
 use Pizzashop\Model\Service\OrderService;
 
@@ -16,7 +16,7 @@ use Pizzashop\Model\Service\OrderService;
  *
  * @author cyber02
  */
-class ShippingAdminController extends Controller
+class ShippingAdminController extends AbstractController
 {
     function __construct($app)
     {
@@ -26,23 +26,21 @@ class ShippingAdminController extends Controller
     public function viewList()
     {
         //get customers with undelivered orders
-        $this->model['customers'] = CustomerService::showOpenOrderCustomers();
+        $customers = CustomerService::showOpenOrderCustomers();
         //get undelivered orders
-        $this->model['orders'] = OrderService::showOpenOrders();
+        $orders = OrderService::showOpenOrders();
         //get subtotals
-        $this->model['customertotals'] = OrderService::showOpenOrdersCustomerTotals();
+        $customerTotals = OrderService::showOpenOrdersCustomerTotals();
         //get total
-        $this->model['total'] = OrderService::showOpenOrdersTotal();
+        $total = OrderService::showOpenOrdersTotal();
         //display view
-        $this->view = $this->app->environment->render(
+        $this->render(
                 'shippingadminlist.twig',
                 array(
-                    'orders' => $this->model['orders'],
-                    'customers' => $this->model['customers'],
-                    'customertotals' => $this->model['customertotals'],
-                    'total' => $this->model['total']
+                    'orders' => $orders,
+                    'customers' => $customers,
+                    'customertotals' => $customerTotals,
+                    'total' => $total,
                 ));
-        print($this->view);
-        
     }
 }

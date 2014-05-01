@@ -1,8 +1,11 @@
 {% extends "template/tmpl_public.twig" %} 
 
 {% block title %}
-    {{ parent() }}Order success
+    {{ parent() }}Error
 {% endblock %} 
 {% block content %} 
-    <h3>De bestelling werd met success geregistreerd.</h3>
+    <h2>Error</h2>
+    <p>
+        {{ exception.message }}
+    </p>
 {% endblock %} 

@@ -1,24 +1,28 @@
-{%extends "template/tmpl_base.twig"%}
+{% extends "template/tmpl_base.twig" %}
 
-{%block navigation%}
+{% block title %}
+    {{ parent () }}Beheer - 
+{% endblock title %}
+
+{% block navigation %}
 <nav class="navbar navbar-default row">
     <ul class="nav navbar-nav navbar-left">
-        <li><a href="/pizzashop/home/go/">Home</a></li>
-        <li><a href="/pizzashop/articleadmin/viewall/">Artikels</a></li>
-        <li><a href="/pizzashop/toppingadmin/viewall/">Toppings</a></li>
-        <li><a href="/pizzashop/customeradmin/viewall/">Klanten</a></li>
-        <li><a href="/pizzashop/orderadmin/viewall/">Orders</a></li>
-        <li><a href="/pizzashop/shippingadmin/viewlist/">Leveringlijst</a></li>
+        <li><a href="{{ app.root }}/home/go/">Home</a></li>
+        <li><a href="{{ app.root }}/articleadmin/viewall/">Artikels</a></li>
+        <li><a href="{{ app.root }}/toppingadmin/viewall/">Toppings</a></li>
+        <li><a href="{{ app.root }}/customeradmin/viewall/">Klanten</a></li>
+        <li><a href="{{ app.root }}/orderadmin/viewall/">Orders</a></li>
+        <li><a href="{{ app.root }}/shippingadmin/viewlist/">Leveringlijst</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-    {% if session.user is not defined %}
-        <li><a href="/pizzashop/auth/go/">Log in</a></li>
+    {% if app.user is empty %}
+        <li><a href="{{ app.root }}/auth/go/">Log in</a></li>
     {% else %}
-        {% if session.user.admin == 1 %}
-        <li><a href="/pizzashop/admin/go/">Beheer</a></li>
+        {% if app.user.admin == 1 %}
+            <li><a href="{{ app.root }}/admin/go/">Beheer</a></li>
         {% endif %}
-        <li><a href="/pizzashop/auth/logout/">Log out</a></li>
+            <li><a href="{{ app.root }}/auth/logout/">Log out</a></li>
     {% endif %}
     </ul>
 </nav>
-{%endblock%}
+{% endblock navigation %}

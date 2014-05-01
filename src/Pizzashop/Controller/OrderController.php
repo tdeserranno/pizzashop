@@ -7,7 +7,7 @@
  */
 
 namespace Pizzashop\Controller;
-use Library\Controller;
+use Framework\AbstractController;
 use Pizzashop\Model\Service\ShoppingcartService;
 use Pizzashop\Model\Service\ArticleService;
 use Pizzashop\Model\Service\ToppingService;
@@ -17,37 +17,40 @@ use Pizzashop\Model\Service\ToppingService;
  *
  * @author cyber02
  */
-class OrderController extends Controller
+class OrderController extends AbstractController
 {
     public function go()
     {
         //get current shopping cart
-        $this->model['cart'] = ShoppingcartService::getShoppingcart($_SESSION['user']);
-//        var_dump($this->model['cart']);
+        $cart = ShoppingcartService::getShoppingcart($_SESSION['user']);
         //display view
-        $this->view = $this->app->environment->render('ordermenu.twig', array('cart' => $this->model['cart']));
-        print($this->view);
+        $this->render('ordermenu.twig', array(
+            'cart' => $cart,
+            ));
     }
     
     public function selectPizza()
     {
         //get pizza articles
         $category = 'pizza';
-        $this->model['articles'] = ArticleService::showArticlelistByCategory($category);
-        $this->model['toppings'] = ToppingService::showToppinglist();
+        $articles = ArticleService::showArticlelistByCategory($category);
+        $toppings = ToppingService::showToppinglist();
         //display view
-        $this->view = $this->app->environment->render('orderselect.twig', array('articles' => $this->model['articles'],'toppings' => $this->model['toppings']));
-        print($this->view);
+        $this->render('orderselect.twig', array(
+            'articles' => $articles,
+            'toppings' => $toppings,
+            ));
     }
     
     public function selectBeverage()
     {
         //get pizza articles
         $category = 'drank';
-        $this->model['articles'] = ArticleService::showArticlelistByCategory($category);
+        $articles = ArticleService::showArticlelistByCategory($category);
         //display view
-        $this->view = $this->app->environment->render('orderselect.twig', array('articles' => $this->model['articles']));
-        print($this->view);
+        $this->render('orderselect.twig', array(
+            'articles' => $articles,
+            ));
     }
     
     public function addItem()
@@ -55,7 +58,7 @@ class OrderController extends Controller
         //add item to shoppingcart 
         ShoppingcartService::addItem($_SESSION['user'], $_POST);
         //redirect to order main screen
-        header('location: /pizzashop/order/go/');
+        header('location: '.ROOT.'/order/go/');
         exit();
     }
     
@@ -65,7 +68,7 @@ class OrderController extends Controller
         $index = $arguments[0];
         ShoppingcartService::removeItem($_SESSION['user'], $index);
         //redirect to order main screen
-        header('location: /pizzashop/order/go');
+        header('location: '.ROOT.'/order/go');
         exit();
     }
     
@@ -73,7 +76,7 @@ class OrderController extends Controller
     {
         ShoppingcartService::updateItems($_SESSION['user'], $_POST);
         //redirect to order main screen
-        header('location: /pizzashop/order/go');
+        header('location: '.ROOT.'/order/go');
         exit();
     }
     
@@ -81,7 +84,7 @@ class OrderController extends Controller
     {
         ShoppingcartService::setDelivery($_SESSION['user'], $_POST);
         //redirect to order confirmation
-        header('location: /pizzashop/order/confirm');
+        header('location: '.ROOT.'/order/confirm');
         exit();
     }
     
@@ -89,32 +92,33 @@ class OrderController extends Controller
     {
         ShoppingcartService::placeOrder($_SESSION['user']);
         //redirect to order success
-        header('location: /pizzashop/order/success');
+        header('location: '.ROOT.'/order/success');
         exit();
     }
     
     public function delivery()
     {
        //get current shopping cart
-        $this->model['cart'] = ShoppingcartService::getShoppingcart($_SESSION['user']);
+        $cart = ShoppingcartService::getShoppingcart($_SESSION['user']);
         //display delivery options view
-        $this->view = $this->app->environment->render('deliverymenu.twig', array('cart' => $this->model['cart']));
-        print($this->view);
+        $this->render('deliverymenu.twig', array(
+            'cart' => $cart,
+            ));
     }
     
     public function confirm()
     {
         //get current shopping cart
-        $this->model['cart'] = ShoppingcartService::getShoppingcart($_SESSION['user']);
+        $cart = ShoppingcartService::getShoppingcart($_SESSION['user']);
         //display order confirmation
-        $this->view = $this->app->environment->render('orderconfirm.twig', array('cart' => $this->model['cart']));
-        print($this->view);
+        $this->render('orderconfirm.twig', array(
+            'cart' => $cart,
+            ));
     }
     
     public function success()
     {
         //display order success
-        $this->view = $this->app->environment->render('ordersuccess.twig');
-        print($this->view);
+        $this->render('ordersuccess.twig');
     }
 }

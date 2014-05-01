@@ -1,7 +1,8 @@
 <?php
 
 namespace Pizzashop\Controller;
-use Library\Controller;
+
+use Framework\AbstractController;
 
 /**
  * Description of adminhomecontroller
@@ -10,11 +11,10 @@ use Library\Controller;
  *
  * @author cyber02
  */
-class AdminController extends Controller
+class AdminController extends AbstractController
 {
     public function go()
     {
-        $this->view = $this->app->environment->render('admin.twig');
-        print($this->view);
+        $this->render('admin.twig');
     }
 }

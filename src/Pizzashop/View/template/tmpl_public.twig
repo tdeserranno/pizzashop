@@ -1,23 +1,23 @@
-{%extends "template/tmpl_base.twig"%}
+{% extends "template/tmpl_base.twig" %}
 
-{%block navigation%}
+{% block navigation %}
 <nav class="navbar navbar-default row">
     <ul class="nav navbar-nav navbar-left">
-        <li><a href="/pizzashop/home/go/">Home</a></li>
-        <li><a href="/pizzashop/menu/show/pizza">Menu</a></li>
-        {% if session.user is defined and session.user.admin != 1%}
-            <li><a href="/pizzashop/order/go/">Bestel</a></li>
+        <li><a href="{{ app.root }}/home/go/">Home</a></li>
+        <li><a href="{{ app.root }}/menu/show/pizza">Menu</a></li>
+        {% if app.user is defined and app.user is not empty and app.user.admin != 1 %}
+            <li><a href="{{ app.root }}/order/go/">Bestel</a></li>
         {% endif %}
     </ul>
     <ul class="nav navbar-nav navbar-right">
-    {% if session.user is not defined %}
-        <li><a href="/pizzashop/auth/go/">Log in</a></li>
+    {% if app.user is empty %}
+        <li><a href="{{ app.root }}/auth/go/">Log in</a></li>
     {% else %}
-        {% if session.user.admin == 1 %}
-        <li><a href="/pizzashop/admin/go/">Beheer</a></li>
+        {% if app.user.admin == 1 %}
+        <li><a href="{{ app.root }}/admin/go/">Beheer</a></li>
         {% endif %}
-        <li><a href="/pizzashop/auth/logout/">Log out</a></li>
+        <li><a href="{{ app.root }}/auth/logout/">Log out</a></li>
     {% endif %}
     </ul>
 </nav>
-{%endblock%}
+{% endblock navigation %}

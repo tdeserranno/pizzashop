@@ -1,8 +1,10 @@
-{%extends "template/tmpl_public.twig"%}
+{% extends "template/tmpl_public.twig" %} 
 
-{%block title%}Pizzashop - Login{%endblock%}
-{%block content%}
-<form class="form-horizontal" method="post" action="/pizzashop/auth/login/">
+{% block title %}
+    {{ parent() }}Login
+{% endblock title %} 
+{% block content %} 
+<form class="form-horizontal" method="post" action="{{ app.root }}/auth/login/">
     <div class="form-group">
         <label for="username" class="col-lg-2">Gebruikersnaam</label>
         <div class="col-lg-2"><input name="username" type="text" id="username" required></div>
@@ -12,14 +14,14 @@
         <div class="col-lg-2"><input name="password" type="password" id="password" required></div>
     </div>
     <input type="submit" value="Login" class="col-lg-offset-2">
-    <span class="help-block">Heb je nog geen account? <a href="/pizzashop/auth/signup/">Klik hier</a> om te registreren.</span>
+    <span class="help-block">Heb je nog geen account? <a href="{{ app.root }}/auth/signup/">Klik hier</a> om te registreren.</span>
 </form><!--end of login form-->
-{% if exception is not empty %}
+{% if exception is not empty %} 
 <div>
     <h3>Error</h3>
     <p>
         {{ exception.message }}
     </p>
 </div><!--end of login error area-->
-{% endif %}
-{%endblock%}
+{% endif %} 
+{% endblock content %} 

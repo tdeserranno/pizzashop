@@ -1,5 +1,5 @@
 <?php
-namespace Library\Exception;
+namespace Framework\Exception;
 
 /**
  * Description of dispatcherexception

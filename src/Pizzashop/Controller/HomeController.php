@@ -1,7 +1,7 @@
 <?php
 
 namespace Pizzashop\Controller;
-use Library\Controller;
+use Framework\AbstractController;
 
 /**
  * Description of homecontroller
@@ -10,11 +10,10 @@ use Library\Controller;
  *
  * @author Thomas
  */
-class HomeController extends Controller
+class HomeController extends AbstractController
 {
     public function go()
     {
-        $this->view = $this->app->environment->render('home.twig');
-        print($this->view);
+        $this->render('home.twig');
     }
 }

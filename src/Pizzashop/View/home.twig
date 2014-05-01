@@ -1,3 +1,5 @@
-{%extends "template/tmpl_public.twig"%}
+{% extends "template/tmpl_public.twig" %} 
 
-{%block title%}Pizzashop - Home{%endblock%}
+{% block title %}
+    {{ parent() }}Home
+{% endblock %} 

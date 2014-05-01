@@ -1,7 +1,8 @@
 <?php
 
 namespace Pizzashop\Model\Data;
-use Library\Exception\AuthenticationException;
+
+use Framework\Exception\SecurityException;
 use Pizzashop\Model\Entity\User;
 
 /**
@@ -11,6 +12,7 @@ use Pizzashop\Model\Entity\User;
  */
 class UserDAO
 {
+
     public static function create($username, $hashedpassword, $email)
     {
         //create DB connection
@@ -19,15 +21,15 @@ class UserDAO
         $sql = 'INSERT INTO users (username, password, email) VALUES (:username, :password, :email)';
         $stmt = $db->prepare($sql);
         if ($stmt->execute(array(':username' => $username,
-                                ':password' => $hashedpassword,
-                                ':email' => $email))) {
+                    ':password' => $hashedpassword,
+                    ':email' => $email))) {
             //inserting
         } else {
-            throw new \Exception ('insert user statement could not be executed');
+            throw new \Exception('insert user statement could not be executed');
         }
         unset($db);
     }
-    
+
     public static function delete($username)
     {
         //create DB connection
@@ -38,16 +40,16 @@ class UserDAO
         if ($stmt->execute(array(':username' => $username))) {
             //deleting
         } else {
-            throw new \Exception ('delete user statement could not be executed');
+            throw new \Exception('delete user statement could not be executed');
         }
     }
-    
+
     public static function getUser($username)
     {
         //create DB connection
         $db = new \PDO(DB_DSN, DB_USER, DB_PASS);
         //prepare statement
-        $sql = 'SELECT * FROM users WHERE username = :username';    
+        $sql = 'SELECT * FROM users WHERE username = :username';
         $stmt = $db->prepare($sql);
         //test if statement can be executed
         if ($stmt->execute(array(':username' => $username))) {
@@ -55,15 +57,40 @@ class UserDAO
             $record = $stmt->fetch();
             if (!empty($record)) {
                 //create user object and return it
-                $user = new User($record['username'], $record['password'], $record['admin']);
+                $user = new User($record['username'], $record['admin']);
                 return $user;
             } else {
                 //no matching record
-                throw new AuthenticationException('no matching user found',2);
+                throw new SecurityException('no matching user found', 2);
             }
         } else {
             //statement could not be executed
             throw new \Exception('getuser statement could not be executed');
         }
     }
+    
+    public static function getPassword($username)
+    {
+        //create DB connection
+        $db = new \PDO(DB_DSN, DB_USER, DB_PASS);
+        //prepare statement
+        $sql = 'SELECT password FROM users WHERE username = :username';
+        $stmt = $db->prepare($sql);
+        //test if statement can be executed
+        if ($stmt->execute(array(':username' => $username))) {
+            //test if statement retrieved something
+            $record = $stmt->fetch();
+            if (!empty($record)) {
+                //return password
+                return $record['password'];
+            } else {
+                //no matching record
+                throw new SecurityException('user not found', 2);
+            }
+        } else {
+            //statement could not be executed
+            throw new \Exception('getPassword statement could not be executed');
+        }
+    }
+
 }

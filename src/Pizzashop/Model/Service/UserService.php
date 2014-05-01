@@ -3,7 +3,7 @@
 namespace Pizzashop\Model\Service;
 use Pizzashop\Model\Data\UserDAO;
 use Pizzashop\Model\Service\CustomerService;
-use Library\Exception\AuthenticationException;
+use Framework\Exception\SecurityException;
 
 /**
  * Description of userservice
@@ -12,6 +12,18 @@ use Library\Exception\AuthenticationException;
  */
 class UserService
 {
+    public static function serializeToSession($user)
+    {
+        $_SESSION['user'] = serialize($user);
+    }
+    
+    public static function unserializeFromSession()
+    {
+        $user = unserialize($_SESSION['user']);
+        
+        return $user;
+    }
+    
     public static function registerUser($post)
     {
         if (isset($post)) {
@@ -31,19 +43,17 @@ class UserService
             //verify user
             $user = UserService::verifyUser($_POST['username'], $_POST['password']);
             if (is_object($user)) {
-                //if login successful, create SESSION variable to store username and usertype
-                $_SESSION['user']['username'] = $user->getUsername();
-                $_SESSION['user']['admin'] = $user->getAdmin();
-                //if set redirect to requested page, otherwise redirect to home
-                $redirect = isset($_SESSION['prev_req_page']) ? $_SESSION['prev_req_page'] : '/pizzashop/home/go/';
-                header('Location: '. $redirect);
+                //if login successful, create SESSION variable to store user
+                UserService::serializeToSession($user);
+                //redirect to home
+                header('Location: '.ROOT.'/home/go');
                 exit();
             } else {
                 //correct POST variables were not sent
-                throw new AuthenticationException('Password incorrect',2);
+                throw new SecurityException('Password incorrect',2);
             }
         } else {
-            throw new \Exception('Already logged in');
+            throw new SecurityException('Already logged in');
         }
     }
     
@@ -52,13 +62,14 @@ class UserService
         if (isset($username,$password) && !empty($username) && !empty($password)) {
             //hash POSTed password
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            //retrieve user from DB
+            //retrieve user and password from DB
             $user = UserDAO::getUser($username);
+            $userPassword = UserDAO::getPassword($username);
             //verify password
-            if (password_verify($password, $user->getHashedPassword())) {
+            if (password_verify($password, $userPassword)) {
                 return $user;
             } else {
-                throw new AuthenticationException('password incorrect',2);
+                throw new SecurityException('password incorrect',2);
             }
         }
     }
@@ -68,12 +79,11 @@ class UserService
         if (isset($_SESSION['user'])) {
             //unset SESSION vars
             unset($_SESSION['user']);
-            unset($_SESSION['prev_req_page']);
             //redirect to home
-            header('Location: /pizzashop/home/go/');
+            header('Location: '.ROOT.'/home/go/');
             exit();
         } else {
-            throw new \Exception('Cannot log out a user that isn\'t logged in');
+            throw new SecurityException('Cannot log out a user that isn\'t logged in');
         }
     }
     

@@ -1,10 +1,10 @@
-{%extends "template/tmpl_admin.twig"%}
+{% extends "template/tmpl_admin.twig" %} 
 
-{%block title%}Pizzashop - Beheer - Topping{%endblock%}
-{%block content%}
+{% block title %} Pizzashop - Beheer - Topping{% endblock %} 
+{% block content %} 
 <div class="panel panel-primary">
     <div class="panel-heading">Topping Detail</div>
-    <form class="form-horizontal" role="form" method="post" {% if topping is defined and topping is not empty %} action="/pizzashop/toppingadmin/save" {% else %} action="/pizzashop/toppingadmin/add" {% endif %}>
+    <form class="form-horizontal" role="form" method="post" {%  if topping is defined and topping is not empty  %}  action="{{ app.root }}/toppingadmin/save" {%  else  %}  action="{{ app.root }}/toppingadmin/add" {%  endif  %} >
         <input type="hidden" name="id" value="{{ topping.id }}">
         <div class="form-group">
             <label for="name" class="col-lg-1">Naam</label>
@@ -19,4 +19,4 @@
         </div>
     </form>
 </div><!--end of panel-->
-{%endblock%}
+{% endblock %} 

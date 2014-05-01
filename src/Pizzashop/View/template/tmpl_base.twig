@@ -3,18 +3,18 @@
     <head>
         <meta charset="UTF-8">
         <title>
-            {%block title%}{%endblock%}
+            {% block title %}
+                {{ app.appname }} - 
+            {% endblock title %}
         </title>
-        <link rel="stylesheet" href="/pizzashop/public/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/pizzashop/public/css/pizzashop_main.css">
+        <link rel="stylesheet" href="{{ app.root }}/public/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{{ app.root }}/public/css/pizzashop_main.css">
     </head>
     <body>
         <div class="container">
-            {%block navigation%}
-            {%endblock%}
+            {% block navigation %}{% endblock navigation %}
             <div class="row">
-                {%block content%}
-                {%endblock%}
+                {% block content %}{% endblock content %}
             </div><!--end of content-->
         </div><!--end of container-->
     </body>

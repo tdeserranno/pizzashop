@@ -1,7 +1,7 @@
 <?php
 
 namespace Pizzashop\Controller;
-use Library\Controller;
+use Framework\AbstractController;
 use Pizzashop\Model\Service\ToppingService;
 
 /**
@@ -11,7 +11,7 @@ use Pizzashop\Model\Service\ToppingService;
  *
  * @author cyber02
  */
-class ToppingAdminController extends Controller
+class ToppingAdminController extends AbstractController
 {
     function __construct($app)
     {
@@ -22,26 +22,27 @@ class ToppingAdminController extends Controller
     public function viewAll()
     {
         //get topping list
-        $this->model['toppings'] = ToppingService::showToppinglist();
-        $this->view = $this->app->environment->render('toppingadminlist.twig', array('toppings' => $this->model['toppings']));
-        print($this->view);
+        $toppings = ToppingService::showToppinglist();
+        $this->render('toppingadminlist.twig', array(
+            'toppings' => $toppings,
+            ));
     }
     
     public function viewDetail($arguments)
     {
         //get single topping
         $id = $arguments[0];
-        $this->model['topping'] = ToppingService::showTopping($id);
+        $topping = ToppingService::showTopping($id);
         //show details
-        $this->view = $this->app->environment->render('toppingadmindetail.twig', array('topping' => $this->model['topping']));
-        print($this->view);
+        $this->render('toppingadmindetail.twig', array(
+            'topping' => $topping,
+            ));
     }
     
     public function viewNew()
     {
         //show empty toppingadmindetail form
-        $this->view = $this->app->environment->render('toppingadmindetail.twig');
-        print($this->view);
+        $this->render('toppingadmindetail.twig');
     }
     
     public function add()
@@ -49,7 +50,7 @@ class ToppingAdminController extends Controller
         //add new topping
         ToppingService::create($_POST);
         //redirect to toppinglist
-        header('Location: /pizzashop/toppingadmin/viewall');
+        header('Location: '.ROOT.'/toppingadmin/viewall');
         exit();
     }
     
@@ -58,7 +59,7 @@ class ToppingAdminController extends Controller
         //update existing topping
         ToppingService::update($_POST);
         //redirect to toppinglist
-        header('location: /pizzashop/toppingadmin/viewall/');
+        header('location: '.ROOT.'/toppingadmin/viewall/');
         exit();
     }
     
@@ -78,7 +79,7 @@ class ToppingAdminController extends Controller
         $id = $arguments[0];
         ToppingService::delete($id);
         //redirect to toppinglist
-        header('location: /pizzashop/toppingadmin/viewall/');
+        header('location: '.ROOT.'/toppingadmin/viewall/');
         exit();
     }
 }
