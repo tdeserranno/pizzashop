@@ -39,20 +39,22 @@ class ArticleService
     
     public static function update($post)
     {
-        if (isset($post['id']) && !empty($post['id'])) {
-            if (isset($post['promo_status']) && $post['promo_status'] == 'yes') {
-                $promo = true;
-            } else {
-                $promo = false;
+        //assign and typecast variables
+        if (isset($post['id'])) {
+            $id = $post['id'];
+            $name = $post['name'];
+            $description = $post['description'];
+            $image = $post['image'];
+            $price = (float)$post['price'];
+            $promoStatus = (isset($post['promo_status'])) ? (boolean)$post['promo_status'] : false;
+            $promoPrice =  (float)$post['promo_price'];
+            $category = $post['category'];
+
+            //validate values
+            if (ValidationService::validateArticle($name, $price, $promoPrice)) {
+                //create article
+                ArticleDAO::update($id, $name, $description, $image, $price, $promoStatus, $promoPrice, $category);
             }
-            ArticleDAO::update($post['id'],
-                    $post['name'],
-                    $post['description'],
-                    $post['image'],
-                    $post['price'],
-                    $promo,
-                    $post['promo_price'],
-                    $post['category']);
         }
     }
     
