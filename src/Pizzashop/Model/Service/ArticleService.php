@@ -2,6 +2,7 @@
 
 namespace Pizzashop\Model\Service;
 use Pizzashop\Model\Data\ArticleDAO;
+use Pizzashop\Model\Service\ValidationService;
 
 /**
  * Description of articleservice
@@ -57,19 +58,19 @@ class ArticleService
     
     public static function create($post)
     {
-        if (isset($post)) {
-            if (isset($post['promo_status']) && $post['promo_status'] == 'yes') {
-                $promo = true;
-            } else {
-                $promo = false;
-            }
-            ArticleDAO::create($post['name'],
-                    $post['description'],
-                    $post['image'],
-                    $post['price'],
-                    $promo,
-                    $post['promo_price'],
-                    $post['category']);
+        //assign and typecast variables
+        $name = $post['name'];
+        $description = $post['description'];
+        $image = $post['image'];
+        $price = (float)$post['price'];
+        $promoStatus = (isset($post['promo_status'])) ? (boolean)$post['promo_status'] : false;
+        $promoPrice =  (float)$post['promo_price'];
+        $category = $post['category'];
+        
+        //validate values
+        if (ValidationService::validateArticle($name, $price, $promoPrice)) {
+            //create article
+            ArticleDAO::create($name, $description, $image, $price, $promoStatus, $promoPrice, $category);
         }
     }
     

@@ -11,3 +11,9 @@ and open the template in the editor.
     height: 63px;
     width: 50px;
 }
+
+.error {
+    font-size: 1.25em;
+    color: red;
+    white-space: pre-line;
+}

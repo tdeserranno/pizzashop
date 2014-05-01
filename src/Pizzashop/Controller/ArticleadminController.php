@@ -4,6 +4,7 @@ namespace Pizzashop\Controller;
 use Library\Controller;
 use Pizzashop\Model\Service\ArticleService;
 use Pizzashop\Model\Service\CategoryService;
+use Pizzashop\Exception\FormException;
 
 /**
  * Description of articleadmincontroller
@@ -43,21 +44,37 @@ class ArticleAdminController extends Controller
         print($this->view);
     }
     
-    public function viewNew()
-    {
-        //show empty articledetail form
-        $this->model['categories'] = CategoryService::getCategories();
-        $this->view = $this->app->environment->render('articleadmindetail.twig', array('categories' => $this->model['categories']));
-        print($this->view);
-    }
-    
     public function add()
     {
-        //add new article
-        ArticleService::create($_POST);
-        //redirect to articlelist
-        header('Location: /pizzashop/articleadmin/viewall');
-        exit();
+        //build model
+        $this->model['categories'] = CategoryService::getCategories();
+        
+        //check if form was submitted
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['articleform'])) {
+            //handle form
+            try {
+                //add new article
+                ArticleService::create($_POST);
+                //redirect to articlelist
+                header('Location: /pizzashop/articleadmin/viewall');
+                exit();
+            } catch (FormException $exc) {
+                //render form with errors
+                $this->view = $this->app->environment->render(
+                        'articleadmindetail.twig',
+                        array(
+                            'categories' => $this->model['categories'],
+                            'exception' => $exc,
+                            )
+                        );
+                print($this->view);
+            }
+        } else {
+            //show empty articledetail form
+            $this->view = $this->app->environment->render('articleadmindetail.twig', array('categories' => $this->model['categories']));
+            print($this->view);
+        }
+        
     }
     
     public function save()
