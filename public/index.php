@@ -4,8 +4,8 @@
  */
 
 // Initialize application
-require_once '../src/Library/framework.php';
-require_once '../src/Library/application.php';
+require_once '../src/Library/Framework.php';
+require_once '../src/Library/Application.php';
 use Library\Application;
 use Library\Helper;
 use Library\Exception\AuthenticationException;

@@ -34,10 +34,10 @@ class Application extends AbstractMVCFramework
         //Initialize Twig environment
         require_once '../vendor/Twig/Autoloader.php';
         Twig_Autoloader::register();
-        $twigLoader = new Twig_Loader_Filesystem('../src/'.$appName.'/view');
+        $twigLoader = new Twig_Loader_Filesystem('../src/'.$appName.'/View');
         $this->environment = new Twig_Environment($twigLoader);
         //load application config file
-        require_once '../src/'.$appName.'/config/config.php';
+        require_once '../src/'.$appName.'/Config/Config.php';
         //load helper functions
         $this->helper = new Helper;
         $this->dispatcher = new Dispatcher($this);
