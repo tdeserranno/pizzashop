@@ -21,3 +21,7 @@ and open the template in the editor.
 .well-bottom {
     margin-bottom: 0;
 }
+
+.btn-spacer {
+    margin-right: 1em;
+}
