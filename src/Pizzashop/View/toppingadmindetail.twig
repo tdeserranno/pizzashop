@@ -1,10 +1,16 @@
 {% extends "template/tmpl_admin.twig" %} 
 
 {% block title %} Pizzashop - Beheer - Topping{% endblock %} 
-{% block content %} 
+{% block content %}
+    {% if exception is defined %} 
+        <div class="panel panel-danger error">
+            <div class="panel-heading">Error</div>
+            {{ exception.message }}
+        </div>
+    {% endif %}
 <div class="panel panel-primary">
     <div class="panel-heading">Topping Detail</div>
-    <form class="form-horizontal" role="form" method="post" {%  if topping is defined and topping is not empty  %}  action="{{ app.root }}/toppingadmin/save" {%  else  %}  action="{{ app.root }}/toppingadmin/add" {%  endif  %} >
+    <form class="form-horizontal" role="form" method="post" action="">
         <input type="hidden" name="id" value="{{ topping.id }}">
         <div class="form-group">
             <label for="name" class="col-lg-1">Naam</label>
@@ -15,7 +21,7 @@
             <div class="col-lg-5"><input class="form-control" id="price" name="price" type="text" value="{{ topping.price }}" required></div>
         </div>
         <div class="well">
-                <input type="submit" class="btn btn-primary" value="Opslaan">
+                <input type="submit" class="btn btn-primary" name="toppingform" value="Opslaan">
         </div>
     </form>
 </div><!--end of panel-->

@@ -34,15 +34,30 @@ class ToppingService
     
     public static function update($post)
     {
-        if (isset($post['id'], $post['name'], $post['price']) && !empty($post['id'])) {
-            ToppingDAO::update($post['id'], $post['name'], $post['price']);
+        if (isset($post['id'])) {
+            //assign and typecast variables
+            $id = $post['id'];
+            $name = $post['name'];
+            $price = (float)$post['price'];
+
+            //validate values
+            if (ValidationService::validateTopping($name, $price)) {
+                //create topping
+                ToppingDAO::update($id, $name, $price);
+            }
         }
     }
     
     public static function create($post)
     {
-        if (isset($post)) {
-            ToppingDAO::create($post['name'], $post['price']);
+        //assign and typecast variables
+        $name = $post['name'];
+        $price = (float)$post['price'];
+        
+        //validate values
+        if (ValidationService::validateTopping($name, $price)) {
+            //create topping
+            ToppingDAO::create($name, $price);
         }
     }
     

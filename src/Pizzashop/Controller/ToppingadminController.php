@@ -3,6 +3,7 @@
 namespace Pizzashop\Controller;
 use Framework\AbstractController;
 use Pizzashop\Model\Service\ToppingService;
+use Pizzashop\Exception\FormException;
 
 /**
  * Description of toppingadmincontroller
@@ -30,37 +31,57 @@ class ToppingAdminController extends AbstractController
     
     public function viewDetail($arguments)
     {
-        //get single topping
+        //assign arguments
         $id = $arguments[0];
+
+        //build model
         $topping = ToppingService::showTopping($id);
-        //show details
-        $this->render('toppingadmindetail.twig', array(
-            'topping' => $topping,
-            ));
-    }
-    
-    public function viewNew()
-    {
-        //show empty toppingadmindetail form
-        $this->render('toppingadmindetail.twig');
+        
+        //check if form was submitted
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['toppingform'])) {
+            //handle form
+            try {
+                //update existing topping
+                ToppingService::update($_POST);
+                //redirect to toppinglist
+                header('location: '.ROOT.'/toppingadmin/viewall/');
+                exit();
+            } catch (FormException $exc) {
+                //render form with errors
+                $this->render('toppingadmindetail.twig', array(
+                    'topping' => $topping,
+                    'exception' => $exc,
+                        ));
+            }
+        } else {
+            //show empty articledetail form
+            $this->render('toppingadmindetail.twig', array(
+                'topping' => $topping,
+                ));
+        }
     }
     
     public function add()
     {
-        //add new topping
-        ToppingService::create($_POST);
-        //redirect to toppinglist
-        header('Location: '.ROOT.'/toppingadmin/viewall');
-        exit();
-    }
-    
-    public function save()
-    {
-        //update existing topping
-        ToppingService::update($_POST);
-        //redirect to toppinglist
-        header('location: '.ROOT.'/toppingadmin/viewall/');
-        exit();
+        //check if form was submitted
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['toppingform'])) {
+            //handle form
+            try {
+                //add new topping
+                ToppingService::create($_POST);
+                //redirect to toppinglist
+                header('Location: '.ROOT.'/toppingadmin/viewall');
+                exit();
+            } catch (FormException $exc) {
+                //render form with errors
+                $this->render('toppingadmindetail.twig', array(
+                    'exception' => $exc,
+                        ));
+            }
+        } else {
+            //show empty articledetail form
+            $this->render('toppingadmindetail.twig');
+        }
     }
     
     /**One problem that needs to be addressed is to make it impossible for a
