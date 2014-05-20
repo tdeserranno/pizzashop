@@ -7,27 +7,37 @@
 <form class="form-horizontal" role="form" method="post" action="{{ app.root }}/order/additem">
     <div class="panel panel-default">
         <div class="panel-heading">Maak je keuze</div>
-        <div class="well">
-            {%  for article in articles  %} 
+        <div class="panel panel-default clearfix">
+            <div class="panel-heading">Kies een pizza</div>
+            <div class="order-panel">
+            {%  for article in articles  %}
                 <div class="form-group">
                     <input type="radio" name="id" id="{{article.id}}}" value="{{article.id}}" required>
                     <label for="{{article.id}}">
                         {{article.name}}
                         {%  if article.promo_status == 1  %} 
                             PROMOTIE !
-                        {%  endif %} 
+                        {%  endif %}
+                        {{ article.cost }} &euro;
                     </label>
                 </div>
             {%  endfor  %} 
+            </div>
         </div>
         {%  if toppings is defined  %} 
-        <div class="well">
+        <div class="panel panel-default clearfix">
+            <div class="panel-heading">Kies extras</div>
+            <div class="order-panel">
             {%  for topping in toppings  %} 
                 <div class="form-group">
                     <input type="checkbox" name="toppings[]" id="{{topping.id}}}" value="{{topping.id}}">
-                    <label for="{{topping.id}}">{{topping.name}}</label>
+                    <label for="{{topping.id}}">
+                        {{topping.name}}
+                        {{ topping.price }} &euro;
+                    </label>
                 </div>
-            {%  endfor  %} 
+            {%  endfor  %}
+            </div>
         </div>
         {%  endif  %} 
         <div class="well">

@@ -25,3 +25,12 @@ and open the template in the editor.
 .btn-spacer {
     margin-right: 1em;
 }
+
+.order-panel {
+    padding-left: 2em;
+}
+
+.order-panel div {
+    float: left;
+    width: 50%;
+}
